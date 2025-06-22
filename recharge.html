@@ -430,15 +430,15 @@
             <div class="form-group">
                 <label class="form-label">Montant de la recharge</label>
                 <div class="quick-amounts">
-                    <button type="button" class="quick-amount-btn" data-amount="500">500 FCFA</button>
-                    <button type="button" class="quick-amount-btn" data-amount="1000">1000 FCFA</button>
-                    <button type="button" class="quick-amount-btn" data-amount="2000">2000 FCFA</button>
-                    <button type="button" class="quick-amount-btn" data-amount="5000">5000 FCFA</button>
-                    <button type="button" class="quick-amount-btn" data-amount="10000">10000 FCFA</button>
-                    <button type="button" class="quick-amount-btn" data-amount="20000">20000 FCFA</button>
+                    <button type="button" class="quick-amount-btn" data-amount="3000">3 000 FCFA</button>
+                    <button type="button" class="quick-amount-btn" data-amount="6000">6 000 FCFA</button>
+                    <button type="button" class="quick-amount-btn" data-amount="15 000">15 000 FCFA</button>
+                    <button type="button" class="quick-amount-btn" data-amount="30000">30 000 FCFA</button>
+                    <button type="button" class="quick-amount-btn" data-amount="60000">60 0000 FCFA</button>
+                    <button type="button" class="quick-amount-btn" data-amount="100000">100 000 FCFA</button>
                 </div>
                 <div class="input-group">
-                    <input type="number" id="amount" class="form-input" placeholder="Ou saisissez un montant personnalisé" min="100" required>
+                    <input type="number" id="amount" class="form-input" placeholder="Ou saisissez un montant personnalisé" min="3000" required>
                 </div>
                 <div id="amountError" class="error-message"></div>
             </div>
@@ -547,8 +547,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         }
 
-        if (amount < 100) {
-    showError('amountError', 'Le montant minimum est de 100 FCFA');
+        if (amount < 3000) {
+    showError('amountError', 'Le montant minimum est de 3000 FCFA');
     isValid = false;
 }
         return isValid;
@@ -592,8 +592,8 @@ phoneInput.addEventListener('input', function() {
     // Validation en temps réel du montant
     amountInput.addEventListener('input', function() {
         const amount = parseInt(this.value);
-        if (amount < 100) {
-            showError('amountError', 'Le montant minimum est de 100 FCFA');
+        if (amount < 3000) {
+            showError('amountError', 'Le montant minimum est de 3000 FCFA');
         } else {
             amountError.textContent = '';
             amountError.style.opacity = '0';
