@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion / Inscription</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: transparent;
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            min-height: 600px;
+            display: flex;
+            position: relative;
+        }
+
+        .form-container {
+            flex: 1;
+            padding: 60px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.6s ease-in-out;
+            max-width: 380px;
+        }
+
+        .sign-up-container {
+            transform: translateX(100%);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .sign-in-container {
+            transform: translateX(0);
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .container.right-panel-active .sign-up-container {
+            transform: translateX(0);
+            opacity: 1;
+            z-index: 5;
+        }
+
+        .container.right-panel-active .sign-in-container {
+            transform: translateX(-100%);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 100;
+        }
+
+        .container.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
+
+        .overlay {
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 0 0;
+            color: white;
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .container.right-panel-active .overlay {
+            transform: translateX(50%);
+        }
+
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .overlay-left {
+            transform: translateX(-20%);
+        }
+
+        .container.right-panel-active .overlay-left {
+            transform: translateX(0);
+        }
+
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
+
+        .container.right-panel-active .overlay-right {
+            transform: translateX(20%);
+        }
+
+        h1 {
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .overlay h1 {
+            color: white;
+        }
+
+        p {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+            margin: 20px 0 30px;
+            color: #444;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .overlay p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            color: #667eea;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        input {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px 20px 15px 45px;
+            font-size: 16px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input:focus + .input-icon {
+            color: #764ba2;
+        }
+
+        button {
+            border-radius: 25px;
+            border: none;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 15px 45px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .ghost {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+            padding: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 5px;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+            padding: 10px;
+            background: rgba(39, 174, 96, 0.1);
+            border-radius: 5px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .referral-status {
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .referral-status.valid {
+            background: rgba(39, 174, 96, 0.1);
+            color: #27ae60;
+            border-left: 4px solid #27ae60;
+        }
+
+        .referral-status.invalid {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .social-container {
+            margin: 20px 0;
+        }
+
+        .social-container a {
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 5px;
+            height: 40px;
+            width: 40px;
+            transition: all 0.3s ease;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .social-container a:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                max-width: 400px;
+                min-height: auto;
+            }
+
+            .overlay-container {
+                display: none;
+            }
+
+            .form-container {
+                padding: 40px 30px;
+                transform: none !important;
+                opacity: 1 !important;
+                max-width: none;
+            }
+
+            .sign-up-container {
+                display: none;
+            }
+
+            .container.right-panel-active .sign-up-container {
+                display: flex;
+            }
+
+            .container.right-panel-active .sign-in-container {
+                display: none;
+            }
+
+            .mobile-switch {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .mobile-switch button {
+                background: transparent;
+                color: #667eea;
+                border: 2px solid #667eea;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;           
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 900;
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+            border-radius: 14px;
+            z-index: -1;
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logo-main {
+            font-size: 24px;
+            font-weight: 900;
+            color: #333;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+        }
+
+        .logo-sub {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: -2px;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <!-- Formulaire d'inscription -->
+        <div class="form-container sign-up-container">
+            <div class="logo">
+                <div class="logo-icon">4G</div>
+                <div class="logo-text">
+                    <div class="logo-main">4G Plus</div>
+                    <div class="logo-sub">Investissement</div>
+                </div>
+            </div>
+            <form id="signupFormData">
+                <h1>Créer un compte</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <p>ou utilisez votre téléphone pour l'inscription</p>
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="signupUsername" placeholder="Nom d'utilisateur" required />
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="tel" id="signupTelephone" placeholder="Numéro de téléphone" required />
+                        <i class="fas fa-phone input-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="password" id="signupPassword" placeholder="Mot de passe" required />
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmPassword" placeholder="Confirmer le mot de passe" required />
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="referralCode" placeholder="Code de parrainage (optionnel)" />
+                        <i class="fas fa-gift input-icon"></i>
+                    </div>
+                    <div id="referralStatus" class="referral-status"></div>
+                </div>
+                
+                <div id="signupError" class="error-message"></div>
+                <div id="signupSuccess" class="success-message"></div>
+                
+                <button type="submit">S'inscrire</button>
+            </form>
+            
+            <div class="mobile-switch">
+                <button type="button" class="ghost" id="signInMobile">Déjà un compte ? Se connecter</button>
+            </div>
+        </div>
+
+        <!-- Formulaire de connexion -->
+        <div class="form-container sign-in-container">
+            <div class="logo">
+                <div class="logo-icon">4G</div>
+                <div class="logo-text">
+                    <div class="logo-main">4G Plus</div>
+                    <div class="logo-sub">Investissement</div>
+                </div>
+            </div>
+            <form id="loginFormData">
+                <h1>Se connecter</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <p>ou utilisez votre compte</p>
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="tel" id="loginTelephone" placeholder="Numéro de téléphone" required />
+                        <i class="fas fa-phone input-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Mot de passe" required />
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
+                </div>
+                
+                <div id="loginError" class="error-message"></div>
+                
+                <a href="#" style="color: #667eea; text-decoration: none; font-size: 14px; margin: 10px 0;">Mot de passe oublié ?</a>
+                
+                <button type="submit">Se connecter</button>
+            </form>
+            
+            <div class="mobile-switch">
+                <button type="button" class="ghost" id="signUpMobile">Pas de compte ? S'inscrire</button>
+            </div>
+        </div>
+
+        <!-- Overlay pour desktop -->
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Bon retour !</h1>
+                    <p>Pour rester connecté avec nous, veuillez vous connecter avec vos informations personnelles</p>
+                    <button class="ghost" id="signIn">Se connecter</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Bienvenue !</h1>
+                    <p>Saisissez vos données personnelles et commencez votre voyage avec nous</p>
+                    <button class="ghost" id="signUp">S'inscrire</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const signUpMobileButton = document.getElementById('signUpMobile');
+        const signInMobileButton = document.getElementById('signInMobile');
+        const container = document.getElementById('container');
+
+        signUpButton?.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton?.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+
+        signUpMobileButton?.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInMobileButton?.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+
+        // Validation du code de parrainage
+        const referralInput = document.getElementById('referralCode');
+        const referralStatus = document.getElementById('referralStatus');
+
+        referralInput?.addEventListener('input', function() {
+            const code = this.value.trim();
+            if (code === '') {
+                referralStatus.style.display = 'none';
+                return;
+            }
+
+            // Simulation de validation
+            setTimeout(() => {
+                if (code.length >= 6) {
+                    referralStatus.textContent = '✓ Code de parrainage valide';
+                    referralStatus.className = 'referral-status valid';
+                } else {
+                    referralStatus.textContent = '✗ Code de parrainage invalide';
+                    referralStatus.className = 'referral-status invalid';
+                }
+                referralStatus.style.display = 'block';
+            }, 500);
+        });
+
+        // Gestion des formulaires
+        document.getElementById('signupFormData')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Logique d'inscription ici
+            console.log('Inscription soumise');
+        });
+
+        document.getElementById('loginFormData')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Logique de connexion ici
+            console.log('Connexion soumise');
+        });
+    </script>
+</body>
+</html>

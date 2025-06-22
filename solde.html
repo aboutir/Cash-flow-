@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Espace Personnel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== RESET ET VARIABLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --accent-color: #00d4aa;
+            --text-white: #ffffff;
+            --text-light: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --danger-color: #ff6b6b;
+            --shadow: rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== LAYOUT PRINCIPAL ===== */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+            }
+            50% { 
+                transform: translateY(-20px) rotate(180deg); 
+            }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* ===== PARTICULES ANIMÉES ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* ===== HEADER SECTION ===== */
+        .header-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 0 0 30px 30px;
+            padding: 30px 20px 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--glass-border);
+            position: relative;
+            z-index: 2;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar-container {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            padding: 3px;
+            margin-right: 15px;
+            position: relative;
+        }
+
+        .avatar-container::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            border-radius: 22px;
+            z-index: -1;
+            animation: rotate 3s linear infinite;
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 17px;
+        }
+
+        .user-details {
+            flex: 1;
+            color: var(--text-white);
+        }
+
+        .username {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .user-id {
+            font-size: 14px;
+            opacity: 0.8;
+            color: #e8f4fd;
+        }
+
+        .settings-btn {
+            background: var(--glass-bg);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* ===== VIP PROGRESS ===== */
+        .vip-container {
+            background: var(--glass-bg);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .vip-label {
+            color: var(--text-white);
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .progress-track {
+            background: rgba(255, 255, 255, 0.2);
+            height: 8px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #00d4aa, #00b4d8);
+            height: 100%;
+            width: 45%;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        /* ===== CARTES DE BALANCE ===== */
+        .balance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .balance-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .balance-card:hover::before {
+            left: 100%;
+        }
+
+        .balance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .balance-amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .balance-label {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* ===== MESSAGES D'ERREUR ===== */
+        .error-message {
+            background: rgba(255, 107, 107, 0.2);
+            color: var(--danger-color);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 20px;
+            display: none;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* ===== CARTE D'ACTIONS ===== */
+        .action-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            margin: 20px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Recharge rapide */
+        .quick-recharge {
+            background: var(--secondary-gradient);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-white);
+            transition: all 0.3s ease;
+        }
+
+        .quick-recharge:hover {
+            transform: scale(1.02);
+        }
+
+        .recharge-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .recharge-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .recharge-text {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* Éléments du menu */
+        .menu-item {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-white);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 25px;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--accent-color);
+        }
+
+        .menu-text {
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .menu-arrow {
+            color: rgba(255, 255, 255, 0.6);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-item:hover .menu-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Élément déconnexion */
+        .logout-item {
+            color: var(--danger-color) !important;
+        }
+
+        .logout-item .menu-icon {
+            color: var(--danger-color);
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        /* ===== NAVIGATION INFÉRIEURE ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            max-width: 480px;
+            margin: 0 auto;
+            border-top: 1px solid var(--glass-border);
+            z-index: 10;
+        }
+
+        .nav-button {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #8e9aaf;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-button.active {
+            color: #667eea;
+        }
+
+        .nav-button.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .nav-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* ===== UTILITAIRES ===== */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 380px) {
+            .balance-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin: 15px;
+            }
+            
+            .header-section {
+                padding: 25px 15px 20px;
+            }
+            
+            .action-card {
+                margin: 15px;
+            }
+        }
+        
+         /* Navigation du bas modernisée */
+        .nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 12px 0 8px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            max-width: 28rem;
+            margin: 0 auto;
+            border-top: 1px solid var(--glass-border);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            alignment: center;
+            color: #8e9aaf;
+            text-decoration: none;
+            font-size: 12px;
+            padding: 8px 0;
+            width: 20%;
+            transition: all 0.3s ease;
+            align-items: center;
+        }
+        
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-active { 
+            color: #667eea;
+            transform: translateY(-3px);
+        }
+        
+        .nav-active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .nav-active i {
+            background-color: rgba(102, 126, 234, 0.15);
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        /* Couleurs des icônes */
+        .blue-icon { color: #667eea; }
+        .pink-icon { color: var(--pink); }
+        .gray-icon { color: var(--text-light); }
+        .accent-icon { color: var(--accent-color); }
+    </style>
+</head>
+<body>
+    <!-- Arrière-plan animé -->
+    <div class="particles" id="particles-bg"></div>
+
+    <!-- Section d'en-tête -->
+    <header class="header-section">
+        <div class="user-profile">
+            <div class="avatar-container">
+                <img src="https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg" alt="Avatar utilisateur">
+            </div>
+            <div class="user-details">
+                <div class="username" id="user-id">Chargement...</div>
+                <div class="user-id" id="user-additional-id">ID: 0000000</div>
+            </div>
+            <button class="settings-btn" aria-label="Paramètres">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+        
+        <div class="vip-container">
+            <div class="vip-label">Profitez de nos services premium sans limite</div>
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Grille de balance -->
+    <section class="balance-grid">
+        <div class="balance-card">
+            <div class="balance-amount" id="main-balance">FCFA 0</div>
+            <div class="balance-label">Portefeuille Principal</div>
+        </div>
+        <div class="balance-card">
+            <div class="balance-amount" id="total-revenue">FCFA 0</div>
+            <div class="balance-label">Gains Totaux</div>
+        </div>
+        <div class="balance-card">
+            <div class="balance-amount" id="total-withdrawals">FCFA 0</div>
+            <div class="balance-label">Retraits</div>
+        </div>
+        <div class="balance-card">
+            <div class="balance-amount" id="total-recharge">FCFA 0</div>
+            <div class="balance-label">Dépôts</div>
+        </div>
+    </section>
+
+    <!-- Message d'erreur -->
+    <div id="error-message" class="error-message"></div>
+
+   
+        <!-- Recharge rapide -->
+      <div class="action-card">
+        <a href="recharge.html" class="quick-recharge">
+            <div class="recharge-content">
+                <div class="recharge-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="recharge-text">Recharger Maintenant</div>
+            </div>
+            <i class="fas fa-arrow-right"></i>
+        </a>
+
+        <a href="retrait.html" class="menu-item">
+            <div class="menu-content">
+                <div class="menu-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="menu-text">Effectuer un Retrait</div>
+            </div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+
+        <a href="portefeuille.html" class="menu-item">
+            <div class="menu-content">
+                <div class="menu-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="menu-text">Gestion Portefeuille</div>
+            </div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+
+        <a href="historique-retrait.html" class="menu-item">
+            <div class="menu-content">
+                <div class="menu-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="menu-text">Historique Retraits</div>
+            </div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+
+        <a href="historique.html" class="menu-item">
+            <div class="menu-content">
+                <div class="menu-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="menu-text">Historique Transactions</div>
+            </div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+
+        <a href="carte.html" class="menu-item">
+            <div class="menu-content">
+                <div class="menu-icon">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="menu-text">Mes Cartes</div>
+            </div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+
+        <a href="services.html" class="menu-item">
+            <div class="menu-content">
+                <div class="menu-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="menu-text">Support Client</div>
+            </div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+
+        <a href="code.html" class="menu-item">
+            <div class="menu-content">
+                <div class="menu-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="menu-text">Bonus & Récompenses</div>
+            </div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+
+        <a href="equipe.html" class="menu-item">
+            <div class="menu-content">
+                <div class="menu-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="menu-text">Mon Équipe</div>
+            </div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+
+       
+        <a href="index.html" class="menu-item logout-item">
+            <div class="menu-content">
+                <div class="menu-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <div class="menu-text">Se Déconnecter</div>
+            </div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+        </a>
+    </div>
+
+  <!-- Navigation modernisée du bas -->
+    <div class="nav">
+        <a href="accueil.html" class="nav-item nav-active">
+            <i class="fas fa-home"></i>
+            <span>Accueil</span>
+        </a>
+        <a href="investi.html" class="nav-item">
+            <i class="fas fa-gem"></i>
+            <span>4G LTE</span>
+        </a>
+        <a href="machine.html" class="nav-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Laboratoire</span>
+        </a>
+        <a href="equipe.html" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Équipe</span>
+        </a>
+        <a href="solde.html" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Profil</span>
+        </a>
+    </div>
+
+
+    <!-- Scripts JavaScript -->
+    <script>
+        // ===== GESTION DES PARTICULES ANIMÉES =====
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles-bg');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 6 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // ===== GESTION DES ERREURS =====
+        function showErrorMessage(message) {
+            const errorElement = document.getElementById('error-message');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+                
+                setTimeout(() => {
+                    errorElement.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Ajout d'un gestionnaire d'événements pour les boutons
+            document.querySelectorAll('.menu-item, .nav-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Ajouter un effet de clic
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+
+        // ===== GESTION DE LA BARRE DE PROGRESSION VIP =====
+        setTimeout(() => {
+            const progressBar = document.querySelector('.progress-fill');
+            if (progressBar) {
+                progressBar.style.transition = 'width 1.5s ease-in-out';
+                progressBar.style.width = '60%';
+            }
+        }, 500);
+    </script>
+
+    <!-- Script Firebase (Module ES6) -->
+     <script type="module">
+// Import des modules Firebase nécessaires
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+import { 
+    getDatabase, 
+    ref, 
+    get, 
+    set, 
+    update,
+    onValue,
+    query,
+    orderByChild,
+    equalTo,
+    push
+} from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-storage.js";
+
+// Configuration Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
+    authDomain: "maison-c53c7.firebaseapp.com",
+    databaseURL: "https://maison-c53c7-default-rtdb.firebaseio.com",
+    projectId: "maison-c53c7",
+    storageBucket: "maison-c53c7.firestorage.app",
+    messagingSenderId: "720174612151",
+    appId: "1:720174612151:web:d7af687cce1cf33dde1732"
+};
+
+// Initialisation Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const database = getDatabase(app);
+
+// Fonction pour formater les montants monétaires
+function formatCurrency(amount) {
+    // Convertir en nombre et formater avec des virgules pour les milliers
+    return `FCFA${Number(amount).toLocaleString('fr-FR', { 
+        minimumFractionDigits: 0, 
+        maximumFractionDigits: 0 
+    })}`;
+}
+
+// Fonction pour afficher les messages d'erreur
+function showErrorMessage(message) {
+    const errorMessageElement = document.getElementById('error-message');
+    if (errorMessageElement) {
+        errorMessageElement.textContent = message;
+        errorMessageElement.style.display = 'block';
+        
+        // Cacher le message d'erreur après 3 secondes
+        setTimeout(() => {
+            errorMessageElement.textContent = '';
+            errorMessageElement.style.display = 'none';
+        }, 3000);
+    }
+}
+
+// Fonction pour enregistrer un retrait
+async function recordWithdrawal(userId, amount) {
+    try {
+        // Référence à l'utilisateur
+        const userRef = ref(database, `users/${userId}`);
+        
+        // Récupérer les données actuelles de l'utilisateur
+        const userSnapshot = await get(userRef);
+        const userData = userSnapshot.val();
+        
+        // Vérifier si le solde est suffisant
+        if (!userData || userData.balance < amount) {
+            showErrorMessage("Solde insuffisant pour effectuer le retrait");
+            return false;
+        }
+        
+        // Calculer le nouveau solde
+        const newBalance = userData.balance - amount;
+        
+        // Préparer les données de mise à jour
+        const updates = {
+            balance: newBalance
+        };
+        
+        // Générer une clé unique pour l'historique des retraits
+        const withdrawalHistoryRef = ref(database, `users/${userId}/withdrawalHistory`);
+        const newWithdrawalRef = push(withdrawalHistoryRef);
+        
+        // Données du retrait
+        const withdrawalData = {
+            amount: amount,
+            timestamp: Date.now(),
+            status: 'success'
+        };
+        
+        // Mise à jour du solde et ajout de l'historique de retrait
+        await update(userRef, updates);
+        await set(newWithdrawalRef, withdrawalData);
+        
+        // Mettre à jour l'affichage
+        updateUserBalance(newBalance);
+        calculateAndDisplayTotalWithdrawals(userId);
+        
+        return true;
+    } catch (error) {
+        console.error("Erreur lors du retrait:", error);
+        showErrorMessage("Une erreur est survenue lors du retrait");
+        return false;
+    }
+}
+
+// Fonction pour mettre à jour l'identifiant
+function updateUserIdentifier(phoneNumber) {
+    const identifierElement = document.getElementById('user-id');
+    const additionalIdElement = document.getElementById('user-additional-id');
+    if (identifierElement && phoneNumber) {
+        const formattedNumber = phoneNumber.replace(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5');
+        const additionalId = `05*******${phoneNumber.slice(-2)} `;
+        identifierElement.textContent = formattedNumber;
+        additionalIdElement.textContent = additionalId;
+    }
+}
+
+// Fonction pour mettre à jour la balance
+function updateUserBalance(balance) {
+    const balanceElements = [
+        '', 
+        '', 
+        '', 
+        'main-balance', 
+        ''
+    ];
+
+    balanceElements.forEach(elementId => {
+        const balanceElement = document.getElementById(elementId);
+        if (balanceElement) {
+            balanceElement.textContent = formatCurrency(balance || 0);
+        }
+    });
+}
+
+// Fonction pour mettre à jour le total des retraits
+function updateTotalWithdrawals(totalWithdrawals) {
+    const totalWithdrawalsElement = document.getElementById('total-withdrawals');
+    if (totalWithdrawalsElement) {
+        totalWithdrawalsElement.textContent = formatCurrency(totalWithdrawals || 0);
+    }
+}
+
+// Fonction pour calculer et afficher le total des revenus
+function calculateTotalRevenues(userId) {
+    const investmentsRef = ref(database, `investments/${userId}`);
+    
+    return new Promise((resolve, reject) => {
+        onValue(investmentsRef, (snapshot) => {
+            const investments = snapshot.val();
+            
+            if (investments) {
+                // Calculer le total des revenus à partir des investissements actifs
+                const totalRevenue = Object.values(investments)
+                    .filter(investment => investment.status === 'active')
+                    .reduce((total, investment) => {
+                        return total + (investment.totalCollected || 0);
+                    }, 0);
+
+                // Mettre à jour l'élément d'affichage du total des revenus
+                const totalRevenueElement = document.getElementById('total-revenue');
+                if (totalRevenueElement) {
+                    totalRevenueElement.textContent = formatCurrency(totalRevenue);
+                }
+
+                resolve(totalRevenue);
+            } else {
+                // Réinitialiser à zéro si aucun investissement
+                const totalRevenueElement = document.getElementById('total-revenue');
+                if (totalRevenueElement) {
+                    totalRevenueElement.textContent = formatCurrency(0);
+                }
+
+                resolve(0);
+            }
+        }, (error) => {
+            console.error("Erreur lors de la récupération des revenus:", error);
+            
+            // Réinitialiser à zéro en cas d'erreur
+            const totalRevenueElement = document.getElementById('total-revenue');
+            if (totalRevenueElement) {
+                totalRevenueElement.textContent = formatCurrency(0);
+            }
+
+            reject(error);
+        });
+    });
+}
+
+// Fonction pour calculer et afficher le total des recharges
+function calculateTotalRecharges(userId) {
+    const rechargesRef = ref(database, 'transactions');
+    
+    // Requête pour filtrer les transactions de recharge de l'utilisateur
+    const userRechargesQuery = query(
+        rechargesRef, 
+        orderByChild('userId'), 
+        equalTo(userId)
+    );
+    
+    return new Promise((resolve, reject) => {
+        onValue(userRechargesQuery, (snapshot) => {
+            const transactions = snapshot.val();
+            
+            if (transactions) {
+                // Calculer le total des recharges réussies
+                const totalRecharges = Object.values(transactions)
+                    .filter(transaction => transaction.status === 'success')
+                    .reduce((total, transaction) => {
+                        return total + (parseFloat(transaction.amount) || 0);
+                    }, 0);
+
+                // Compter les recharges réussies
+                const rechargeCount = Object.values(transactions)
+                    .filter(transaction => transaction.status === 'success').length;
+
+                // Mettre à jour l'élément d'affichage du total des recharges
+                const totalRechargesElement = document.getElementById('total-recharge');
+                if (totalRechargesElement) {
+                    totalRechargesElement.textContent = formatCurrency(totalRecharges);
+                }
+
+                // Mettre à jour le nombre de recharges
+                const rechargeCountElement = document.getElementById('recharge-count');
+                if (rechargeCountElement) {
+                    rechargeCountElement.textContent = rechargeCount;
+                }
+
+                resolve({
+                    totalRecharges,
+                    rechargeCount
+                });
+            } else {
+                // Réinitialiser à zéro si aucune transaction
+                const totalRechargesElement = document.getElementById('total-recharges');
+                if (totalRechargesElement) {
+                    totalRechargesElement.textContent = formatCurrency(0);
+                }
+
+                const rechargeCountElement = document.getElementById('recharge-count');
+                if (rechargeCountElement) {
+                    rechargeCountElement.textContent = '0';
+                }
+
+                resolve({
+                    totalRecharges: 0,
+                    rechargeCount: 0
+                });
+            }
+        }, (error) => {
+            console.error("Erreur lors de la récupération des recharges:", error);
+            reject(error);
+        });
+    });
+}
+
+// Fonction pour calculer et afficher le total des retraits
+function calculateAndDisplayTotalWithdrawals(userId) {
+    const withdrawalHistoryRef = ref(database, `users/${userId}/withdrawalHistory`);
+    
+    onValue(withdrawalHistoryRef, (snapshot) => {
+        const history = snapshot.val();
+        
+        if (history) {
+            // Calculer le total des montants de retraits
+            const totalWithdrawalsAmount = Object.values(history).reduce((total, withdrawal) => {
+                return total + (withdrawal.amount || 0);
+            }, 0);
+
+            // Mettre à jour l'affichage du total des retraits
+            updateTotalWithdrawals(totalWithdrawalsAmount);
+
+            // Mettre à jour le nombre de retraits
+            const withdrawalCountElement = document.getElementById('withdrawal-count');
+            if (withdrawalCountElement) {
+                withdrawalCountElement.textContent = Object.keys(history).length;
+            }
+        } else {
+            // Réinitialiser à zéro si aucun historique
+            updateTotalWithdrawals(0);
+            const withdrawalCountElement = document.getElementById('withdrawal-count');
+            if (withdrawalCountElement) {
+                withdrawalCountElement.textContent = '0';
+            }
+        }
+    });
+}
+
+// Gestion de l'authentification
+onAuthStateChanged(auth, async (user) => {
+    if (user) {
+        try {
+            const userRef = ref(database, 'users/' + user.uid);
+            const snapshot = await get(userRef);
+            const userData = snapshot.val();
+
+            if (userData) {
+                if (userData.phoneNumber) {
+                    updateUserIdentifier(userData.phoneNumber);
+                }
+                if (userData.balance !== undefined) {
+                    updateUserBalance(userData.balance);
+                }
+
+                // Calculer et afficher le total des retraits
+                calculateAndDisplayTotalWithdrawals(user.uid);
+
+                // Calculer et afficher le total des recharges
+                await calculateTotalRecharges(user.uid);
+
+                // Calculer et afficher le total des revenus
+                await calculateTotalRevenues(user.uid);
+
+                // Configurer l'écouteur pour le bouton de retrait
+                const withdrawalButton = document.getElementById('withdrawal-button');
+                if (withdrawalButton) {
+                    withdrawalButton.addEventListener('click', async () => {
+                        const withdrawalAmountInput = document.getElementById('withdrawal-amount');
+                        const amount = parseFloat(withdrawalAmountInput.value);
+                        
+                        if (isNaN(amount) || amount <= 0) {
+                            showErrorMessage("Veuillez entrer un montant valide");
+                            return;
+                        }
+
+                        const result = await recordWithdrawal(user.uid, amount);
+                        if (result) {
+                            // Réinitialiser le champ de saisie
+                            withdrawalAmountInput.value = '';
+                            // Optionnel : afficher un message de succès
+                            alert(`Retrait de ${formatCurrency(amount)} effectué avec succès`);
+                        }
+                    });
+                }
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération des données:", error);
+        }
+    } else {
+        updateUserIdentifier("Non connecté");
+        updateUserBalance(0);
+        updateTotalWithdrawals(0);
+        
+        // Réinitialiser les éléments si l'utilisateur n'est pas connecté
+        const withdrawalCountElement = document.getElementById('withdrawal-count');
+        const totalRechargesElement = document.getElementById('total-recharges');
+        const rechargeCountElement = document.getElementById('recharge-count');
+        const totalRevenueElement = document.getElementById('total-revenue');
+        
+        if (withdrawalCountElement) withdrawalCountElement.textContent = '0';
+        if (totalRechargesElement) totalRechargesElement.textContent = formatCurrency(0);
+        if (rechargeCountElement) rechargeCountElement.textContent = '0';
+        if (totalRevenueElement) totalRevenueElement.textContent = formatCurrency(0);
+    }
+});
+</script>
+</body>
+</html>
