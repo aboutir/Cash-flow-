@@ -880,69 +880,79 @@ let currentSlide = 0;
 // Configuration des produits
 const PRODUCT_CONFIG = {
     1: {
-        nom: "Msc-meraviglia",
-        dailyRevenue: 400,
-        cycleDuration: 35,
-        totalRevenue: 14000,
-        price: 10000,
-        limit: 1,
-        image: "https://image.noelshack.com/fichiers/2025/13/7/1743294919-img-20250328-wa0034.jpg"
-    },
-    2: {
-        nom: "Msc-meraviglia",
-        dailyRevenue: 780,
-        cycleDuration: 40,
-        totalRevenue: 31200,
-        price: 25000,
-        limit: 2,
-        image: "https://image.noelshack.com/fichiers/2025/13/7/1743358689-msc-world-europa-mainden-cruise-news.jpg"
-    },
-    3: {
-        nom: "Msc-meraviglia",
-        dailyRevenue: 1460,
-        cycleDuration: 46,
-        totalRevenue: 67160,
-        price: 50000,
-        limit: 2,
-        image: "https://image.noelshack.com/fichiers/2025/13/7/1743359205-msc-world-europa-1170x772.jpg"
-    },
-    4: {
-        nom: "Msc-meraviglia",
-        dailyRevenue: 3200,
-        cycleDuration: 48,
-        totalRevenue: 153600,
-        price: 100000,
-        limit: 2,
-        image: "https://image.noelshack.com/fichiers/2025/13/7/1743359580-img-9918.jpeg"
-    },
-    5: {
-        nom: "Msc-meraviglia",
-        dailyRevenue: 5800,
-        cycleDuration: 50,
-        totalRevenue: 290000,
-        price: 200000,
-        limit: 2,
-        image: "https://image.noelshack.com/fichiers/2025/13/7/1743360080-msc-world-europa-msc-cruises-18910681.jpg"
-    },
-    6: {
-        nom: "Msc-meraviglia",
-        dailyRevenue: 13600,
-        cycleDuration: 55,
-        totalRevenue: 748000,
-        price: 500000,
-        limit: 4,
-        image: "https://image.noelshack.com/fichiers/2025/13/7/1743360479-13-4c1e146a6be84.jpg"
-    },
-    7: {
-        nom: "Msc-bugatti",
-        dailyRevenue: 25000,
-        cycleDuration: 62,
-        totalRevenue: 1550000,
-        price: 1000000,
-        limit: 4,
-        image: "https://image.noelshack.com/fichiers/2025/13/7/1743360963-img-20250329-wa0021.jpg"
-    }
-};    
+                id: 1,
+                name: "4G +",
+                badge: "4G PLUS",
+                price: 5900,
+                dailyRevenue: 800,
+                cycleDuration: 60,
+                totalRevenue: 48000,
+                purchaseLimit: 1,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg",
+                category: "Débutant"
+            },
+            2: {
+                id: 2,
+                name: "4G LTE",
+                badge: "4G LTE",
+                price: 15900,
+                dailyRevenue: 1950,
+                cycleDuration: 50,
+                totalRevenue: 97500,
+                purchaseLimit: 2,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png",
+                category: "Intermédiaire"
+            },
+            3: {
+                id: 3,
+                name: "LTE",
+                badge: "LTE",
+                price: 25900,
+                dailyRevenue: 3800,
+                cycleDuration: 40,
+                totalRevenue: 152000,
+                purchaseLimit: 2,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg",
+                category: "Avancé"
+            },
+            4: {
+                id: 4,
+                name: "4G LTE Pro",
+                badge: "4G LTE",
+                price: 50000,
+                dailyRevenue: 5000,
+                cycleDuration: 39,
+                totalRevenue: 195000,
+                purchaseLimit: 2,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png",
+                category: "Professionnel"
+            },
+            5: {
+                id: 5,
+                name: "LTE ADVANCED Pro",
+                badge: "LTE ADVANCED Pro",
+                price: 100000,
+                dailyRevenue: 20000,
+                cycleDuration: 13,
+                totalRevenue: 260000,
+                purchaseLimit: 2,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750585373-lte-advanced-pro-logo.jpg",
+                category: "Premium"
+            },
+            6: {
+                id: 6,
+                name: "LTE TM",
+                badge: "LTE TM",
+                price: 200000,
+                dailyRevenue: 40000,
+                cycleDuration: 11,
+                totalRevenue: 440000,
+                purchaseLimit: 4,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750585550-lte-logo.png",
+                category: "Elite"
+            }
+        };
+
 
 // Gestion du slider
 function goToSlide(slideIndex) {
