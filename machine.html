@@ -318,70 +318,79 @@ import { getStorage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-s
  * Configuration des VIPs
  */
 const VIP_CONFIG = {
-    1: { 
-        nom: "4G plus",
-        dailyRevenue: 250, 
-        cycleDuration: 31, 
-        totalRevenue: 7750, 
-        price: 3000, 
-        limit: 1,
-        image: "https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg"
-    },
-    2: { 
-        nom: "4G LTE",
-        dailyRevenue: 500, 
-        cycleDuration: 31, 
-        totalRevenue: 15500, 
-        price: 6000, 
-        limit: 2,
-        image: "https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png"
-    },
-    3: { 
-        nom: "LTE",
-        dailyRevenue: 1000, 
-        cycleDuration: 31, 
-        totalRevenue: 31000, 
-        price: 15000, 
-        limit: 2,
-        image: "https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg"
-    },
-    4: { 
-        nom: "4G LTE",
-        dailyRevenue: 2000, 
-        cycleDuration: 31, 
-        totalRevenue: 62000, 
-        price: 30000, 
-        limit: 2,
-        image: "https://image.noelshack.com/fichiers/2025/13/7/1743359580-img-9918.jpeg"
-    },
-    5: { 
-        nom: "LTE ADVANCED Pro",
-        dailyRevenue: 3000, 
-        cycleDuration: 31, 
-        totalRevenue: 93000, 
-        price: 60000, 
-        limit: 2,
-        image: "https://image.noelshack.com/fichiers/2025/25/7/1750585373-lte-advanced-pro-logo.jpg"
-    },
-    6: { 
-        nom: "LTE TM",
-        dailyRevenue: 6500, 
-        cycleDuration: 31, 
-        totalRevenue: 201500, 
-        price: 100000, 
-        limit: 4,
-        image: "https://image.noelshack.com/fichiers/2025/25/7/1750585550-lte-logo.png"
-    },
-    7: { 
-        nom: "Msc-bugatti",
-        dailyRevenue: 25000, 
-        cycleDuration: 62, 
-        totalRevenue: 1550000, 
-        price: 1000000, 
-        limit: 4,
-        image: "https://image.noelshack.com/fichiers/2025/13/7/1743360963-img-20250329-wa0021.jpg"
-    }
-};
+     1: {
+                id: 1,
+                name: "4G +",
+                badge: "4G PLUS",
+                price: 5900,
+                dailyRevenue: 800,
+                cycleDuration: 60,
+                totalRevenue: 48000,
+                purchaseLimit: 1,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg",
+                category: "Débutant"
+            },
+            2: {
+                id: 2,
+                name: "4G LTE",
+                badge: "4G LTE",
+                price: 15900,
+                dailyRevenue: 1950,
+                cycleDuration: 50,
+                totalRevenue: 97500,
+                purchaseLimit: 2,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png",
+                category: "Intermédiaire"
+            },
+            3: {
+                id: 3,
+                name: "LTE",
+                badge: "LTE",
+                price: 25900,
+                dailyRevenue: 3800,
+                cycleDuration: 40,
+                totalRevenue: 152000,
+                purchaseLimit: 2,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg",
+                category: "Avancé"
+            },
+            4: {
+                id: 4,
+                name: "4G LTE Pro",
+                badge: "4G LTE",
+                price: 50000,
+                dailyRevenue: 5000,
+                cycleDuration: 39,
+                totalRevenue: 195000,
+                purchaseLimit: 2,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png",
+                category: "Professionnel"
+            },
+            5: {
+                id: 5,
+                name: "LTE ADVANCED Pro",
+                badge: "LTE ADVANCED Pro",
+                price: 100000,
+                dailyRevenue: 20000,
+                cycleDuration: 13,
+                totalRevenue: 260000,
+                purchaseLimit: 2,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750585373-lte-advanced-pro-logo.jpg",
+                category: "Premium"
+            },
+            6: {
+                id: 6,
+                name: "LTE TM",
+                badge: "LTE TM",
+                price: 200000,
+                dailyRevenue: 40000,
+                cycleDuration: 11,
+                totalRevenue: 440000,
+                purchaseLimit: 4,
+                image: "https://image.noelshack.com/fichiers/2025/25/7/1750585550-lte-logo.png",
+                category: "Elite"
+            }
+        };
 
 /**
  * Configuration Firebase
@@ -488,8 +497,8 @@ async function loadVIPs() {
         if (!snapshot.exists()) {
             container.innerHTML = `
                 <div style="text-align: center; padding: 20px; background: rgba(255,255,255,0.9); border-radius: 8px;">
-                    <h2>Aucun VIP actif</h2>
-                    <p>Investissez dans un VIP pour commencer à gagner des revenus.</p>
+                    <h2>Aucun 4G actif</h2>
+                    <p>Investissez dans un 4G pour commencer à gagner des revenus.</p>
                 </div>
             `;
             updateStats([]);
@@ -505,8 +514,8 @@ async function loadVIPs() {
         updateStats(investments);
         renderVIPs(investments);
     } catch (error) {
-        console.error("Erreur lors du chargement des VIP:", error);
-        showNotification("Erreur lors du chargement des VIP", "error");
+        console.error("Erreur lors du chargement des 4G:", error);
+        showNotification("Erreur lors du chargement des 4G", "error");
     }
 }
 
@@ -591,11 +600,11 @@ window.collectRevenue = async function(investmentId) {
         if (!config) throw new Error("Configuration du VIP non trouvée");
 
         const { isComplete } = calculateCycleProgress(investment);
-        if (isComplete) throw new Error("Ce VIP a terminé son cycle");
+        if (isComplete) throw new Error("Ce 4G a terminé son cycle");
         if (!isReadyToCollect(investment)) throw new Error("Vous avez déjà réclamé aujourd'hui");
 
         const newTotal = (investment.totalCollected || 0) + config.dailyRevenue;
-        if (newTotal > config.totalRevenue) throw new Error("Le cycle de ce VIP est terminé");
+        if (newTotal > config.totalRevenue) throw new Error("Le cycle de ce 4G est terminé");
 
         const updates = {
             [`users/${currentUser.uid}/balance`]: (user.balance || 0) + config.dailyRevenue,
