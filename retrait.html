@@ -320,7 +320,7 @@
             </div>
             <div class="info-item">
                 <i class="fas fa-clock"></i>
-                Heures de retrait: 9h à 18h
+                Heures de retrait: 9h à 23h
             </div>
             <div class="info-item">
                 <i class="fas fa-calendar-alt"></i>
@@ -364,8 +364,8 @@
         const now = new Date();
         const currentHour = now.getHours();
         
-        // Vérification des heures de retrait (9h à 19h)
-        const isValidTime = currentHour >= 9 && currentHour < 19;
+        // Vérification des heures de retrait (9h à 23h)
+        const isValidTime = currentHour >= 9 && currentHour < 23;
         
         return isValidTime;
     }
@@ -428,7 +428,7 @@
     async function processWithdrawal() {
         // Vérification de l'heure avant de continuer
         if (!isValidWithdrawalTime()) {
-            showMessage("Les retraits ne sont autorisés qu'entre 9h et 18h", true);
+            showMessage("Les retraits ne sont autorisés qu'entre 9h et 23h", true);
             return;
         }
 
@@ -522,7 +522,7 @@
 
         // Message spécifique si hors des heures autorisées
         if (!isTimeValid) {
-            showMessage("Les retraits ne sont autorisés qu'entre 9h et 18h", true);
+            showMessage("Les retraits ne sont autorisés qu'entre 9h et 23h", true);
         }
 
         if (amount > 0 && withdrawalSummary) {
@@ -577,7 +577,7 @@
         
         // Vérification initiale de la plage horaire au chargement
         if (!isValidWithdrawalTime()) {
-            showMessage("Les retraits ne sont autorisés qu'entre 9h et 18h", true);
+            showMessage("Les retraits ne sont autorisés qu'entre 9h et 23h", true);
         }
     });
     </script>
