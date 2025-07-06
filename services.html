@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Service Client</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Client</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { 
+        body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
@@ -22,7 +22,7 @@
             right: 20px;
         }
         #messageBouton {
-            background-color: #007bff;
+            background-color: #4a4a4a;
             color: white;
             border: none;
             border-radius: 50%;
@@ -32,13 +32,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             font-size: 24px;
-        }
-        #messageBouton {
-            background-color: #4a4a4a;
-            color: white;
         }
         #messageBouton:hover {
             background-color: #2a2a2a;
@@ -67,24 +63,17 @@
         .contact-button i {
             font-size: 24px;
         }
-        #telegramBtn {
+        #telegramBtn1 {
             background-color: #0088cc;
             color: white;
         }
-        #whatsappBtn {
-            background-color: #25D366;
-            color: white;
-        }
-        #serviceBtn {
+        #telegramBtn2 {
             background-color: #6f42c1;
             color: white;
         }
         .contact-button:hover {
             opacity: 0.9;
             transform: scale(1.05);
-        }
-        #messageBouton i {
-            font-size: 24px;
         }
     </style>
 </head>
@@ -94,12 +83,14 @@
             <i class="fas fa-comment-dots"></i>
         </button>
         <div id="contactMenu">
-            <button id="telegramBtn" class="contact-button" onclick="window.open('https://t.me/Groupe4g', '_blank')">
-                <i class="fab fa-telegram-plane"></i> 
-                Groupe telegrame
+            <button id="telegramBtn1" class="contact-button" onclick="window.open('https://t.me/Groupe4g', '_blank')">
+                <i class="fab fa-telegram-plane"></i>
+                Groupe 4G PLUS
             </button>
-            
-            
+            <button id="telegramBtn2" class="contact-button" onclick="window.open('https://t.me/agent4Gplus', '_blank')">
+                <i class="fab fa-telegram-plane"></i>
+                Service client
+            </button>
         </div>
     </div>
 
