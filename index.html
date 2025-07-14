@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion / Inscription</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>4G PLUS - Ici on gagne de l'argent</title>
     <style>
         * {
             margin: 0;
@@ -13,871 +12,476 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             padding: 20px;
         }
 
-        .container {
-            background: transparent;
-            overflow: hidden;
-            width: 100%;
-            max-width: 900px;
-            min-height: 600px;
-            display: flex;
-            position: relative;
+        /* Logo Container */
+        .logo-container {
+            margin-bottom: 40px;
+            animation: slideDown 1s ease-out;
         }
 
-        .form-container {
-            flex: 1;
-            padding: 60px 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: all 0.6s ease-in-out;
-            max-width: 380px;
-        }
-
-        .sign-up-container {
-            transform: translateX(100%);
-            opacity: 0;
-            z-index: 1;
-        }
-
-        .sign-in-container {
-            transform: translateX(0);
-            opacity: 1;
-            z-index: 2;
-        }
-
-        .container.right-panel-active .sign-up-container {
-            transform: translateX(0);
-            opacity: 1;
-            z-index: 5;
-        }
-
-        .container.right-panel-active .sign-in-container {
-            transform: translateX(-100%);
-            opacity: 0;
-            z-index: 1;
-        }
-
-        .overlay-container {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 50%;
-            height: 100%;
-            overflow: hidden;
-            transition: transform 0.6s ease-in-out;
-            z-index: 100;
-        }
-
-        .container.right-panel-active .overlay-container {
-            transform: translateX(-100%);
-        }
-
-        .overlay {
-            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: 0 0;
-            color: white;
-            position: relative;
-            left: -100%;
-            height: 100%;
-            width: 200%;
-            transform: translateX(0);
-            transition: transform 0.6s ease-in-out;
-        }
-
-        .container.right-panel-active .overlay {
-            transform: translateX(50%);
-        }
-
-        .overlay-panel {
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 0 40px;
-            text-align: center;
-            top: 0;
-            height: 100%;
-            width: 50%;
-            transform: translateX(0);
-            transition: transform 0.6s ease-in-out;
-        }
-
-        .overlay-left {
-            transform: translateX(-20%);
-        }
-
-        .container.right-panel-active .overlay-left {
-            transform: translateX(0);
-        }
-
-        .overlay-right {
-            right: 0;
-            transform: translateX(0);
-        }
-
-        .container.right-panel-active .overlay-right {
-            transform: translateX(20%);
-        }
-
-        h1 {
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .overlay h1 {
-            color: white;
-        }
-
-        p {
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 1.6;
-            margin: 20px 0 30px;
-            color: #444;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-
-        .overlay p {
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            color: #667eea;
-            font-size: 16px;
-            z-index: 1;
-        }
-
-        input {
-            background-color: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 15px 20px 15px 45px;
-            font-size: 16px;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #667eea;
-            background-color: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        input:focus + .input-icon {
-            color: #764ba2;
-        }
-
-        button {
-            border-radius: 25px;
-            border: none;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            padding: 15px 45px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .ghost {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-        }
-
-        .ghost:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .error-message {
-            color: #e74c3c;
-            font-size: 14px;
-            margin-top: 10px;
-            display: none;
-            padding: 10px;
-            background: rgba(231, 76, 60, 0.1);
-            border-radius: 5px;
-            border-left: 4px solid #e74c3c;
-        }
-
-        .success-message {
-            color: #27ae60;
-            font-size: 14px;
-            margin-top: 10px;
-            display: none;
-            padding: 10px;
-            background: rgba(39, 174, 96, 0.1);
-            border-radius: 5px;
-            border-left: 4px solid #27ae60;
-        }
-
-        .referral-status {
-            font-size: 14px;
-            margin-top: 10px;
-            padding: 8px 12px;
-            border-radius: 5px;
-            display: none;
-        }
-
-        .referral-status.valid {
-            background: rgba(39, 174, 96, 0.1);
-            color: #27ae60;
-            border-left: 4px solid #27ae60;
-        }
-
-        .referral-status.invalid {
-            background: rgba(231, 76, 60, 0.1);
-            color: #e74c3c;
-            border-left: 4px solid #e74c3c;
-        }
-
-        .social-container {
-            margin: 20px 0;
-        }
-
-        .social-container a {
-            border: 1px solid #ddd;
-            border-radius: 50%;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 5px;
-            height: 40px;
-            width: 40px;
-            transition: all 0.3s ease;
-            color: #333;
-            text-decoration: none;
-        }
-
-        .social-container a:hover {
-            border-color: #667eea;
-            color: #667eea;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                max-width: 400px;
-                min-height: auto;
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
             }
-
-            .overlay-container {
-                display: none;
-            }
-
-            .form-container {
-                padding: 40px 30px;
-                transform: none !important;
-                opacity: 1 !important;
-                max-width: none;
-            }
-
-            .sign-up-container {
-                display: none;
-            }
-
-            .container.right-panel-active .sign-up-container {
-                display: flex;
-            }
-
-            .container.right-panel-active .sign-in-container {
-                display: none;
-            }
-
-            .mobile-switch {
-                text-align: center;
-                margin-top: 20px;
-            }
-
-            .mobile-switch button {
-                background: transparent;
-                color: #667eea;
-                border: 2px solid #667eea;
-                padding: 10px 20px;
-                font-size: 14px;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
+        /* Logo */
         .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 30px;
-            gap: 12px;
-        }
-
-        .logo-icon {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;           
-            justify-content: center;
-            font-size: 20px;
-            font-weight: 900;
-            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
-            border-radius: 14px;
-            z-index: -1;
-            animation: pulse 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.7; }
-            100% { opacity: 1; }
+            gap: 10px;
         }
 
         .logo-text {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        .logo-main {
-            font-size: 24px;
-            font-weight: 900;
-            color: #333;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 40px rgba(102, 126, 234, 0.6);
+            }
+        }
+
+        /* Signal Bars Animation */
+        .signal-bars {
+            display: flex;
+            align-items: end;
+            gap: 3px;
+            margin-left: 15px;
+        }
+
+        .bar {
+            width: 8px;
+            background: linear-gradient(to top, #00ff88, #00cc6a);
+            border-radius: 2px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .bar:nth-child(1) { height: 15px; animation-delay: 0s; }
+        .bar:nth-child(2) { height: 25px; animation-delay: 0.2s; }
+        .bar:nth-child(3) { height: 35px; animation-delay: 0.4s; }
+        .bar:nth-child(4) { height: 45px; animation-delay: 0.6s; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+            50% { opacity: 1; transform: scaleY(1.2); }
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            text-align: center;
+            color: #fff;
+            max-width: 800px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             letter-spacing: 1px;
         }
 
-        .logo-sub {
-            font-size: 12px;
-            color: #666;
-            font-weight: 500;
+        .company-name {
+            color: #00ff88;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
             letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: -2px;
         }
 
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
+        .tagline {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+            margin-top: 10px;
+            animation: bounce 2s ease-in-out infinite;
+            letter-spacing: 1px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Money Animation */
+        .money-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .money-symbol {
+            position: absolute;
+            font-size: 2rem;
+            color: #ffd700;
+            animation: fall 4s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Transition Screen */
+        .transition-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .transition-screen.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .transition-logo {
+            font-size: 4rem;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            animation: pulseTransition 1.5s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pulseTransition {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .transition-text {
+            font-size: 1.5rem;
+            color: white;
+            text-align: center;
+            opacity: 0.9;
+            animation: fadeInTransition 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInTransition {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+
+        .loading-bars {
+            display: flex;
+            gap: 5px;
+            margin-top: 30px;
+        }
+
+        .loading-bar {
+            width: 8px;
+            height: 40px;
+            background: white;
+            border-radius: 4px;
+            animation: loadingPulse 1s ease-in-out infinite;
+        }
+
+        .loading-bar:nth-child(1) { animation-delay: 0s; }
+        .loading-bar:nth-child(2) { animation-delay: 0.1s; }
+        .loading-bar:nth-child(3) { animation-delay: 0.2s; }
+        .loading-bar:nth-child(4) { animation-delay: 0.3s; }
+        .loading-bar:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes loadingPulse {
+            0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+            50% { transform: scaleY(1); opacity: 1; }
+        }
+        .cta-button {
+            margin-top: 40px;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+            animation: fadeInUp 2s ease-out;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5);
+            background: linear-gradient(45deg, #00cc6a, #00ff88);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1.4rem;
+            }
+            
+            .signal-bars {
+                margin-left: 10px;
+            }
+            
+            .bar {
+                width: 6px;
+            }
+            
+            .bar:nth-child(1) { height: 12px; }
+            .bar:nth-child(2) { height: 20px; }
+            .bar:nth-child(3) { height: 28px; }
+            .bar:nth-child(4) { height: 36px; }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="container">
-        <!-- Formulaire d'inscription -->
-        <div class="form-container sign-up-container">
-            <div class="logo">
-                <div class="logo-icon">4G</div>
-                <div class="logo-text">
-                    <div class="logo-main">4G Plus</div>
-                    <div class="logo-sub">Investissement</div>
-                </div>
-            </div>
-            <form id="signupFormData">
-                <h1>Créer un compte</h1>
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <p>ou utilisez votre téléphone pour l'inscription</p>
-                
-                <div class="form-group">
-                    <div class="input-wrapper">
-                        <input type="text" id="signupUsername" placeholder="Nom d'utilisateur" required />
-                        <i class="fas fa-user input-icon"></i>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="input-wrapper">
-                        <input type="tel" id="signupTelephone" placeholder="Numéro de téléphone" required />
-                        <i class="fas fa-phone input-icon"></i>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="input-wrapper">
-                        <input type="password" id="signupPassword" placeholder="Mot de passe" required />
-                        <i class="fas fa-lock input-icon"></i>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="input-wrapper">
-                        <input type="password" id="confirmPassword" placeholder="Confirmer le mot de passe" required />
-                        <i class="fas fa-lock input-icon"></i>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="input-wrapper">
-                        <input type="text" id="referralCode" placeholder="Code de parrainage (optionnel)" />
-                        <i class="fas fa-gift input-icon"></i>
-                    </div>
-                    <div id="referralStatus" class="referral-status"></div>
-                </div>
-                
-                <div id="signupError" class="error-message"></div>
-                <div id="signupSuccess" class="success-message"></div>
-                
-                <button type="submit">S'inscrire</button>
-            </form>
-            
-            <div class="mobile-switch">
-                <button type="button" class="ghost" id="signInMobile">Déjà un compte ? Se connecter</button>
-            </div>
+    <!-- Transition Screen -->
+    <div class="transition-screen" id="transitionScreen">
+        <div class="transition-logo">4G PLUS</div>
+        <div class="transition-text">
+            💰 Connexion en cours... 💰<br>
+            Préparez-vous à gagner de l'argent !
         </div>
-
-        <!-- Formulaire de connexion -->
-        <div class="form-container sign-in-container">
-            <div class="logo">
-                <div class="logo-icon">4G</div>
-                <div class="logo-text">
-                    <div class="logo-main">4G Plus</div>
-                    <div class="logo-sub">Investissement</div>
-                </div>
-            </div>
-            <form id="loginFormData">
-                <h1>Se connecter</h1>
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <p>ou utilisez votre compte</p>
-                
-                <div class="form-group">
-                    <div class="input-wrapper">
-                        <input type="tel" id="loginTelephone" placeholder="Numéro de téléphone" required />
-                        <i class="fas fa-phone input-icon"></i>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="input-wrapper">
-                        <input type="password" id="loginPassword" placeholder="Mot de passe" required />
-                        <i class="fas fa-lock input-icon"></i>
-                    </div>
-                </div>
-                
-                <div id="loginError" class="error-message"></div>
-                
-                <a href="#" style="color: #667eea; text-decoration: none; font-size: 14px; margin: 10px 0;">Mot de passe oublié ?</a>
-                
-                <button type="submit">Se connecter</button>
-            </form>
-            
-            <div class="mobile-switch">
-                <button type="button" class="ghost" id="signUpMobile">Pas de compte ? S'inscrire</button>
-            </div>
-        </div>
-
-        <!-- Overlay pour desktop -->
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <h1>Bon retour !</h1>
-                    <p>Pour rester connecté avec nous, veuillez vous connecter avec vos informations personnelles</p>
-                    <button class="ghost" id="signIn">Se connecter</button>
-                </div>
-                <div class="overlay-panel overlay-right">
-                    <h1>Bienvenue !</h1>
-                    <p>Saisissez vos données personnelles et commencez votre voyage avec nous</p>
-                    <button class="ghost" id="signUp">S'inscrire</button>
-                </div>
-            </div>
+        <div class="loading-bars">
+            <div class="loading-bar"></div>
+            <div class="loading-bar"></div>
+            <div class="loading-bar"></div>
+            <div class="loading-bar"></div>
+            <div class="loading-bar"></div>
         </div>
     </div>
+
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
     
-    <script type="module">
-        // Import des modules Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-        import { 
-            getAuth, 
-            signInWithEmailAndPassword,
-            createUserWithEmailAndPassword,
-            onAuthStateChanged
-        } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-        import { 
-            getDatabase, 
-            ref, 
-            get,
-            set,
-            onValue
-        } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
-        import { getStorage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-storage.js";
+    <!-- Money Animation -->
+    <div class="money-animation" id="moneyAnimation"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo-container">
+            <div class="logo">
+                <span class="logo-text">4G</span>
+                <div class="signal-bars">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <span class="logo-text">PLUS</span>
+            </div>
+        </div>
+        
+        <!-- Welcome Message -->
+        <div class="welcome-message">
+            <h1 class="welcome-title">
+                Bienvenue sur l'entreprise <span class="company-name">4G PLUS</span>
+            </h1>
+            <p class="tagline">Ici on gagne de l'argent 💰</p>
+            
+            <button class="cta-button" onclick="startTransition()">
+                ✨ Commencer à Gagner ✨
+            </button>
+        </div>
+    </div>
 
-        // Configuration Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
-            authDomain: "maison-c53c7.firebaseapp.com",
-            databaseURL: "https://maison-c53c7-default-rtdb.firebaseio.com",
-            projectId: "maison-c53c7",
-            storageBucket: "maison-c53c7.firebasestorage.app",
-            messagingSenderId: "720174612151",
-            appId: "1:720174612151:web:d7af687cce1cf33dde1732"
-        };
-
-        // Initialisation Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const database = getDatabase(app);
-        const storage = getStorage(app);
-
-        // Classe utilitaire
-        class Utils {
-            static generateReferralCode() {
-                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-                return Array.from({ length: 6 }, () => 
-                    chars.charAt(Math.floor(Math.random() * chars.length))
-                ).join('');
-            }
-
-            static async checkReferralCode(code) {
-                if (!code) return null;
-                const referralRef = ref(database, 'users');
-                const snapshot = await get(referralRef);
-                
-                if (snapshot.exists()) {
-                    const users = snapshot.val();
-                    for (const userId in users) {
-                        if (users[userId].referralCode === code) {
-                            return {
-                                userId,
-                                username: users[userId].username
-                            };
-                        }
-                    }
-                }
-                return null;
-            }
-
-            static showError(elementId, message) {
-                const element = document.getElementById(elementId);
-                if (element) {
-                    element.textContent = message;
-                    element.style.display = message ? 'block' : 'none';
-                    element.classList.add('fade-in');
-                }
-            }
-
-            static showSuccess(elementId, message) {
-                const element = document.getElementById(elementId);
-                if (element) {
-                    element.textContent = message;
-                    element.style.display = message ? 'block' : 'none';
-                    element.classList.add('fade-in');
-                }
-            }
-
-            static clearMessages() {
-                ['loginError', 'signupError', 'signupSuccess', 'referralStatus'].forEach(id => {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        element.textContent = '';
-                        element.style.display = 'none';
-                        element.className = element.className.replace(/(valid|invalid|fade-in)/g, '').trim();
-                    }
-                });
-            }
-
-            static updateReferralStatus(isValid, message) {
-                const statusElement = document.getElementById('referralStatus');
-                if (statusElement) {
-                    statusElement.textContent = message;
-                    statusElement.className = `referral-status ${isValid ? 'valid' : 'invalid'} fade-in`;
-                    statusElement.style.display = message ? 'block' : 'none';
-                }
-            }
-
-            static setButtonLoading(button, loading) {
-                if (loading) {
-                    button.innerHTML = '<span class="loading"></span>Chargement...';
-                    button.disabled = true;
-                } else {
-                    button.innerHTML = button.dataset.originalText;
-                    button.disabled = false;
-                }
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
             }
         }
 
-        // Classe de gestion des formulaires
-        class FormManager {
-            static async handleSignup(event) {
-                event.preventDefault();
-                Utils.clearMessages();
+        // Create falling money symbols
+        function createMoneySymbol() {
+            const moneyAnimation = document.getElementById('moneyAnimation');
+            const symbols = ['💰', '💵', '💎', '🪙', '💸'];
+            
+            const symbol = document.createElement('div');
+            symbol.className = 'money-symbol';
+            symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            symbol.style.left = Math.random() * 100 + '%';
+            symbol.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            
+            moneyAnimation.appendChild(symbol);
+            
+            // Remove symbol after animation
+            setTimeout(() => {
+                symbol.remove();
+            }, 5000);
+        }
 
-                const submitButton = event.target.querySelector('button[type="submit"]');
-                submitButton.dataset.originalText = submitButton.innerHTML;
-                Utils.setButtonLoading(submitButton, true);
+        // Transition Animation
+        function startTransition() {
+            const transitionScreen = document.getElementById('transitionScreen');
+            const button = document.querySelector('.cta-button');
+            
+            // Disable button and show loading
+            button.style.transform = 'scale(0.95)';
+            button.style.opacity = '0.7';
+            
+            // Show transition screen
+            transitionScreen.classList.add('active');
+            
+            // Create extra money symbols during transition
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => createMoneySymbol(), i * 50);
+            }
+            
+            // Add sound effect simulation
+            setTimeout(() => {
+                // Navigate to inscription page after animation
+                window.location.href = 'inscrir.html';
+            }, 2500);
+        }
 
-                try {
-                    const username = document.getElementById("signupUsername").value;
-                    const telephone = document.getElementById("signupTelephone").value;
-                    const email = `${telephone}@temp.com`;
-                    const password = document.getElementById("signupPassword").value;
-                    const confirmPassword = document.getElementById("confirmPassword").value;
-                    const referralCode = document.getElementById("referralCode")?.value;
+        // CTA Button click handler (kept for backward compatibility)
+        function showMessage() {
+            startTransition();
+        }
 
-                    // Validations
-                    if (!username || !telephone || !password) {
-                        throw new Error("Veuillez remplir tous les champs requis");
-                    }
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Create money symbols periodically
+            setInterval(createMoneySymbol, 800);
+        });
 
-                    if (password !== confirmPassword) {
-                        throw new Error("Les mots de passe ne correspondent pas");
-                    }
-
-                    if (password.length < 6) {
-                        throw new Error("Le mot de passe doit contenir au moins 6 caractères");
-                    }
-
-                    if (telephone.length < 8) {
-                        throw new Error("Numéro de téléphone invalide");
-                    }
-
-                    let referrerData = null;
-                    if (referralCode) {
-                        referrerData = await Utils.checkReferralCode(referralCode);
-                        if (!referrerData) {
-                            throw new Error("Code de parrainage invalide");
-                        }
-                    }
-
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    const user = userCredential.user;
-                    const newReferralCode = Utils.generateReferralCode();
-
-                    await set(ref(database, 'users/' + user.uid), {
-                        username,
-                        email,
-                        phoneNumber: telephone,
-                        balance: referrerData ? 500 : 0,
-                        referralCode: newReferralCode,
-                        referredBy: referrerData?.userId || null,
-                        createdAt: Date.now()
-                    });
-
-                    if (referrerData && referrerData.userId) {
-                        const referrerRef = ref(database, `users/${referrerData.userId}`);
-                        const referrerSnapshot = await get(referrerRef);
-                        
-                        if (referrerSnapshot.exists()) {
-                            const currentBalance = referrerSnapshot.val().balance || 0;
-                            await set(ref(database, `users/${referrerData.userId}/balance`), currentBalance + 10);
-                        }
-                    }
-
-                    Utils.showSuccess("signupSuccess", "Compte créé avec succès ! Redirection...");
+        // Add mouse movement effect
+        document.addEventListener('mousemove', function(e) {
+            const particles = document.querySelectorAll('.particle');
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            particles.forEach(particle => {
+                const rect = particle.getBoundingClientRect();
+                const particleX = rect.left + rect.width / 2;
+                const particleY = rect.top + rect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(mouseX - particleX, 2) + Math.pow(mouseY - particleY, 2)
+                );
+                
+                if (distance < 100) {
+                    const angle = Math.atan2(particleY - mouseY, particleX - mouseX);
+                    const force = (100 - distance) / 100;
+                    const moveX = Math.cos(angle) * force * 20;
+                    const moveY = Math.sin(angle) * force * 20;
                     
-                    setTimeout(() => {
-                        window.location.href = "accueil.html";
-                    }, 1500);
-
-                } catch (error) {
-                    console.error("Erreur:", error);
-                    Utils.showError("signupError", error.message);
-                } finally {
-                    Utils.setButtonLoading(submitButton, false);
+                    particle.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                } else {
+                    particle.style.transform = 'translate(0, 0)';
                 }
-            }
-
-            static async handleLogin(event) {
-                event.preventDefault();
-                Utils.clearMessages();
-
-                const submitButton = event.target.querySelector('button[type="submit"]');
-                submitButton.dataset.originalText = submitButton.innerHTML;
-                Utils.setButtonLoading(submitButton, true);
-
-                try {
-                    const telephone = document.getElementById("loginTelephone").value;
-                    const password = document.getElementById("loginPassword").value;
-
-                    if (!telephone || !password) {
-                        throw new Error("Veuillez remplir tous les champs");
-                    }
-
-                    const email = `${telephone}@temp.com`;
-                    await signInWithEmailAndPassword(auth, email, password);
-                    window.location.href = "accueil.html";
-                } catch (error) {
-                    console.error("Erreur de connexion:", error);
-                    Utils.showError("loginError", "Numéro ou mot de passe incorrect");
-                } finally {
-                    Utils.setButtonLoading(submitButton, false);
-                }
-            }
-
-            static async handleReferralCodeInput() {
-                const referralInput = document.getElementById('referralCode');
-                const code = referralInput.value.trim().toUpperCase();
-                
-                if (!code) {
-                    Utils.updateReferralStatus(true, '');
-                    return;
-                }
-
-                try {
-                    const referrerData = await Utils.checkReferralCode(code);
-                    if (referrerData) {
-                        Utils.updateReferralStatus(true, `Code valide ! Parrain: ${referrerData.username}`);
-                    } else {
-                        Utils.updateReferralStatus(false, 'Code de parrainage invalide');
-                    }
-                } catch (error) {
-                    Utils.updateReferralStatus(false, 'Erreur de vérification du code');
-                }
-            }
-
-            static handleReferralCodeFromURL() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const referralCode = urlParams.get('ref');
-                const referralCodeInput = document.getElementById('referralCode');
-                
-                if (referralCodeInput && referralCode) {
-                    referralCodeInput.value = referralCode.toUpperCase();
-                    FormManager.handleReferralCodeInput();
-                }
-            }
-        }
-
-        // Fonction utilitaire de debounce
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // Gestion des animations des panneaux
-        const signUpButton = document.getElementById('signUp');
-        const signInButton = document.getElementById('signIn');
-        const signUpMobileButton = document.getElementById('signUpMobile');
-        const signInMobileButton = document.getElementById('signInMobile');
-        const container = document.getElementById('container');
-
-        signUpButton?.addEventListener('click', () => {
-            container.classList.add("right-panel-active");
-        });
-
-        signInButton?.addEventListener('click', () => {
-            container.classList.remove("right-panel-active");
-        });
-
-        signUpMobileButton?.addEventListener('click', () => {
-            container.classList.add("right-panel-active");
-        });
-
-        signInMobileButton?.addEventListener('click', () => {
-            container.classList.remove("right-panel-active");
-        });
-
-        // Initialisation au chargement de la page
-        document.addEventListener('DOMContentLoaded', () => {
-            const signupForm = document.getElementById("signupFormData");
-            const loginForm = document.getElementById("loginFormData");
-            const referralInput = document.getElementById("referralCode");
-
-            if (signupForm) {
-                signupForm.addEventListener("submit", FormManager.handleSignup);
-            }
-
-            if (loginForm) {
-                loginForm.addEventListener("submit", FormManager.handleLogin);
-            }
-
-            if (referralInput) {
-                referralInput.addEventListener("input", debounce(() => {
-                    FormManager.handleReferralCodeInput();
-                }, 500));
-            }
-
-            FormManager.handleReferralCodeFromURL();
-        });
-
-        // Surveillance de l'état de l'authentification
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log("Utilisateur connecté:", user.uid);
-            } else {
-                console.log("Utilisateur déconnecté");
-            }
+            });
         });
     </script>
 </body>
