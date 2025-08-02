@@ -266,34 +266,23 @@
         <div id="result"></div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-        import { 
-            getAuth, 
-            onAuthStateChanged 
-        } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-        import { 
-            getDatabase,
-            ref,
-            onValue,
-            get,
-            set,
-            query,
-            orderByChild,
-            equalTo
-        } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
+  <script type="module">
+// Import des modules Firebase nécessaires
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+import { getDatabase, ref, get, set, onValue, push } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-storage.js";
 
-        // Configuration Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyBWG259p7VgJvMZqoxBR7fqSaer6XPphLo",
-            authDomain: "calvados-9a518.firebaseapp.com",
-            databaseURL: "https://calvados-9a518-default-rtdb.firebaseio.com",
-            projectId: "calvados-9a518",
-            storageBucket: "calvados-9a518.firebasestorage.app",
-            messagingSenderId: "233327937635",
-            appId: "1:233327937635:web:b7a5847457783d90841056"
-        };
-
+// Configuration Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
+    authDomain: "maison-c53c7.firebaseapp.com",
+    databaseURL: "https://maison-c53c7-default-rtdb.firebaseio.com",
+    projectId: "maison-c53c7",
+    storageBucket: "maison-c53c7.firebasestorage.app",
+    messagingSenderId: "720174612151",
+    appId: "1:720174612151:web:d7af687cce1cf33dde1732"
+};
         // Initialisation Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
