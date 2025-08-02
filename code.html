@@ -123,83 +123,97 @@
         </div>
     </div>
 
-    <script type="module">
-        // Import des modules Firebase nécessaires
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-        import { getDatabase, ref, get, set, push, onValue } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
-        import { getStorage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-storage.js";
+  <script type="module">
+// Import des modules Firebase nécessaires
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+import { 
+    getDatabase, 
+    ref, 
+    get, 
+    set, 
+    update,
+    onValue,
+    query,
+    orderByChild,
+    equalTo,
+    push
+} from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+import { getStorage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-storage.js";
 
-        // Configuration Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
-            authDomain: "maison-c53c7.firebaseapp.com",
-            databaseURL: "https://maison-c53c7-default-rtdb.firebaseio.com",
-            projectId: "maison-c53c7",
-            storageBucket: "maison-c53c7.firebasestorage.app",
-            messagingSenderId: "720174612151",
-            appId: "1:720174612151:web:d7af687cce1cf33dde1732"
-        };
- 
-        // Initialiser Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const auth = getAuth(app);
+// Configuration Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
+    authDomain: "maison-c53c7.firebaseapp.com",
+    databaseURL: "https://maison-c53c7-default-rtdb.firebaseio.com",
+    projectId: "maison-c53c7",
+    storageBucket: "maison-c53c7.firestorage.app",
+    messagingSenderId: "720174612151",
+    appId: "1:720174612151:web:d7af687cce1cf33dde1732"
+};
 
-        // Référence à la collection des codes bonus
-        const bonusCodesRef = ref(db, 'bonusCodes');
+  // Initialisation de Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth(app);
 
-        // Fonction pour copier le code
-        window.copyCode = function(code) {
-            navigator.clipboard.writeText(code).then(() => {
-                const copyBtn = document.querySelector('.copy-btn');
-                copyBtn.textContent = 'Copié !';
-                setTimeout(() => {
-                    copyBtn.textContent = 'Copier';
-                }, 2000);
-            });
-        };
+  // Référence à la collection des codes bonus
+  const bonusCodesRef = ref(db, 'bonusCodes');
 
-        // Gestion de la validation du code
-        const applyButton = document.querySelector('.apply');
-        const cancelButton = document.querySelector('.cancel');
-        const codeInput = document.querySelector('input');
+  // Fonction pour copier le code
+  window.copyCode = function (code) {
+    navigator.clipboard.writeText(code).then(() => {
+      const copyBtn = document.querySelector('.copy-btn');
+      copyBtn.textContent = 'Copié !';
+      setTimeout(() => {
+        copyBtn.textContent = 'Copier';
+      }, 2000);
+    });
+  };
 
-        applyButton.addEventListener('click', async () => {
-            const enteredCode = codeInput.value.trim().toUpperCase();
-            
-            try {
-                const snapshot = await get(bonusCodesRef);
-                const codesData = snapshot.val();
-                
-                const matchedCode = Object.entries(codesData || {}).find(
-                    ([key, codeObj]) => 
-                        codeObj.code === enteredCode && 
-                        !codeObj.used && 
-                        Date.now() < codeObj.expiresAt
-                );
+  // Récupération des éléments HTML
+  const applyButton = document.querySelector('.apply');
+  const cancelButton = document.querySelector('.cancel');
+  const codeInput = document.querySelector('input');
 
-                if (matchedCode) {
-                    const [codeKey, codeObj] = matchedCode;
-                    // Logique de validation du code
-                    alert(`Code valide ! Montant: ${codeObj.amount} FCFA`);
-                    
-                    // Marquer le code comme utilisé
-                    await set(ref(db, `bonusCodes/${codeKey}/used`), true);
-                    
-                    codeInput.value = '';
-                } else {
-                    alert('Code invalide ou expiré');
-                }
-            } catch (error) {
-                console.error('Erreur de validation:', error);
-                alert('Une erreur est survenue');
-            }
-        });
+  // Événement : Appliquer le code
+  applyButton.addEventListener('click', async () => {
+    const enteredCode = codeInput.value.trim().toUpperCase();
 
-        cancelButton.addEventListener('click', () => {
-            codeInput.value = '';
-        });
-    </script>
+    try {
+      const snapshot = await get(bonusCodesRef);
+      const codesData = snapshot.val();
+
+      const matchedCode = Object.entries(codesData || {}).find(
+        ([key, codeObj]) =>
+          codeObj.code === enteredCode &&
+          !codeObj.used &&
+          Date.now() < codeObj.expiresAt
+      );
+
+      if (matchedCode) {
+        const [codeKey, codeObj] = matchedCode;
+
+        // ✅ Code valide
+        alert(`Code valide ! Montant: ${codeObj.amount} FCFA`);
+
+        // Marquer le code comme utilisé
+        await set(ref(db, `bonusCodes/${codeKey}/used`), true);
+
+        codeInput.value = '';
+      } else {
+        alert('Code invalide ou expiré');
+      }
+    } catch (error) {
+      console.error('Erreur de validation:', error);
+      alert('Une erreur est survenue');
+    }
+  });
+
+  // Événement : Annuler
+  cancelButton.addEventListener('click', () => {
+    codeInput.value = '';
+  });
+</script> 
 </body>
 </html>
