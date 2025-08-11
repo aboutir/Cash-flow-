@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Page d'Investissement</title>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   body {
   margin: 0;
@@ -231,6 +232,75 @@ button.invest-btn:disabled, button.invest-btn[disabled] {
   font-size: 0.95rem;
 }
 
+/* =================================================================
+   NAVIGATION MODERNE
+   ================================================================= */
+.nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: var(--backdrop-blur);
+    padding: 12px 0 8px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    z-index: 1000;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    max-width: 28rem;
+    margin: 0 auto;
+    border-top: 1px solid var(--glass-border);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #8e9aaf;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 8px 0;
+    width: 20%;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-item i {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.nav-active { 
+    color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+.nav-active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 0 0 10px 10px;
+}
+
+.nav-active i {
+    background-color: rgba(102, 126, 234, 0.15);
+    padding: 8px;
+    border-radius: 50%;
+}
+
+/* Couleurs des icônes */
+.blue-icon { color: var(--accent-color); }
+.pink-icon { color: #ec4899; }
+.gray-icon { color: var(--text-light); }
+.accent-icon { color: var(--accent-color); }
+
 </style>
 </head>
 <body>
@@ -253,6 +323,31 @@ button.invest-btn:disabled, button.invest-btn[disabled] {
 </div>
 
 <div class="notification" role="alert"></div>
+
+ <!-- Navigation avec icônes Font Awesome -->
+<div class="nav">
+        <a href="accueil.html" class="nav-item nav-active">
+            <i class="fas fa-home"></i>
+            <span>Accueil</span>
+        </a>
+        <a href="investi.html" class="nav-item">
+            <i class="fas fa-gem"></i>
+            <span>4G LTE</span>
+        </a>
+        <a href="machine.html" class="nav-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Laboratoire</span>
+        </a>
+        <a href="equipe.html" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Équipe</span>
+        </a>
+        <a href="solde.html" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Profil</span>
+        </a>
+    </div>
+   
 
 <script type="module">
 // Ici on place ton script avec l'import Firebase et les fonctions
