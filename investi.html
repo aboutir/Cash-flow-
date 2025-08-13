@@ -4,238 +4,200 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Page d'Investissement</title>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #dcecfb, #b2c9e3); /* fond doux */
-  color: #2f3e56;
-  font-size: 14px;
-}
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #dcecfb, #b2c9e3);
+    color: #2f3e56;
+    font-size: 14px;
+  }
 
-.slider {
-  background-color: transparent; /* supprimer blanc */
-  border-radius: 14px;
-  box-shadow: 0 15px 30px rgba(42,70,97,0.15);
-  padding: 1.5rem 1rem 2.5rem;
-}
+  .slider {
+    background-color: transparent;
+    border-radius: 14px;
+    box-shadow: 0 15px 30px rgba(42,70,97,0.15);
+    padding: 1.5rem 1rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    background-color: #fafaffcc;
+    transition: background-color 0.3s ease;
+  }
 
-.slide {
-  background: transparent; /* supprimer fond blanc */
-  box-shadow: 0 6px 20px rgba(42,70,97,0.08);
-}
+  .slide {
+    display: none;
+    padding: 1rem 1.4rem;
+    text-align: center;
+    border-radius: 14px;
+    background: #f9fbfe;
+    box-shadow: 0 6px 20px rgba(42,70,97,0.08);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    user-select: none;
+  }
 
-header {
-  background-color: #2a4661;
-  color: #f0f5fa;
-  padding: 1rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 3px 8px rgba(42,70,97, 0.7);
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
+  .slide.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+  }
 
-header h1 {
-  margin: 0;
-  font-weight: 700;
-  font-size: 1.5rem;
-  letter-spacing: 1px;
-}
+  .slide img {
+    max-width: 200px;
+    border-radius: 14px;
+    margin-bottom: 1rem;
+    box-shadow: 0 6px 14px rgba(42,70,97,0.07);
+    transition: transform 0.3s ease;
+  }
 
-header button {
-  background: linear-gradient(45deg, #6aba74, #3a8d4c);
-  border: none;
-  padding: 0.5rem 1.1rem;
-  font-weight: 600;
-  color: #eef7f5;
-  border-radius: 20px;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(106,186,116,0.7);
-  transition: background 0.3s ease, transform 0.2s ease;
-}
+  .slide img:hover {
+    transform: scale(1.03);
+  }
 
-header button:hover {
-  background: linear-gradient(45deg, #3a8d4c, #6aba74);
-  transform: scale(1.05);
-}
+  .badge {
+    background-color: #3a8d4c;
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #e8f0f2;
+    margin-bottom: 0.9rem;
+    letter-spacing: 0.6px;
+    box-shadow: 0 3px 8px rgba(58,141,76,0.45);
+  }
 
-.container {
-  max-width: 860px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
+  h2 {
+    margin: 0.15rem 0 0.7rem;
+    font-size: 1.6rem;
+    color: #2f3e56;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
 
-.slider {
-  position: relative;
-  overflow: hidden;
-  background-color: #fafaffcc;
-  border-radius: 14px;
-  box-shadow: 0 15px 30px rgba(42,70,97,0.15);
-  padding: 1.5rem 1rem 2.5rem;
-  transition: background-color 0.3s ease;
-}
+  p {
+    margin: 0.3rem 0;
+    font-size: 1rem;
+    color: #4a5e75;
+    font-weight: 500;
+    line-height: 1.4;
+  }
 
-.slide {
-  display: none;
-  padding: 1rem 1.4rem;
-  text-align: center;
-  border-radius: 14px;
-  background: #f9fbfe;
-  box-shadow: 0 6px 20px rgba(42,70,97,0.08);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  user-select: none;
-}
+  .price {
+    font-size: 1.4rem;
+    color: #4a7d57;
+    font-weight: 700;
+    margin-top: 1rem;
+    letter-spacing: 0.8px;
+  }
 
-.slide.active {
-  display: block;
-  opacity: 1;
-  transform: translateX(0);
-}
+  /* Bordures arrondies élégantes sur les boutons d'investissement */
+  button.invest-btn {
+    margin-top: 1.3rem;
+    background: linear-gradient(45deg, #6aba74, #3a8d4c);
+    border: 2px solid transparent;
+    color: #eaf4f3;
+    padding: 0.65rem 1.6rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(106,186,116,0.6);
+    transition: background 0.35s ease, transform 0.25s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
 
-.slide img {
-  max-width: 200px;
-  border-radius: 14px;
-  margin-bottom: 1rem;
-  box-shadow: 0 6px 14px rgba(42,70,97,0.07);
-  transition: transform 0.3s ease;
-}
+  button.invest-btn:hover:not(:disabled) {
+    border-color: #3a8d4c;
+    background: linear-gradient(45deg, #3a8d4c, #6aba74);
+    transform: scale(1.06);
+    box-shadow: 0 4px 15px rgba(58,141,76,0.5);
+  }
 
-.slide img:hover {
-  transform: scale(1.03);
-}
+  button.invest-btn:disabled, button.invest-btn[disabled] {
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 
-.badge {
-  background-color: #3a8d4c;
-  display: inline-block;
-  padding: 0.35rem 0.85rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  color: #e8f0f2;
-  margin-bottom: 0.9rem;
-  letter-spacing: 0.6px;
-  box-shadow: 0 3px 8px rgba(58,141,76,0.45);
-}
+  /* Spécifique: solde insuffisant - texte rouge, fond clair, bordure rouge */
+  button.invest-btn[disabled].insufficient-balance {
+    color: #ff4444 !important;
+    background-color: #ffe6e6 !important;
+    border: 2px solid #ff4444 !important;
+    box-shadow: 0 0 10px #ff4444aa;
+  }
 
-h2 {
-  margin: 0.15rem 0 0.7rem;
-  font-size: 1.6rem;
-  color: #2f3e56;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-}
+  /* Spécifique: limite atteinte - gris désactivé */
+  button.invest-btn[disabled].limit-reached {
+    background-color: #999 !important;
+    border: 2px solid #666 !important;
+    color: #ddd !important;
+    box-shadow: none !important;
+  }
 
-p {
-  margin: 0.3rem 0;
-  font-size: 1rem;
-  color: #4a5e75;
-  font-weight: 500;
-  line-height: 1.4;
-}
+  .purchase-limit {
+    margin-top: 0.4rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #3a8d4c;
+    font-weight: 600;
+  }
 
-.price {
-  font-size: 1.4rem;
-  color: #4a7d57;
-  font-weight: 700;
-  margin-top: 1rem;
-  letter-spacing: 0.8px;
-}
+  /* Navigation arrows */
+  .nav-arrows {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 0;
+    pointer-events: none;
+  }
 
-button.invest-btn {
-  margin-top: 1.3rem;
-  background: linear-gradient(45deg, #6aba74, #3a8d4c);
-  border: none;
-  color: #eaf4f3;
-  padding: 0.65rem 1.6rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  border-radius: 22px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(106,186,116,0.6);
-  transition: background 0.35s ease, transform 0.25s ease;
-}
+  .nav-arrows button {
+    pointer-events: all;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #3a8d4ccc;
+    border: none;
+    color: #eaf4f3;
+    font-size: 2rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 4px 10px rgba(58,141,76,0.7);
+    transition: background-color 0.3s ease;
+  }
 
-button.invest-btn:hover:not(:disabled) {
-  background: linear-gradient(45deg, #3a8d4c, #6aba74);
-  transform: scale(1.06);
-}
+  .nav-arrows button:hover {
+    background: #6aba74cc;
+  }
 
-button.invest-btn:disabled, button.invest-btn[disabled] {
-  background-color: #bcc9d1 !important;
-  cursor: not-allowed;
-  box-shadow: none;
-  color: #78909c;
-}
+  .nav-arrows .prev {
+    left: 10px;
+  }
 
-.purchase-limit {
-  margin-top: 0.4rem;
-  font-size: 0.9rem;
-  font-style: italic;
-  color: #3a8d4c;
-  font-weight: 600;
-}
+  .nav-arrows .next {
+    right: 10px;
+  }
 
-/* Navigation arrows */
-.nav-arrows {
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  height: 0;
-  pointer-events: none;
-}
+  /* Notification */
+  .notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background-color: #4a7d57;
+    color: #eaf4f3;
+    padding: 0.9rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(74,125,87,0.85);
+    display: none;
+    z-index: 1100;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-size: 0.95rem;
+  }
 
-.nav-arrows button {
-  pointer-events: all;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #3a8d4ccc;
-  border: none;
-  color: #eaf4f3;
-  font-size: 2rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 50%;
-  cursor: pointer;
-  user-select: none;
-  box-shadow: 0 4px 10px rgba(58,141,76,0.7);
-  transition: background-color 0.3s ease;
-}
-
-.nav-arrows button:hover {
-  background: #6aba74cc;
-}
-
-.nav-arrows .prev {
-  left: 10px;
-}
-
-.nav-arrows .next {
-  right: 10px;
-}
-
-/* Notification */
-.notification {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background-color: #4a7d57;
-  color: #eaf4f3;
-  padding: 0.9rem 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 3px 15px rgba(74,125,87,0.85);
-  display: none;
-  z-index: 1100;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  font-size: 0.95rem;
-}
-
-/* =================================================================
-   NAVIGATION MODERNE
-   ================================================================= */
-.nav {
+  /* NAVIGATION MODERNE */
+  .nav {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -252,9 +214,9 @@ button.invest-btn:disabled, button.invest-btn[disabled] {
     max-width: 28rem;
     margin: 0 auto;
     border-top: 1px solid var(--glass-border);
-}
+  }
 
-.nav-item {
+  .nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -265,19 +227,19 @@ button.invest-btn:disabled, button.invest-btn[disabled] {
     width: 20%;
     transition: all 0.3s ease;
     position: relative;
-}
+  }
 
-.nav-item i {
+  .nav-item i {
     font-size: 20px;
     margin-bottom: 4px;
-}
+  }
 
-.nav-active { 
+  .nav-active {
     color: var(--accent-color);
     transform: translateY(-3px);
-}
+  }
 
-.nav-active::before {
+  .nav-active::before {
     content: '';
     position: absolute;
     top: 0;
@@ -287,24 +249,16 @@ button.invest-btn:disabled, button.invest-btn[disabled] {
     height: 3px;
     background: var(--accent-color);
     border-radius: 0 0 10px 10px;
-}
+  }
 
-.nav-active i {
+  .nav-active i {
     background-color: rgba(102, 126, 234, 0.15);
     padding: 8px;
     border-radius: 50%;
-}
-
-/* Couleurs des icônes */
-.blue-icon { color: var(--accent-color); }
-.pink-icon { color: #ec4899; }
-.gray-icon { color: var(--text-light); }
-.accent-icon { color: var(--accent-color); }
-
+  }
 </style>
 </head>
 <body>
-
 
 </header>
 
@@ -324,47 +278,43 @@ button.invest-btn:disabled, button.invest-btn[disabled] {
 
 <div class="notification" role="alert"></div>
 
- <!-- Navigation avec icônes Font Awesome -->
+<!-- Navigation avec icônes Font Awesome -->
 <div class="nav">
-        <a href="accueil.html" class="nav-item nav-active">
-            <i class="fas fa-home"></i>
-            <span>Accueil</span>
-        </a>
-        <a href="investi.html" class="nav-item">
-            <i class="fas fa-gem"></i>
-            <span>4G LTE</span>
-        </a>
-        <a href="machine.html" class="nav-item">
-            <i class="fas fa-chart-bar"></i>
-            <span>Laboratoire</span>
-        </a>
-        <a href="equipe.html" class="nav-item">
-            <i class="fas fa-users"></i>
-            <span>Équipe</span>
-        </a>
-        <a href="solde.html" class="nav-item">
-            <i class="fas fa-user-circle"></i>
-            <span>Profil</span>
-        </a>
-    </div>
-   
+  <a href="accueil.html" class="nav-item nav-active">
+    <i class="fas fa-home"></i>
+    <span>Accueil</span>
+  </a>
+  <a href="investi.html" class="nav-item">
+    <i class="fas fa-gem"></i>
+    <span>4G LTE</span>
+  </a>
+  <a href="machine.html" class="nav-item">
+    <i class="fas fa-chart-bar"></i>
+    <span>Laboratoire</span>
+  </a>
+  <a href="equipe.html" class="nav-item">
+    <i class="fas fa-users"></i>
+    <span>Équipe</span>
+  </a>
+  <a href="solde.html" class="nav-item">
+    <i class="fas fa-user-circle"></i>
+    <span>Profil</span>
+  </a>
+</div>
 
 <script type="module">
-// Ici on place ton script avec l'import Firebase et les fonctions
-// Pour ne pas alourdir la réponse, on intègre uniquement la partie affichage et interaction avec le DOM
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 import { getDatabase, ref, get, update, push, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
-    authDomain: "maison-c53c7.firebaseapp.com",
-    databaseURL: "https://maison-c53c7-default-rtdb.firebaseio.com",
-    projectId: "maison-c53c7",
-    storageBucket: "maison-c53c7.firebaseapp.com",
-    messagingSenderId: "720174612151",
-    appId: "1:720174612151:web:d7af687cce1cf33dde1732"
+  apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
+  authDomain: "maison-c53c7.firebaseapp.com",
+  databaseURL: "https://maison-c53c7-default-rtdb.firebaseio.com",
+  projectId: "maison-c53c7",
+  storageBucket: "maison-c53c7.firebaseapp.com",
+  messagingSenderId: "720174612151",
+  appId: "1:720174612151:web:d7af687cce1cf33dde1732"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -452,7 +402,6 @@ const PRODUCT_CONFIG = {
   }
 };
 
-// Fonction notification
 function showNotification(message, type = 'success') {
   notification.textContent = message;
   notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
@@ -462,7 +411,6 @@ function showNotification(message, type = 'success') {
   }, 3000);
 }
 
-// Fonction pour naviguer dans le slider
 function showSlide(index) {
   const slides = document.querySelectorAll('.slide');
   if (!slides.length) return;
@@ -481,7 +429,6 @@ window.prevSlide = function() {
   showSlide(currentSlide - 1);
 };
 
-// Fonction pour vérifier les investissements actifs avec limite
 async function checkActiveInvestments(userId, productId) {
   try {
     const investmentsRef = ref(db, `investments/${userId}`);
@@ -502,7 +449,6 @@ async function checkActiveInvestments(userId, productId) {
   }
 }
 
-// Mise à jour des boutons selon limites et solde
 async function updateButtonsState() {
   if (!currentUser) return;
   for (const productIdStr in PRODUCT_CONFIG) {
@@ -522,21 +468,27 @@ async function updateButtonsState() {
       if (remaining <= 0) {
         btn.disabled = true;
         btn.textContent = 'Limite atteinte';
-        btn.style.backgroundColor = '#999';
+        btn.classList.remove('insufficient-balance');
+        btn.classList.add('limit-reached');
+
+        // On retire style inline car on gère via classes maintenant
+        btn.style.backgroundColor = '';
       } else if (userBalance < product.price) {
         btn.disabled = true;
         btn.textContent = 'Solde insuffisant';
-        btn.style.backgroundColor = '#cc3333';
+        btn.classList.remove('limit-reached');
+        btn.classList.add('insufficient-balance');
+        btn.style.backgroundColor = '';
       } else {
         btn.disabled = false;
         btn.textContent = `Investir ${product.price.toLocaleString('fr-FR')} FCFA`;
-        btn.style.backgroundColor = '#004466';
+        btn.classList.remove('limit-reached', 'insufficient-balance');
+        btn.style.backgroundColor = ''; // Reset inline style pour reprendre CSS
       }
     }
   }
 }
 
-// Fonction investissement (extrait de ton script, légèrement modifiée pour lien bouton)
 window.investProduct = async function(productId, amount) {
   if (!currentUser) {
     showNotification('Veuillez vous connecter pour investir', 'error');
@@ -577,7 +529,6 @@ window.investProduct = async function(productId, amount) {
 
     await update(ref(db), updates);
 
-    // Met à jour le solde localement et le status des boutons
     userBalance -= amount;
     await updateButtonsState();
 
@@ -593,7 +544,6 @@ window.investProduct = async function(productId, amount) {
   }
 };
 
-// Afficher les plans dynamiquement
 function renderPlans() {
   sliderContainer.innerHTML = '';
 
@@ -619,7 +569,7 @@ function renderPlans() {
     sliderContainer.appendChild(slide);
   });
 
-  // Recréer les flèches (car on a vidé le slider)
+  // Recréer les flèches après vider slider
   const navArrows = document.createElement('div');
   navArrows.classList.add('nav-arrows');
   navArrows.innerHTML = `
@@ -629,7 +579,6 @@ function renderPlans() {
   sliderContainer.appendChild(navArrows);
 }
 
-// Gestion de l'état utilisateur et initialisation
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
@@ -652,7 +601,6 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// Fonction de déconnexion accessible globalement
 window.handleLogout = async function() {
   try {
     await auth.signOut();
