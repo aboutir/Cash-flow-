@@ -12,6 +12,21 @@
     background: #f5f7fa; margin: 0; padding: 0.5rem; color: #333;
     min-height: 100vh; display: flex; flex-direction: column; align-items: center;
   }
+  .page-header-section {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 194, 255, 0.4);
+    width: 100%;
+    max-width: 600px;
+    padding: 1.5rem 1rem;
+    color: white;
+    font-weight: 700;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.06em;
+    user-select: none;
+  }
   header {
     width: 100%; max-width: 600px; display: flex; align-items: center; margin-bottom: 0.75rem;
   }
@@ -81,17 +96,23 @@
   @media (max-width: 480px) {
     body { padding: 0.3rem; }
     article.card { padding: 0.6rem 0.8rem; font-size: 0.8rem; }
+    .page-header-section { font-size: 1.3rem; padding: 1rem 0.75rem; }
   }
 </style>
 </head>
 <body>
+
+<div class="page-header-section">
+  Historiques des retraits
+</div>
+
 <header>
   <button aria-label="Retour" class="back-arrow" title="Retour">
     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <polyline points="15 18 9 12 15 6"></polyline>
     </svg>
   </button>
-  <h1>Historique des retraits</h1>
+  <h1></h1>
 </header>
 
 <!-- Templates d’icônes cachés -->
@@ -215,7 +236,6 @@
       </section>
     `;
 
-    // Ajout frais si > 0
     if (fees > 0) {
       const feesRow = document.createElement('div');
       feesRow.className = 'row';
@@ -228,12 +248,10 @@
       `;
       card.querySelector('section.card-body').appendChild(feesRow);
 
-      // Ajouter icône frais
       const feesIconContainer = feesRow.querySelector('.icon-container');
       feesIconContainer.appendChild(cloneIcon('icon-fees'));
     }
 
-    // Ajouter ligne montant net
     const netRow = document.createElement('div');
     netRow.className = 'row';
     netRow.innerHTML = `
@@ -245,7 +263,6 @@
     `;
     card.querySelector('section.card-body').appendChild(netRow);
 
-    // Injecter icônes restantes
     card.querySelectorAll('.row')[0].querySelector('.icon-container').appendChild(cloneIcon('icon-amountRequested'));
     card.querySelectorAll('.row')[1].querySelector('.icon-container').appendChild(cloneIcon('icon-status'));
     card.querySelectorAll('.row')[card.querySelectorAll('.row').length - 1].querySelector('.icon-container').appendChild(cloneIcon('icon-amountNet'));
@@ -256,11 +273,11 @@
   function showEmpty() {
     const container = document.getElementById('history-container');
     container.innerHTML = `
-    <section class="no-history" role="region" aria-live="polite">
-      <div class="no-history-icon" aria-hidden="true"></div>
-      <h2>Aucun historique</h2>
-      <p>Vos retraits apparaîtront ici une fois effectués.</p>
-    </section>`;
+      <section class="no-history" role="region" aria-live="polite">
+        <div class="no-history-icon" aria-hidden="true"></div>
+        <h2>Aucun historique</h2>
+        <p>Vos retraits apparaîtront ici une fois effectués.</p>
+      </section>`;
     const iconContainer = container.querySelector('.no-history-icon');
     iconContainer.appendChild(cloneIcon('icon-noHistory'));
   }
@@ -295,5 +312,6 @@
     history.back();
   });
 </script>
+
 </body>
 </html>
