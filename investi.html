@@ -581,8 +581,8 @@ body {
         <div class="info-item">
             <span>Versement par jour: 456 FCFA</span>
         </div>
-        <div class="duration">Durée du travail: 20 jours</div>
-        <div class="total-revenue">Revenus total: 11 520 FCFA</div>
+        <div class="duration">Durée du travail: 31 jours</div>
+        <div class="total-revenue">Revenus total: 14 136 FCFA</div>
         <button class="buy-button" onclick="investProduct(1, 5700)">Investir maintenant</button>
     </div>
     <div class="footer">
@@ -595,8 +595,8 @@ body {
         <h2 class="title">4G LTE</h2>
         <div class="price-row"><span>Tarif : 11 400 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 1 026 FCFA</span></div>
-        <div class="duration">Durée du travail: 22 jours</div>
-        <div class="total-revenue">Revenus total: 22 572 FCFA</div>
+        <div class="duration">Durée du travail: 30 jours</div>
+        <div class="total-revenue">Revenus total: 30 780 FCFA</div>
         <button class="buy-button" onclick="investProduct(2, 11400)">Investir maintenant</button>
     </div>
     <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
@@ -607,8 +607,8 @@ body {
         <h2 class="title">LTE</h2>
         <div class="price-row"><span>Tarif: 22 800 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 2 280 FCFA</span></div>
-        <div class="duration">Durée du travail: 24 jours</div>
-        <div class="total-revenue">Revenus total: 54 720 FCFA</div>
+        <div class="duration">Durée du travail: 29 jours</div>
+        <div class="total-revenue">Revenus total: 66 120 FCFA</div>
         <button class="buy-button" onclick="investProduct(3, 22800)">Investir maintenant</button>
     </div>
     <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
@@ -619,8 +619,8 @@ body {
         <h2 class="title">4G LTE</h2>
         <div class="price-row"><span>Tarif: 45 600 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 5 472 FCFA</span></div>
-        <div class="duration">Durée du travail: 26 jours</div>
-        <div class="total-revenue">Revenus total: 141 472 FCFA</div>
+        <div class="duration">Durée du travail: 28 jours</div>
+        <div class="total-revenue">Revenus total: 153 216 FCFA</div>
         <button class="buy-button" onclick="investProduct(4, 45600)">Investir maintenant</button>
     </div>
     <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
@@ -631,8 +631,8 @@ body {
         <h2 class="title">LTE ADVANCED Pro</h2>
         <div class="price-row"><span>Tarif: 100 000 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 14 000 FCFA</span></div>
-        <div class="duration">Durée du travail: 28 jours</div>
-        <div class="total-revenue">Revenus total: 392 000 FCFA</div>
+        <div class="duration">Durée du travail: 27 jours</div>
+        <div class="total-revenue">Revenus total: 378 000 FCFA</div>
         <button class="buy-button" onclick="investProduct(5, 100000)">Investir maintenant</button>
     </div>
     <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
@@ -643,8 +643,8 @@ body {
         <h2 class="title">LTE TM</h2>
         <div class="price-row"><span>Tarif: 200 000 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 32 000 FCFA</span></div>
-        <div class="duration">Durée du travail: 40 jours</div>
-        <div class="total-revenue">Revenus total: 1 280 000 FCFA</div>
+        <div class="duration">Durée du travail: 26 jours</div>
+        <div class="total-revenue">Revenus total: 832 000 FCFA</div>
         <button class="buy-button" onclick="investProduct(6, 200000)">Investir maintenant</button>
     </div>
     <div class="footer"><span>Limite d'achat: 4 par personne</span></div>
@@ -715,7 +715,7 @@ let currentSlide = 0;
 
 // Configuration des produits
 const PRODUCT_CONFIG = {
-  1: { id: 1, name: "4G +", badge: "4G PLUS", price: 5700, dailyRevenue: 456, cycleDuration: 20, totalRevenue: 11520, purchaseLimit: 1, image: "https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg", category: "Débutant" }, 2: { id: 2, name: "4G LTE", badge: "4G LTE", price: 11400, dailyRevenue: 1026, cycleDuration: 22, totalRevenue: 22572, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png", category: "Intermédiaire" }, 3: { id: 3, name: "LTE", badge: "LTE", price: 22800, dailyRevenue: 2280, cycleDuration: 24, totalRevenue: 54720, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg", category: "Avancé" }, 4: { id: 4, name: "4G LTE Pro", badge: "4G LTE", price: 45600, dailyRevenue: 5472, cycleDuration: 26, totalRevenue: 141472, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png", category: "Professionnel" }, 5: { id: 5, name: "LTE ADVANCED Pro", badge: "LTE ADVANCED Pro", price: 100000, dailyRevenue: 14000, cycleDuration: 28, totalRevenue: 392000, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750585373-lte-advanced-pro-logo.jpg", category: "Premium" }, 6: { id: 6, name: "LTE TM", badge: "LTE TM", price: 200000, dailyRevenue: 32000, cycleDuration: 40, totalRevenue: 1280000, purchaseLimit: 4, image: "https://image.noelshack.com/fichiers/2025/25/7/1750585550-lte-logo.png", category: "Elite" }
+  1: { id: 1, name: "4G +", badge: "4G PLUS", price: 5700, dailyRevenue: 456, cycleDuration: 31, totalRevenue: 14136, purchaseLimit: 1, image: "https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg", category: "Débutant" }, 2: { id: 2, name: "4G LTE", badge: "4G LTE", price: 11400, dailyRevenue: 1026, cycleDuration: 30, totalRevenue: 30780, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png", category: "Intermédiaire" }, 3: { id: 3, name: "LTE", badge: "LTE", price: 22800, dailyRevenue: 2280, cycleDuration: 29, totalRevenue: 66129, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg", category: "Avancé" }, 4: { id: 4, name: "4G LTE Pro", badge: "4G LTE", price: 45600, dailyRevenue: 5472, cycleDuration: 28, totalRevenue: 153216, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png", category: "Professionnel" }, 5: { id: 5, name: "LTE ADVANCED Pro", badge: "LTE ADVANCED Pro", price: 100000, dailyRevenue: 14000, cycleDuration: 27, totalRevenue: 378000, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750585373-lte-advanced-pro-logo.jpg", category: "Premium" }, 6: { id: 6, name: "LTE TM", badge: "LTE TM", price: 200000, dailyRevenue: 32000, cycleDuration: 26, totalRevenue: 832000, purchaseLimit: 4, image: "https://image.noelshack.com/fichiers/2025/25/7/1750585550-lte-logo.png", category: "Elite" }
 
 
         };
