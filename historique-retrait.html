@@ -1,601 +1,299 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historique des retraits</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        :root {
-            --primary-color: #667eea;
-            --primary-dark: #5a6fd8;
-            --primary-light: #f093fb;
-            --accent-color: #4facfe;
-            --text-color: #2d3748;
-            --text-light: #718096;
-            --background-color: #f7fafc;
-            --card-background: #ffffff;
-            --success-color: #48bb78;
-            --warning-color: #ed8936;
-            --danger-color: #f56565;
-            --info-color: #4299e1;
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-card: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --card-shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            --transition-speed: 0.3s;
-            --border-radius: 20px;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Header compact */
-        .header {
-            background: var(--gradient-primary);
-            padding: 16px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-content {
-            max-width: 600px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .back-arrow {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            transition: all var(--transition-speed);
-        }
-
-        .back-arrow:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .header h1 {
-            color: white;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        /* Conteneur principal compact */
-        #history-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 16px 20px 80px;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Cards compactes */
-        .card {
-            background: var(--card-background);
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            margin-bottom: 12px;
-            overflow: hidden;
-            transition: all var(--transition-speed);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--gradient-primary);
-        }
-
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-header {
-            padding: 16px 20px 12px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .card-amount {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 4px;
-        }
-
-        .card-date {
-            color: var(--text-light);
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .card-body {
-            padding: 16px 20px;
-        }
-
-        .row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .row:hover {
-            background: rgba(102, 126, 234, 0.02);
-            margin: 0 -20px;
-            padding: 12px 20px;
-            border-radius: 8px;
-        }
-
-        .row:last-child {
-            border-bottom: none;
-        }
-
-        .left-section {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .icon-container {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            transition: all var(--transition-speed);
-        }
-
-        .row:hover .icon-container {
-            background: var(--gradient-primary);
-        }
-
-        .row:hover .icon-container .icon {
-            filter: brightness(0) invert(1);
-        }
-
-        .icon {
-            width: 16px;
-            height: 16px;
-            opacity: 0.8;
-        }
-
-        .label {
-            color: var(--text-light);
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .value {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        /* Status badges compacts */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .status-pending {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-            color: #d63031;
-        }
-
-        .status-completed {
-            background: linear-gradient(135deg, #55efc4 0%, #81ecec 100%);
-            color: #00b894;
-        }
-
-        .status-failed {
-            background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
-            color: #e84393;
-        }
-
-        /* Montant avec couleurs spéciales */
-        .amount-requested {
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        .amount-net {
-            color: var(--success-color);
-            font-weight: 700;
-        }
-
-        .amount-fees {
-            color: var(--warning-color);
-            font-weight: 600;
-        }
-
-        /* État vide compact */
-        .no-history {
-            text-align: center;
-            padding: 40px 20px;
-            background: var(--card-background);
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .no-history-icon {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 16px;
-            background: var(--gradient-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .no-history h3 {
-            color: var(--text-color);
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .no-history p {
-            color: var(--text-light);
-            font-size: 14px;
-        }
-
-        /* Responsive compact */
-        @media (max-width: 480px) {
-            .header {
-                padding: 14px 16px;
-            }
-
-            .header h1 {
-                font-size: 18px;
-            }
-
-            #history-container {
-                padding: 12px 16px 60px;
-            }
-
-            .card {
-                margin-bottom: 10px;
-            }
-
-            .card-header {
-                padding: 14px 16px 10px;
-            }
-
-            .card-amount {
-                font-size: 20px;
-            }
-
-            .card-body {
-                padding: 12px 16px;
-            }
-
-            .row {
-                padding: 10px 0;
-            }
-
-            .left-section {
-                gap: 10px;
-            }
-
-            .icon-container {
-                width: 32px;
-                height: 32px;
-            }
-
-            .icon {
-                width: 14px;
-                height: 14px;
-            }
-
-            .label {
-                font-size: 13px;
-            }
-
-            .value {
-                font-size: 13px;
-            }
-
-            .no-history {
-                padding: 30px 16px;
-            }
-
-            .no-history-icon {
-                width: 40px;
-                height: 40px;
-            }
-        }
-
-        /* Scrollbar personnalisée */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--gradient-primary);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Animations d'entrée pour les cartes */
-        .card {
-            animation: slideInUp 0.5s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.2s; }
-        .card:nth-child(3) { animation-delay: 0.3s; }
-        .card:nth-child(4) { animation-delay: 0.4s; }
-        .card:nth-child(5) { animation-delay: 0.5s; }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Effet de particules sur le header */
-        .header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="90" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
-            pointer-events: none;
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-10px) rotate(360deg); }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Historique des retraits</title>
+<style>
+  /* Reset */
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa; margin: 0; padding: 0.5rem; color: #333;
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+  }
+  header {
+    width: 100%; max-width: 600px; display: flex; align-items: center; margin-bottom: 0.75rem;
+  }
+  .back-arrow {
+    background: none; border: none; cursor: pointer; padding: 0; margin-right: 0.4rem; font-size: 1.2rem;
+    color: #007BFF; display: flex; align-items: center; transition: color 0.2s;
+  }
+  .back-arrow:hover, .back-arrow:focus {
+    color: #0056b3; outline: none;
+  }
+  .back-arrow svg {
+    width: 18px; height: 18px; stroke-width: 2.2;
+  }
+  h1 {
+    font-weight: 700; font-size: 1.25rem; margin: 0; flex-grow: 1; text-align: center;
+    color: #222; user-select: none;
+  }
+  #history-container {
+    width: 100%; max-width: 600px;
+  }
+  article.card {
+    background: white; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+    padding: 0.75rem 1rem; margin-bottom: 0.9rem; transition: box-shadow 0.15s; font-size: 0.85rem;
+  }
+  article.card:hover, article.card:focus-within {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  }
+  .card-header {
+    display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-weight: 700;
+    font-size: 1rem; color: #007BFF;
+  }
+  .card-body .row {
+    display: flex; justify-content: space-between; align-items: center; margin-top: 0.35rem;
+  }
+  .left-section {
+    display: flex; align-items: center; gap: 0.4rem; color: #555; font-weight: 600;
+  }
+  .value {
+    font-weight: 600; color: #222;
+  }
+  .icon-container {
+    width: 20px; height: 20px; flex-shrink: 0;
+  }
+  /* Status badges */
+  .status-badge {
+    padding: 0.15em 0.4em; border-radius: 10px; font-weight: 600; font-size: 0.75rem;
+    color: white; white-space: nowrap; user-select: none;
+  }
+  .status-pending { background-color: #f39c12; }
+  .status-completed { background-color: #27ae60; }
+  .status-failed { background-color: #c0392b; }
+  .status-paid { background-color: #2ecc71; }
+  .value.amount-fees {
+    color: #c0392b; font-weight: 700;
+  }
+  .no-history {
+    background: #dbe9ff; border-radius: 10px; padding: 2rem 1.5rem;
+    text-align: center; color: #576574; user-select: none; font-size: 0.9rem;
+  }
+  .no-history-icon {
+    width: 36px; height: 36px; margin: 0 auto 0.8rem; stroke: #3867d6;
+  }
+  .no-history h2 {
+    margin: 0.25rem 0 0.15rem; font-weight: 700; color: #2e3641; font-size: 1.1rem;
+  }
+  .no-history p { margin: 0; }
+  @media (max-width: 480px) {
+    body { padding: 0.3rem; }
+    article.card { padding: 0.6rem 0.8rem; font-size: 0.8rem; }
+  }
+</style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <a href="" class="back-arrow">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-            </a>
-            <h1>Historique des retraits</h1>
+<header>
+  <button aria-label="Retour" class="back-arrow" title="Retour">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+  <h1>Historique des retraits</h1>
+</header>
+
+<!-- Templates d’icônes cachés -->
+<template id="icon-amountRequested">
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#1E90FF" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="#bbdefb" />
+    <path d="M9 9h6v6H9z" fill="#1565c0" />
+  </svg>
+</template>
+
+<template id="icon-status">
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#f39c12" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+    <circle cx="12" cy="12" r="10" fill="#ffe0b2" />
+    <polyline points="12 6 12 12 16 14" stroke="#e67e22" stroke-width="3"/>
+  </svg>
+</template>
+
+<template id="icon-fees">
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#c0392b" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+    <circle cx="12" cy="12" r="10" fill="#f8d7da" />
+    <path d="M9 12l2 2 4-4" stroke="#a93226" stroke-width="3"/>
+  </svg>
+</template>
+
+<template id="icon-amountNet">
+  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#27ae60" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true" focusable="false">
+    <circle cx="12" cy="12" r="10" fill="#d4edda" />
+    <path d="M9 12l2 2 4-4" stroke="#19692c" stroke-width="3"/>
+  </svg>
+</template>
+
+<template id="icon-noHistory">
+  <svg fill="none" stroke="#3867d6" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+    <line x1="12" y1="22.08" x2="12" y2="12"/>
+  </svg>
+</template>
+
+<main id="history-container" role="region" aria-live="polite" aria-label="Historique des retraits">
+  <!-- Les cartes seront générées ici -->
+</main>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
+    authDomain: "maison-c53c7.firebaseapp.com",
+    databaseURL: "https://maison-c53c7-default-rtdb.firebaseio.com",
+    projectId: "maison-c53c7",
+    storageBucket: "maison-c53c7.firebasestorage.app",
+    messagingSenderId: "720174612151",
+    appId: "1:720174612151:web:d7af687cce1cf33dde1732"
+  };
+
+  initializeApp(firebaseConfig);
+
+  const auth = getAuth();
+  const db = getDatabase();
+
+  function formatAmount(amount) {
+    return `${amount.toLocaleString('fr-FR')} FCFA`;
+  }
+
+  function formatDate(timestamp) {
+    return new Date(timestamp).toLocaleString('fr-FR', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+
+  function getStatusBadge(status) {
+    const map = {
+      "En attente": ["status-pending", "En attente"],
+      "Approuvé": ["status-completed", "Approuvé"],
+      "Payé": ["status-paid", "Payé"],
+      "Rejeté": ["status-failed", "Rejeté"],
+      "Terminé": ["status-completed", "Terminé"]
+    };
+    const [className, text] = map[status] || ["status-pending", status];
+    return `<span class="status-badge ${className}">${text}</span>`;
+  }
+
+  function cloneIcon(id) {
+    const template = document.getElementById(id);
+    return template ? template.content.cloneNode(true) : null;
+  }
+
+  function createCard(d) {
+    const fees = d.fees || 0;
+    const net = d.amount - fees;
+
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.tabIndex = 0;
+    card.setAttribute('aria-label', `Retrait du ${formatDate(d.timestamp)}, montant demandé ${formatAmount(d.amount)}, statut ${d.status}`);
+
+    card.innerHTML = `
+      <header class="card-header">
+        <div class="card-amount">- ${formatAmount(d.amount)}</div>
+        <div class="card-date">${formatDate(d.timestamp)}</div>
+      </header>
+      <section class="card-body">
+        <div class="row">
+          <div class="left-section">
+            <div class="icon-container" aria-hidden="true"></div>
+            <div>Montant demandé</div>
+          </div>
+          <div class="value amount-requested">- ${formatAmount(d.amount)}</div>
         </div>
-    </div>
+        <div class="row">
+          <div class="left-section">
+            <div class="icon-container" aria-hidden="true"></div>
+            <div>Statut</div>
+          </div>
+          <div>${getStatusBadge(d.status)}</div>
+        </div>
+      </section>
+    `;
 
-    <div id="history-container"></div>
+    // Ajout frais si > 0
+    if (fees > 0) {
+      const feesRow = document.createElement('div');
+      feesRow.className = 'row';
+      feesRow.innerHTML = `
+        <div class="left-section">
+          <div class="icon-container" aria-hidden="true"></div>
+          <div>Frais</div>
+        </div>
+        <div class="value amount-fees">- ${formatAmount(fees)}</div>
+      `;
+      card.querySelector('section.card-body').appendChild(feesRow);
 
-    <script type="module">
-        // Import des modules Firebase nécessaires
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-        import { getDatabase, ref, get, set, onValue, push, update, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
-        import { getStorage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-storage.js";
+      // Ajouter icône frais
+      const feesIconContainer = feesRow.querySelector('.icon-container');
+      feesIconContainer.appendChild(cloneIcon('icon-fees'));
+    }
 
-        // Configuration Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
-            authDomain: "maison-c53c7.firebaseapp.com",
-            databaseURL: "https://maison-c53c7-default-rtdb.firebaseio.com",
-            projectId: "maison-c53c7",
-            storageBucket: "maison-c53c7.firebasestorage.app",
-            messagingSenderId: "720174612151",
-            appId: "1:720174612151:web:d7af687cce1cf33dde1732"
-        };
-     
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const database = getDatabase(app);
+    // Ajouter ligne montant net
+    const netRow = document.createElement('div');
+    netRow.className = 'row';
+    netRow.innerHTML = `
+      <div class="left-section">
+        <div class="icon-container" aria-hidden="true"></div>
+        <div>Montant net</div>
+      </div>
+      <div class="value amount-net">${formatAmount(net)}</div>
+    `;
+    card.querySelector('section.card-body').appendChild(netRow);
 
-        function formatAmount(amount) {
-            return `${amount.toLocaleString('fr-FR')} FCFA`;
-        }
+    // Injecter icônes restantes
+    card.querySelectorAll('.row')[0].querySelector('.icon-container').appendChild(cloneIcon('icon-amountRequested'));
+    card.querySelectorAll('.row')[1].querySelector('.icon-container').appendChild(cloneIcon('icon-status'));
+    card.querySelectorAll('.row')[card.querySelectorAll('.row').length - 1].querySelector('.icon-container').appendChild(cloneIcon('icon-amountNet'));
 
-        function formatDate(timestamp) {
-            return new Date(timestamp).toLocaleString('fr-FR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-        }
+    return card;
+  }
 
-        function getStatusBadge(status) {
-            const statusMap = {
-                'En attente': { class: 'status-pending', text: 'En attente' },
-                'Approuvé': { class: 'status-completed', text: 'Approuvé' },
-                'Rejeté': { class: 'status-failed', text: 'Rejeté' },
-                'Terminé': { class: 'status-completed', text: 'Terminé' }
-            };
-            
-            const statusInfo = statusMap[status] || { class: 'status-pending', text: status };
-            return `<span class="status-badge ${statusInfo.class}">${statusInfo.text}</span>`;
-        }
+  function showEmpty() {
+    const container = document.getElementById('history-container');
+    container.innerHTML = `
+    <section class="no-history" role="region" aria-live="polite">
+      <div class="no-history-icon" aria-hidden="true"></div>
+      <h2>Aucun historique</h2>
+      <p>Vos retraits apparaîtront ici une fois effectués.</p>
+    </section>`;
+    const iconContainer = container.querySelector('.no-history-icon');
+    iconContainer.appendChild(cloneIcon('icon-noHistory'));
+  }
 
-        function createWithdrawalCard(withdrawal) {
-            const fees = withdrawal.fees || 0;
-            const netAmount = withdrawal.amount - fees;
-            
-            return `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-amount">${formatAmount(withdrawal.amount)}</div>
-                        <div class="card-date">${formatDate(withdrawal.timestamp)}</div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="left-section">
-                                <div class="icon-container">
-                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M3 3h18v18H3zM9 9h6v6H9z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="label">Montant demandé</div>
-                                </div>
-                            </div>
-                            <span class="value amount-requested">${formatAmount(withdrawal.amount)}</span>
-                        </div>
+  onAuthStateChanged(auth, user => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
 
-                        <div class="row">
-                            <div class="left-section">
-                                <div class="icon-container">
-                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <polyline points="12 6 12 12 16 14"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="label">Statut</div>
-                                </div>
-                            </div>
-                            ${getStatusBadge(withdrawal.status)}
-                        </div>
+    const historyRef = ref(db, `users/${user.uid}/withdrawalHistory`);
+    onValue(historyRef, snapshot => {
+      const history = snapshot.val();
+      const container = document.getElementById('history-container');
 
-                        ${fees > 0 ? `
-                        <div class="row">
-                            <div class="left-section">
-                                <div class="icon-container">
-                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 2L2 7v10c0 5.55 3.84 10 9 11 5.16-1 9-5.45 9-11V7l-10-5z"/>
-                                        <path d="M9 12l2 2 4-4"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="label">Frais</div>
-                                </div>
-                            </div>
-                            <span class="value amount-fees">${formatAmount(fees)}</span>
-                        </div>
-                        ` : ''}
+      if (!history || !Object.keys(history).length) {
+        showEmpty();
+        return;
+      }
 
-                        <div class="row">
-                            <div class="left-section">
-                                <div class="icon-container">
-                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M12 2L2 7v10c0 5.55 3.84 10 9 11 5.16-1 9-5.45 9-11V7l-10-5z"/>
-                                        <path d="M9 12l2 2 4-4"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="label">Montant net</div>
-                                </div>
-                            </div>
-                            <span class="value amount-net">${formatAmount(netAmount)}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
+      container.innerHTML = '';
+      const ordered = Object.entries(history)
+        .sort((a, b) => b[1].timestamp - a[1].timestamp)
+        .map(([, v]) => createCard(v));
 
-        function displayWithdrawalHistory(history) {
-            const container = document.getElementById('history-container');
-            
-            if (!history || Object.keys(history).length === 0) {
-                container.innerHTML = `
-                    <div class="no-history">
-                        <div class="no-history-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                                <line x1="12" y1="22.08" x2="12" y2="12"/>
-                            </svg>
-                        </div>
-                        <h3>Aucun historique</h3>
-                        <p>Vos retraits apparaîtront ici une fois effectués</p>
-                    </div>`;
-                return;
-            }
+      ordered.forEach(card => container.appendChild(card));
+    });
+  });
 
-            container.innerHTML = '';
-            Object.entries(history)
-                .sort(([, a], [, b]) => b.timestamp - a.timestamp)
-                .forEach(([key, withdrawal]) => {
-                    container.innerHTML += createWithdrawalCard(withdrawal);
-                });
-        }
-
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                const historyRef = ref(database, `users/${user.uid}/withdrawalHistory`);
-                onValue(historyRef, (snapshot) => {
-                    const history = snapshot.val();
-                    displayWithdrawalHistory(history);
-                });
-            } else {
-                window.location.href = 'login.html';
-            }
-        });
-
-        document.querySelector('.back-arrow').addEventListener('click', (e) => {
-            e.preventDefault();
-            history.back();
-        });
-    </script>
+  document.querySelector('.back-arrow').addEventListener('click', e => {
+    e.preventDefault();
+    history.back();
+  });
+</script>
 </body>
 </html>
