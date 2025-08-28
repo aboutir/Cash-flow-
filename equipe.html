@@ -417,7 +417,7 @@ body {
         <div class="referral-section">
             <div class="referral-title">Système de Parrainage</div>
             <div class="referral-info">
-                Parrainez et gagnez 10% sur chaque achats de votre fileuils !
+                Parrainez et gagnez 20% sur chaque achats de votre fileuils !
             </div>
             
             <div>
@@ -437,7 +437,7 @@ body {
             </div>
 
             <div class="bonus-info">
-                Parrainez et gagner 10% sur chaque achats des votre fileuils
+                Parrainez et gagner 20% sur chaque achats des votre fileuils
             </div>
         </div>
     </div>
@@ -594,7 +594,7 @@ const firebaseConfig = {
             try {
                 const referrerRef = ref(database, 'users/' + referrerUid);
                 const memberRef = ref(database, 'users/' + memberUid);
-                const bonusAmount = investmentAmount * 0.10; // 10% de l'investissement
+                const bonusAmount = investmentAmount * 0.20; // 20% de l'investissement
 
                 if (bonusAmount > 0) {
                     // Mise à jour du solde du parrain
