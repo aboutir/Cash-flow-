@@ -1,579 +1,527 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>4G LTE</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>4G LTE</title>
 
-    <!-- Import Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <!-- Import Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Import Font Awesome pour les nouveaux boutons de navigation -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Import Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
 
-    <style>
-        /* Reset CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --accent-color: #00d4aa;
-            --text-white: #ffffff;
-            --text-light: rgba(255, 255, 255, 0.8);
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --red: #ef4444;
-            --cyan: #22d3ee;
-            --pink: #ec4899;
-            --green-light: #22c55e;
-            --green-border: #16a34a;
-            --shadow: rgba(0, 0, 0, 0.2);
-        }
+    :root {
+      --primary-gradient: linear-gradient(135deg, #a3bffa 0%, #668cff 100%);
+      --secondary-gradient: linear-gradient(135deg, #4facfe 0%, #00d4aa 100%);
+      --accent-color: #00b4d8;
+      --text-dark: #34495e;
+      --text-light: #7f8c8d;
+      --text-white: #fff;
+      --glass-bg: rgba(255 255 255 / 0.8);
+      --glass-border: rgba(102 126 234 / 0.2);
+      --shadow-md: 0 8px 25px rgba(0 180 216 / 0.3);
+      --border-radius-lg: 20px;
+      --spacing-lg: 20px;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-                Cantarell, sans-serif;
-            background: var(--primary-gradient);
-            max-width: 28rem;
-            margin: 0 auto;
-            min-height: 100vh;
-            padding-bottom: 4rem;
-            padding-top: 3.5rem; /* Ajouté pour compenser le header fixe */
-            position: relative;
-            overflow-x: hidden;
-        }
+    body {
+      font-family: var(--font-family);
+      background: #f9f9f9;
+      max-width: 28rem;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 4rem 1rem 5rem; /* haut et bas espace */
+      color: var(--text-dark);
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        /* Header avec scrolling text */
-        .header {
-            padding: 1rem;
-            color: var(--text-white);
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            overflow: hidden;
-            white-space: nowrap;
-            position: fixed; /* rendu fixe en haut */
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 0; /* Arrondi supprimé pour une meilleure intégration */
-            z-index: 1000;
-            max-width: 28rem;
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
+    /* Header fixe défilant */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 28rem;
+      padding: 1rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+      z-index: 1001;
+      overflow: hidden;
+      white-space: nowrap;
+    }
 
-        .speaker-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding-right: 0.5rem;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 2;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-        }
+    .speaker-container {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-color);
+    }
 
-        .speaker-icon {
-            color: var(--accent-color);
-        }
+    .header-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scrollText 20s linear infinite;
+      white-space: nowrap;
+      color: var(--text-dark);
+      font-weight: 600;
+      user-select: none;
+    }
 
-        .header-text {
-            display: inline-block;
-            animation: scrollText 20s linear infinite;
-            padding-left: 100%;
-            flex-shrink: 0;
-        }
+    @keyframes scrollText {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-200%);
+      }
+    }
 
-        @keyframes scrollText {
-            from {
-                transform: translateX(0);
-            }
-            to {
-                transform: translateX(-200%);
-            }
-        }
+    /* Bannière loterie */
+    .lottery-banner {
+      margin: 1rem auto;
+      max-width: 28rem;
+      background: var(--secondary-gradient);
+      color: var(--text-white);
+      padding: 1.5rem 1.8rem;
+      border-radius: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      text-decoration: none;
+      user-select: none;
+    }
+    .lottery-banner:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(0, 180, 216, 0.6);
+    }
+    .lottery-banner:active {
+      transform: translateY(-1px);
+    }
+    .lottery-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255 255 255 / 0.2),
+        transparent
+      );
+      transition: left 0.5s;
+      border-radius: 1.5rem;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .lottery-banner:hover::before {
+      left: 100%;
+    }
+    .lottery-banner-text {
+      font-weight: 600;
+      font-size: 0.9rem;
+      z-index: 2;
+      max-width: 80%;
+    }
+    .lottery-banner-circle {
+      width: 3.75rem;
+      height: 3.75rem;
+      background: linear-gradient(135deg, #00b4d8, #00d4aa);
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(0, 180, 216, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
 
-        /* Bannière loterie */
-        .lottery-banner {
-            margin: 1rem;
-            background: var(--secondary-gradient);
-            color: var(--text-white);
-            padding: 1.5rem;
-            border-radius: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 32px rgba(79, 172, 254, 0.3);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            position: relative;
-            overflow: hidden;
-            z-index: 2;
-        }
-        .lottery-banner:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(79, 172, 254, 0.4);
-        }
-        .lottery-banner:active {
-            transform: translateY(-1px);
-        }
-        .lottery-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: left 0.5s;
-        }
-        .lottery-banner:hover::before {
-            left: 100%;
-        }
-        .lottery-banner-text {
-            font-size: 0.875rem;
-            line-height: 1.5;
-            color: var(--text-white);
-            font-weight: 500;
-        }
-        .lottery-banner-circle {
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-color), #00b4d8);
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
-        }
+    /* Tableau revenus carré */
+    .revenue-section {
+      max-width: 28rem;
+      margin: 1rem auto;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--accent-color);
+      border-radius: var(--border-radius-lg);
+      padding: 1rem;
+      aspect-ratio: 1 / 1;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .revenue-section img {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 1rem;
+      object-fit: contain;
+      box-shadow: inset 0 0 5px rgba(0, 180, 216, 0.15);
+    }
 
-        /* Section carrée avec bordure large pour tableau des revenus */
-        .revenue-section {
-            margin: 0rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 2px solid var(--accent-color);
-            border-radius: 1.5rem;
-            padding: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-width: 28rem;
-            aspect-ratio: 1 / 1;
-            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.4);
-        }
-        .revenue-section img {
-            max-width: 100%;
-            max-height: 100%;
-            border-radius: 1rem;
-            object-fit: contain;
-        }
+    /* Section gagnants */
+    .section {
+      max-width: 28rem;
+      margin: 1rem auto;
+      position: relative;
+      z-index: 10;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-dark);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      padding: 1rem;
+      border-radius: 1rem;
+      border: 1px solid var(--glass-border);
+      margin-bottom: 1rem;
+    }
 
-        /* Section Gagnants */
-        .section {
-            padding: 1rem;
-            z-index: 2;
-            position: relative;
-        }
+    .section-title img {
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      object-fit: cover;
+    }
 
-        .section-title {
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 700;
-            color: var(--text-white);
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            padding: 1rem;
-            border-radius: 1rem;
-            border: 1px solid var(--glass-border);
-        }
+    .winners-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
-        /* Liste des gagnants modernée */
-        .winners-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+    .winner-item {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border-radius: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      opacity: 1;
+    }
 
-        .winner-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 1rem;
-            transition: all 0.5s ease;
-            border: 1px solid var(--glass-border);
-            position: relative;
-            overflow: hidden;
-            opacity: 1;
-        }
+    .winner-item:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-5px);
+    }
 
-        .winner-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.1),
-                transparent
-            );
-            transition: left 0.5s;
-        }
+    .winner-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255 255 255 / 0.1),
+        transparent
+      );
+      transition: left 0.5s ease;
+    }
+    .winner-item:hover::before {
+      left: 100%;
+    }
 
-        .winner-item:hover::before {
-            left: 100%;
-        }
+    .winner-info {
+      flex: 1;
+    }
 
-        .winner-info {
-            width: 100%;
-        }
+    .winner-number {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+    }
+    .winner-amount {
+      font-weight: 700;
+      color: var(--accent-color);
+      font-size: 1rem;
+    }
 
-        .winner-number {
-            font-size: 0.875rem;
-            color: var(--text-white);
-            font-weight: 500;
-        }
+    /* Marque Sprite */
+    .pepsi-brand {
+      max-width: 28rem;
+      margin: 1rem auto 2rem;
+      font-weight: 900;
+      font-size: 2rem;
+      text-align: center;
+      color: var(--text-dark);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      padding: 1.5rem;
+      border-radius: var(--border-radius-lg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-md);
+    }
+    .pepsi-brand img {
+      width: 100%;
+      height: 8rem;
+      object-fit: cover;
+      border-radius: var(--border-radius-md);
+      box-shadow: 0 8px 25px rgba(0 0 0 / 0.1);
+      margin-top: 1rem;
+    }
 
-        .winner-amount {
-            color: var(--accent-color);
-            font-weight: 700;
-            font-size: 1rem;
-        }
+    /* Navigation bas modernisée */
+    .nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 28rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0 8px;
+      border-top-left-radius: var(--border-radius-lg);
+      border-top-right-radius: var(--border-radius-lg);
+      box-shadow: 0 -4px 20px rgba(0 0 0 / 0.1);
+      border-top: 1px solid var(--glass-border);
+      z-index: 1001;
+    }
 
-        /* Marque Sprite modernisée */
-        .pepsi-brand {
-            color: var(--text-white);
-            font-weight: 900;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            padding: 1.5rem;
-            border-radius: 1.5rem;
-            border: 1px solid var(--glass-border);
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-light);
+      font-size: 12px;
+      width: 20%;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      font-family: var(--font-family);
+    }
 
-        /* Navigation du bas modernisée */
-        .nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-around;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 12px 0 8px;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            max-width: 28rem;
-            margin: 0 auto;
-            border-top: 1px solid var(--glass-border);
-        }
+    .nav-item i {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            alignment: center;
-            color: #8e9aaf;
-            text-decoration: none;
-            font-size: 12px;
-            padding: 8px 0;
-            width: 20%;
-            transition: all 0.3s ease;
-            align-items: center;
-            position: relative;
-        }
+    .nav-active {
+      color: var(--accent-color);
+      font-weight: 700;
+      transform: translateY(-3px);
+    }
 
-        .nav-item i {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
+    .nav-active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 0 0 10px 10px;
+    }
 
-        .nav-active {
-            color: #667eea;
-            transform: translateY(-3px);
-        }
-
-        .nav-active::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            height: 3px;
-            background: #667eea;
-            border-radius: 0 0 10px 10px;
-        }
-
-        .nav-active i {
-            background-color: rgba(102, 126, 234, 0.15);
-            padding: 8px;
-            border-radius: 50%;
-        }
-
-        /* Couleurs des icônes */
-        .blue-icon {
-            color: #667eea;
-        }
-        .pink-icon {
-            color: var(--pink);
-        }
-        .gray-icon {
-            color: var(--text-light);
-        }
-        .accent-icon {
-            color: var(--accent-color);
-        }
-
-        /* Styles pour les particules */
-        #particles-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            background: var(--accent-color);
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: floatUp 8s infinite ease-in-out;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(0);
-                opacity: 0.8;
-            }
-            50% {
-                opacity: 0.4;
-            }
-            100% {
-                transform: translateY(-10px);
-                opacity: 0.8;
-            }
-        }
-    </style>
+    .nav-active i {
+      background-color: rgba(0, 180, 216, 0.2);
+      padding: 8px;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body>
-    <!-- Arrière-plan animé -->
-    <div class="particles" id="particles-bg"></div>
+  <!-- Arrière-plan animé -->
+  <div class="particles" id="particles-bg"></div>
 
-    <!-- Header avec texte défilant et haut-parleur -->
-    <div class="header">
-        <div class="speaker-container">
-            <i data-lucide="volume-2" class="speaker-icon" size="16"></i>
-        </div>
-        <div class="header-text">
-            Bienvenue sur 4G plus ,avec 4G plus vous pouvez retirer votre revnus quotidienne chaque jour
-            les frai de retrait s’applque a 10%
-        </div>
+  <!-- Header fixe avec texte défilant -->
+  <div class="header" role="banner">
+    <div class="speaker-container" aria-label="Volume">
+      <i data-lucide="volume-2" class="speaker-icon" size="16"></i>
     </div>
+    <div class="header-text" aria-live="polite">
+      Bienvenue sur 4G plus, avec 4G plus vous pouvez retirer votre revenu quotidien chaque jour.
+      Les frais de retrait s’appliquent à 10%.
+    </div>
+  </div>
 
-    <!-- Bannière Loterie avec lien cliquable -->
-    <a href="code.html" class="lottery-banner">
-        <div class="lottery-banner-text">
-            <div></div>
-            <div></div>
-            <div style="font-weight: bold; margin-top: 0.5rem;">
-                Veuillez cliquez ici pour inséré le code de votre cadeau
-            </div>
-        </div>
-        <div class="lottery-banner-circle">
-            <i class="fas fa-gift" style="color: white; font-size: 1.5rem;"></i>
-        </div>
+  <!-- Bannière Loterie -->
+  <a href="code.html" class="lottery-banner" role="button" tabindex="0">
+    <div class="lottery-banner-text" aria-label="Code cadeau">
+      Veuillez cliquez ici pour insérer le code de votre cadeau
+    </div>
+    <div class="lottery-banner-circle" aria-hidden="true">
+      <i class="fas fa-gift"></i>
+    </div>
+  </a>
+
+  <!-- Tableau revenus carré -->
+  <div class="revenue-section" aria-label="Tableau des revenus">
+    <img
+      src="https://image.noelshack.com/fichiers/2025/35/4/1756413641-screenshot-20250828-144954-trebedit.jpg"
+      alt="Tableau des revenus"
+    />
+  </div>
+
+  <!-- Section Gagnants -->
+  <section class="section" aria-labelledby="section-winners-title">
+    <h2 id="section-winners-title" class="section-title">
+      <img
+        src="https://image.noelshack.com/fichiers/2025/25/6/1750519713-4g-network-technology-concept-internet-260nw-1840890631.jpg"
+        alt="Icône réseau"
+      />
+      Il gagne de l’argent avec 4G plus
+    </h2>
+    <div id="winners-list" class="winners-list"></div>
+  </section>
+
+  <!-- Marque Sprite -->
+  <section class="section">
+    <div class="pepsi-brand">4G LTE</div>
+    <img
+      src="https://image.noelshack.com/fichiers/2025/25/6/1750519417-images.jpeg"
+      alt="Sprite Team"
+    />
+  </section>
+
+  <!-- Navigation bas -->
+  <nav class="nav" role="navigation" aria-label="Menu principal">
+    <a href="accueil.html" class="nav-item nav-active">
+      <i class="fas fa-home" aria-hidden="true"></i>
+      <span>Accueil</span>
     </a>
+    <a href="investi.html" class="nav-item">
+      <i class="fas fa-gem" aria-hidden="true"></i>
+      <span>4G LTE</span>
+    </a>
+    <a href="machine.html" class="nav-item">
+      <i class="fas fa-chart-bar" aria-hidden="true"></i>
+      <span>Laboratoire</span>
+    </a>
+    <a href="equipe.html" class="nav-item">
+      <i class="fas fa-users" aria-hidden="true"></i>
+      <span>Équipe</span>
+    </a>
+    <a href="solde.html" class="nav-item">
+      <i class="fas fa-user-circle" aria-hidden="true"></i>
+      <span>Profil</span>
+    </a>
+  </nav>
 
-    <!-- Nouvelle section d'image carrée avec bordure pour tableau des revenus -->
-    <div class="revenue-section">
-        <img
-            src="https://image.noelshack.com/fichiers/2025/34/4/1755811100-screenshot-20250821-211804-trebedit.jpg"
-            alt="Tableau des revenus"
-        />
-    </div>
+  <script>
+    // Création particules animées
+    function createParticles() {
+      const container = document.getElementById('particles-bg');
+      const count = 15;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 6 + 2;
+        p.style.width = p.style.height = `${size}px`;
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 6 + 's';
+        container.appendChild(p);
+      }
+    }
 
-    <!-- Section Gagnants -->
-    <div class="section">
-        <h2 class="section-title">
-            <img
-                src="https://image.noelshack.com/fichiers/2025/25/6/1750519713-4g-network-technology-concept-internet-260nw-1840890631.jpg"
-                alt="Sprite"
-                width="24"
-                height="24"
-                style="border-radius: 50%;"
-            />
-            Il gagne de l’argent avec 4G plus
-        </h2>
-        <div id="winners-list" class="winners-list">
-            <!-- Les gagnants seront générés par JavaScript -->
-        </div>
-    </div>
+    // Gestion des gagnants animé
+    document.addEventListener('DOMContentLoaded', () => {
+      createParticles();
+      lucide.createIcons();
 
-    <!-- Section Marque Sprite -->
-    <div class="section">
-        <div class="pepsi-brand">4G LTE</div>
-        <div style="text-align: center; margin-top: 1rem">
-            <img
-                src="https://image.noelshack.com/fichiers/2025/25/6/1750519527-images.png"
-                alt="Sprite Team"
-                style="width: 100%; height: 8rem; object-fit: cover; border-radius: 1rem; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2)"
-            />
-        </div>
-    </div>
+      const winnerPairs = [
+        [
+          { number: '****1573', amount: '12499.92 FCFA' },
+          { number: '****7477', amount: '833333.28 FCFA' },
+        ],
+        [
+          { number: '****5239', amount: '25000.00 FCFA' },
+          { number: '****8901', amount: '74500.00 FCFA' },
+        ],
+        [
+          { number: '****2468', amount: '125000.50 FCFA' },
+          { number: '****1357', amount: '56789.33 FCFA' },
+        ],
+      ];
 
-    <!-- Navigation modernisée du bas -->
-    <div class="nav">
-        <a href="accueil.html" class="nav-item nav-active">
-            <i class="fas fa-home"></i>
-            <span>Accueil</span>
-        </a>
-        <a href="investi.html" class="nav-item">
-            <i class="fas fa-gem"></i>
-            <span>4G LTE</span>
-        </a>
-        <a href="machine.html" class="nav-item">
-            <i class="fas fa-chart-bar"></i>
-            <span>Laboratoire</span>
-        </a>
-        <a href="equipe.html" class="nav-item">
-            <i class="fas fa-users"></i>
-            <span>Équipe</span>
-        </a>
-        <a href="solde.html" class="nav-item">
-            <i class="fas fa-user-circle"></i>
-            <span>Profil</span>
-        </a>
-    </div>
+      const winnersList = document.getElementById('winners-list');
+      let currentPairIndex = 0;
 
-    <script>
-        // Création des particules animées
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles-bg');
-            const particleCount = 15;
+      function createWinnerItem(winner) {
+        const item = document.createElement('div');
+        item.className = 'winner-item';
+        item.innerHTML = `
+          <i data-lucide="circle-user" class="gray-icon" size="32"></i>
+          <div class="winner-info">
+            <div class="winner-number">Félicitations ${winner.number}</div>
+            <div class="winner-amount">${winner.amount}</div>
+          </div>
+        `;
+        return item;
+      }
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-
-                // Taille et position aléatoires
-                const size = Math.random() * 6 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.top = `${Math.random() * 100}%`;
-
-                // Délai d'animation aléatoire
-                particle.style.animationDelay = `${Math.random() * 6}s`;
-
-                particlesContainer.appendChild(particle);
-            }
-        }
-
-        // Initialisation après le chargement de la page
-        document.addEventListener('DOMContentLoaded', function () {
-            createParticles();
-            lucide.createIcons();
-
-            const winnerPairs = [
-                [
-                    { number: '****1573', amount: '12499.92FCFA' },
-                    { number: '****7477', amount: '833333.28FCFA' },
-                ],
-                [
-                    { number: '****5239', amount: '25000.00FCFA' },
-                    { number: '****8901', amount: '74500.00FCFA' },
-                ],
-                [
-                    { number: '****2468', amount: '125000.50FCFA' },
-                    { number: '****1357', amount: '56789.33FCFA' },
-                ],
-            ];
-
-            const winnersList = document.getElementById('winners-list');
-            let currentPairIndex = 0;
-
-            function createWinnerItem(winner) {
-                const item = document.createElement('div');
-                item.className = 'winner-item';
-
-                item.innerHTML = `
-                    <i data-lucide="circle-user" class="gray-icon" size="32"></i>
-                    <div class="winner-info">
-                        <div class="winner-number">Félicitations ${winner.number}</div>
-                        <div class="winner-amount">${winner.amount}</div>
-                    </div>
-                `;
-                return item;
-            }
-
-            function displayWinnerPair(pairIndex) {
-                winnersList.innerHTML = '';
-                const pair = winnerPairs[pairIndex];
-                pair.forEach((winner) => {
-                    winnersList.appendChild(createWinnerItem(winner));
-                });
-                lucide.createIcons();
-            }
-
-            displayWinnerPair(0);
-
-            setInterval(() => {
-                const items = document.querySelectorAll('.winner-item');
-                items.forEach((item) => (item.style.opacity = '0'));
-
-                setTimeout(() => {
-                    currentPairIndex = (currentPairIndex + 1) % winnerPairs.length;
-                    displayWinnerPair(currentPairIndex);
-
-                    const newItems = document.querySelectorAll('.winner-item');
-                    setTimeout(() => {
-                        newItems.forEach((item) => (item.style.opacity = '1'));
-                    }, 50);
-                }, 500);
-            }, 4000);
+      function displayWinnerPair(index) {
+        winnersList.innerHTML = '';
+        winnerPairs[index].forEach(winner => {
+          winnersList.appendChild(createWinnerItem(winner));
         });
-    </script>
+        lucide.createIcons();
+      }
+
+      displayWinnerPair(currentPairIndex);
+      setInterval(() => {
+        const items = document.querySelectorAll('.winner-item');
+        items.forEach(itm => (itm.style.opacity = '0'));
+
+        setTimeout(() => {
+          currentPairIndex = (currentPairIndex + 1) % winnerPairs.length;
+          displayWinnerPair(currentPairIndex);
+
+          const newItems = document.querySelectorAll('.winner-item');
+          setTimeout(() => {
+            newItems.forEach(itm => (itm.style.opacity = '1'));
+          }, 50);
+        }, 500);
+      }, 4000);
+    });
+  </script>
 </body>
 </html>
