@@ -1,681 +1,479 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogue de Maisons</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-/* =================================================================
-   VARIABLES CSS GLOBALES
-   ================================================================= */
-:root {
-    /* Couleurs principales */
-    --primary-color: #2563eb;
-    --primary-dark: #1d4ed8;
-    --primary-light: #3b82f6;
-    --accent-color: #667eea;
-    --success-color: #059669;
-    --warning-color: #d97706;
-    --error-color: #dc2626;
-    
-    /* Couleurs de texte */
-    --text-primary: #334155; /* bleu-gris foncé pour titres */
-    --text-secondary: #6b7280;
-    --text-light: #9ca3af;
-    --text-white: #ffffff;
-    
-    /* Couleurs de fond */
-    --bg-white: #ffffff;
-    --bg-gray-50: #f9fafb;
-    --bg-gray-100: #f3f4f6;
-    --bg-primary-light: #f0f7ff;
-    --bg-success-light: #dcfce7;
-    
-    /* Bordures */
-    --border-color: #e5e7eb;
-    --border-light: #f3f4f6;
-    --border-radius: 12px;
-    --border-radius-sm: 8px;
-    --border-radius-lg: 16px;
-    
-    /* Ombres modernes */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    --shadow-md: 0 8px 20px rgba(102, 126, 234, 0.4);
-    --shadow-lg: 0 12px 30px rgba(102, 126, 234, 0.6);
-    --shadow-xl: 0 20px 40px rgba(102, 126, 234, 0.7);
-    
-    /* Espacements */
-    --spacing-xs: 4px;
-    --spacing-sm: 8px;
-    --spacing-md: 12px;
-    --spacing-lg: 16px;
-    --spacing-xl: 20px;
-    --spacing-2xl: 24px;
-    
-    /* Typographie */
-    --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-size-xs: 12px;
-    --font-size-sm: 14px;
-    --font-size-base: 16px;
-    --font-size-lg: 18px;
-    --font-size-xl: 20px;
-    
-    /* Effets visuels */
-    --glass-bg: rgba(255, 255, 255, 0.95);
-    --glass-border: rgba(255, 255, 255, 0.2);
-    --backdrop-blur: blur(20px);
-    
-    /* Transitions */
-    --transition-fast: 0.15s ease-out;
-    --transition-base: 0.2s ease-out;
-    --transition-slow: 0.3s ease-out;
-}
-
-/* =================================================================
-   RESET ET STYLES DE BASE
-   ================================================================= */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: var(--font-family);
-    font-size: var(--font-size-base);
-    line-height: 1.6;
-    color: var(--text-white);
-    margin: 0 auto;
-    padding: var(--spacing-lg);
-    padding-bottom: 100px;
-    max-width: 480px;
-    min-height: 100vh;
-    position: relative;
-    
-    background: 
-        linear-gradient(
-            135deg, 
-            rgba(0, 0, 0, 0.6) 0%, 
-            rgba(0, 0, 0, 0.4) 50%, 
-            rgba(0, 0, 0, 0.7) 100%
-        ),
-        url('https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    
-    padding-top: max(var(--spacing-lg), env(safe-area-inset-top));
-    padding-bottom: max(100px, env(safe-area-inset-bottom) + 80px);
-}
-
-/* =================================================================
-   SYSTÈME DE GRILLE RESPONSIVE
-   ================================================================= */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-2xl);
-    max-width: 1200px;
-    margin: 0 auto var(--spacing-2xl);
-    padding: 0 var(--spacing-md);
-}
-
-/* =================================================================
-   CARTES MODERNES AMÉLIORÉES
-   ================================================================= */
-.card {
-    background: linear-gradient(145deg, #ffffff, #e0e7ff);
-    border-radius: var(--border-radius-lg);
-    box-shadow: var(--shadow-md);
-    overflow: hidden;
-    position: relative;
-    transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
-    border: 1.5px solid var(--accent-color);
-    
-    opacity: 0;
-    transform: translateY(20px);
-    animation: cardFadeIn 0.6s ease-out forwards;
-}
-
-.card:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: var(--shadow-lg);
-    background: linear-gradient(145deg, #c1ccff, #667eea);
-    border-color: #465bd8;
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--accent-color), #a3bffa);
-    opacity: 0.8;
-    transition: opacity var(--transition-base);
-}
-
-.card:hover::before {
-    opacity: 1;
-}
-
-.card img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    background: linear-gradient(135deg, var(--bg-gray-100), var(--bg-gray-50));
-    filter: brightness(0.95) saturate(1.1);
-    transition: transform var(--transition-slow) var(--transition-base);
-}
-
-.card:hover img {
-    transform: scale(1.05);
-}
-
-.card-content {
-    padding: var(--spacing-2xl);
-}
-
-.title {
-    font-size: var(--font-size-xl);
-    font-weight: 700;
-    margin-bottom: var(--spacing-md);
-    color: var(--text-primary);
-    line-height: 1.3;
-    text-shadow: 0 1px 2px rgba(102, 126, 234, 0.25);
-}
-
-.info-item {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
-    font-size: var(--font-size-sm);
-    color: var(--text-secondary);
-    padding: var(--spacing-xs) 0;
-}
-
-.icon {
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-    color: var(--accent-color);
-}
-
-/* =================================================================
-   ÉLÉMENTS DE PRIX ET REVENUS COLORÉS
-   ================================================================= */
-.price-row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
-    font-size: var(--font-size-base);
-    font-weight: 700;
-    color: #1e40af;
-    background: linear-gradient(135deg, #dbeafe, #a5b4fc);
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-radius: var(--border-radius-sm);
-    border-left: 4px solid #1e40af;
-    box-shadow: inset 0 0 5px rgba(30, 64, 175, 0.3);
-}
-
-.duration {
-    margin: var(--spacing-md) 0;
-    font-size: var(--font-size-sm);
-    color: var(--text-secondary);
-    padding: var(--spacing-md);
-    background: var(--bg-gray-50);
-    border-radius: var(--border-radius-sm);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    border-left: 3px solid var(--border-color);
-}
-
-.total-revenue {
-    color: #166534;
-    font-weight: 700;
-    font-size: var(--font-size-sm);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-    background: linear-gradient(145deg, #dcfce7, #4ade80);
-    padding: var(--spacing-md) var(--spacing-lg);
-    border-radius: var(--border-radius-sm);
-    border-left: 4px solid #22c55e;
-    box-shadow: inset 0 0 5px rgba(34, 213, 94, 0.3);
-}
-
-/* =================================================================
-   BOUTONS D'ACTION AMÉLIORÉS
-   ================================================================= */
-.buy-button {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    color: var(--text-white);
-    border: none;
-    border-radius: var(--border-radius-sm);
-    padding: var(--spacing-lg) var(--spacing-xl);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    width: 100%;
-    margin-top: var(--spacing-lg);
-    cursor: pointer;
-    transition: all var(--transition-base);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-sm);
-    position: relative;
-    overflow: hidden;
-}
-
-.buy-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.buy-button:hover::before {
-    left: 100%;
-}
-
-.buy-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
-    animation: pulse 2.5s infinite;
-}
-
-.buy-button:active {
-    transform: translateY(0);
-    transition: transform 0.1s ease;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-    }
-    50% {
-        box-shadow: 0 12px 35px rgba(37, 99, 235, 0.6);
-    }
-}
-
-/* =================================================================
-   PIED DE CARTE
-   ================================================================= */
-.footer {
-    padding: var(--spacing-lg);
-    color: var(--text-secondary);
-    font-size: var(--font-size-xs);
-    border-top: 1px solid var(--border-light);
-    background: var(--bg-gray-50);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* =================================================================
-   BADGES ET NOTIFICATIONS COLORÉS
-   ================================================================= */
-.status-badge {
-    position: absolute;
-    top: var(--spacing-md);
-    right: var(--spacing-md);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: var(--border-radius-sm);
-    font-size: var(--font-size-xs);
-    font-weight: 600;
-    box-shadow: var(--shadow-sm);
-    color: var(--text-white);
-    text-transform: uppercase;
-}
-
-/* Couleurs badges selon statut */
-.status-badge.success {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    border: 1px solid #16a34a;
-}
-
-.status-badge.warning {
-    background: linear-gradient(135deg, #f59e0b, #b45309);
-    border: 1px solid #b45309;
-}
-
-.status-badge.error {
-    background: linear-gradient(135deg, #ef4444, #b91c1c);
-    border: 1px solid #b91c1c;
-}
-
-.notification {
-    position: fixed;
-    top: var(--spacing-xl);
-    right: var(--spacing-xl);
-    padding: var(--spacing-md) var(--spacing-xl);
-    border-radius: var(--border-radius-sm);
-    color: var(--text-white);
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    display: none;
-    z-index: 1100;
-    animation: slideIn var(--transition-slow) ease-out;
-    box-shadow: var(--shadow-lg);
-}
-
-/* =================================================================
-   SPINNER DE CHARGEMENT
-   ================================================================= */
-.loading-spinner {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top: 2px solid var(--primary-color);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-right: var(--spacing-sm);
-}
-
-/* =================================================================
-   ICÔNES COLORÉES
-   ================================================================= */
-.blue-icon { color: var(--accent-color); }
-.pink-icon { color: #ec4899; }
-.gray-icon { color: var(--text-light); }
-.accent-icon { color: var(--accent-color); }
-
-/* =================================================================
-   ANIMATIONS
-   ================================================================= */
-@keyframes cardFadeIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* Animation d'entrée progressive pour les cartes */
-.card:nth-child(1) { animation-delay: 0.1s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
-.card:nth-child(3) { animation-delay: 0.3s; }
-.card:nth-child(4) { animation-delay: 0.4s; }
-
-/* =================================================================
-   RESPONSIVE DESIGN
-   ================================================================= */
-@media (max-width: 768px) {
-    .grid {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-lg);
-        padding: 0 var(--spacing-sm);
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: var(--spacing-sm);
-        padding-bottom: 120px;
-    }
-    
-    .card-content {
-        padding: var(--spacing-lg);
-    }
-    
-    .title {
-        font-size: var(--font-size-lg);
-    }
-}
-
-/* Support pour les écrans haute résolution */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .card {
-        border-width: 1px;
-    }
-}
-
-/* Mode sombre (optionnel) */
-@media (prefers-color-scheme: dark) {
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catalogue de Maisons</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
     :root {
-        --text-primary: #f9fafb;
-        --text-secondary: #d1d5db;
-        --bg-white: #1f2937;
-        --bg-gray-50: #374151;
-        --border-color: #4b5563;
+      /* Couleurs */
+      --primary-color: #4a90e2;
+      --primary-dark: #357abd;
+      --accent-color: #667eea;
+      --text-primary: #34495e;
+      --text-secondary: #7f8c8d;
+      --bg-white: #ffffff;
+      --bg-light: #fafafa;
+      --border-radius-lg: 16px;
+      --border-radius-sm: 10px;
+      --spacing-lg: 16px;
+      --spacing-md: 12px;
+      --spacing-sm: 8px;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont,
+        'Segoe UI', sans-serif;
+      --font-size-base: 16px;
+      --font-size-lg: 18px;
+      --font-size-xl: 20px;
+      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.12);
+      --transition-base: 0.25s ease;
     }
-}
 
-/* =================================================================
-   ACCESSIBILITÉ
-   ================================================================= */
-@media (prefers-reduced-motion: reduce) {
+    /* Reset */
     *,
     *::before,
     *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-}
 
-/* Focus visible pour l'accessibilité */
-.buy-button:focus-visible,
-.nav-item:focus-visible,
-.nav-button:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
-}
+    body {
+      font-family: var(--font-family);
+      font-size: var(--font-size-base);
+      line-height: 1.5;
+      color: var(--text-primary);
+      max-width: 480px;
+      margin: 0 auto;
+      background: var(--bg-light);
+      padding: var(--spacing-lg);
+      padding-bottom: 100px;
+      min-height: 100vh;
+      position: relative;
+    }
 
-/* =================================================================
-   NAVIGATION MODERNE
-   ================================================================= */
-.nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: var(--backdrop-blur);
-    padding: 12px 0 8px;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
-    z-index: 1000;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    max-width: 28rem;
-    margin: 0 auto;
-    border-top: 1px solid var(--glass-border);
-}
+    /* Grille */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+      max-width: 100%;
+    }
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #8e9aaf;
-    text-decoration: none;
-    font-size: 12px;
-    padding: 8px 0;
-    width: 20%;
-    transition: all 0.3s ease;
-    position: relative;
-}
+    @media (min-width: 600px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+      }
+    }
 
-.nav-item i {
-    font-size: 20px;
-    margin-bottom: 4px;
-}
+    /* Carte */
+    .card {
+      background: var(--bg-white);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      transition: transform var(--transition-base),
+        box-shadow var(--transition-base);
+      border: none;
+      position: relative;
+    }
 
-.nav-active { 
-    color: var(--accent-color);
-    transform: translateY(-3px);
-}
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
 
-.nav-active::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 3px;
-    background: var(--accent-color);
-    border-radius: 0 0 10px 10px;
-}
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      border-top-left-radius: var(--border-radius-lg);
+      border-top-right-radius: var(--border-radius-lg);
+    }
 
-.nav-active i {
-    background-color: rgba(102, 126, 234, 0.15);
-    padding: 8px;
-    border-radius: 50%;
-}
+    .card:hover img {
+      transform: scale(1.05);
+    }
 
-/* Couleurs des icônes */
-.blue-icon { color: var(--accent-color); }
-.pink-icon { color: #ec4899; }
-.gray-icon { color: var(--text-light); }
-.accent-icon { color: var(--accent-color); }
+    .card-content {
+      padding: var(--spacing-lg);
+    }
 
+    .title {
+      font-size: var(--font-size-xl);
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-md);
+      font-weight: 700;
+    }
 
- </style>
+    .price-row {
+      font-weight: 700;
+      color: var(--primary-dark);
+      background: #dbeafe;
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius-sm);
+      margin-bottom: var(--spacing-md);
+      box-shadow: inset 0 0 5px rgba(74, 144, 226, 0.3);
+    }
+
+    .info-item,
+    .duration,
+    .total-revenue {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .duration {
+      background: #f3f4f6;
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius-sm);
+      border-left: 4px solid #cbd5e1;
+    }
+
+    .total-revenue {
+      background: #dcfce7;
+      color: #166534;
+      font-weight: 700;
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius-sm);
+      border-left: 4px solid #22c55e;
+      margin-top: var(--spacing-md);
+    }
+
+    /* Badge */
+    .status-badge {
+      position: absolute;
+      top: var(--spacing-md);
+      right: var(--spacing-md);
+      padding: 4px 10px;
+      border-radius: var(--border-radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--bg-white);
+      background: var(--primary-color);
+      box-shadow: 0 2px 8px rgba(74, 144, 226, 0.4);
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    /* Bouton */
+    .buy-button {
+      background: var(--primary-color);
+      color: var(--bg-white);
+      border: none;
+      border-radius: var(--border-radius-sm);
+      padding: var(--spacing-md);
+      font-size: 14px;
+      font-weight: 700;
+      width: 100%;
+      margin-top: var(--spacing-lg);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.35);
+      transition: background-color var(--transition-base),
+        transform var(--transition-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .buy-button:hover:not(:disabled) {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    .buy-button:disabled {
+      background: #b0b0b0;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Pied de carte */
+    .footer {
+      padding: var(--spacing-md) var(--spacing-lg);
+      background: #f3f4f6;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: var(--border-radius-lg);
+      border-bottom-right-radius: var(--border-radius-lg);
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #4caf50;
+      color: white;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+      display: none;
+      z-index: 1100;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+    .notification.error {
+      background-color: #f44336;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 12px 0 8px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      max-width: 480px;
+      margin: 0 auto;
+      border-top: 1px solid #dcdcdc;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #8e9aaf;
+      text-decoration: none;
+      font-size: 12px;
+      padding: 8px 0;
+      width: 20%;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-item i {
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+
+    .nav-active {
+      color: var(--accent-color);
+      transform: translateY(-3px);
+      font-weight: 700;
+    }
+
+    .nav-active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 0 0 10px 10px;
+    }
+
+    .nav-active i {
+      background-color: rgba(102, 126, 234, 0.15);
+      padding: 8px;
+      border-radius: 50%;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="notification"></div>
-    <div class="grid">
- <div class="card" data-house-id="1">
-    <div class="status-badge">4G PLUS</div>
-    <img src="https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg" alt="Maison 1">
-    <div class="card-content">
+  <div class="notification"></div>
+
+  <div class="grid">
+    <div class="card" data-house-id="1">
+      <div class="status-badge">4G PLUS</div>
+      <img
+        src="https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg"
+        alt="Maison 1"
+      />
+      <div class="card-content">
         <h2 class="title">4G-PLUS</h2>
         <div class="price-row">
-            <span>Prix : 5 700 FCFA</span>
+          <span>Prix : 5 700 FCFA</span>
         </div>
         <div class="info-item">
-            <span>Versement par jour: 870 FCFA</span>
+          <span>Versement par jour: 870 FCFA</span>
         </div>
         <div class="duration">Durée du travail: 31 jours</div>
         <div class="total-revenue">Revenus total: 26 970 FCFA</div>
-        <button class="buy-button" onclick="investProduct(1, 5700)">Investir maintenant</button>
-    </div>
-    <div class="footer">
+        <button
+          class="buy-button"
+          onclick="investProduct(1, 5700)"
+          id="btn-1"
+        >
+          Investir maintenant
+        </button>
+      </div>
+      <div class="footer">
         <span>Limite d'achat: 1 par personne</span>
+      </div>
     </div>
-</div><div class="card" data-house-id="2">
-    <div class="status-badge">4G LTE</div>
-    <img src="https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png" alt="Maison 2">
-    <div class="card-content">
+
+    <div class="card" data-house-id="2">
+      <div class="status-badge">4G LTE</div>
+      <img
+        src="https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png"
+        alt="Maison 2"
+      />
+      <div class="card-content">
         <h2 class="title">4G LTE</h2>
         <div class="price-row"><span>Tarif : 15 000 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 1 335 FCFA</span></div>
         <div class="duration">Durée du travail: 30 jours</div>
         <div class="total-revenue">Revenus total: 40 050 FCFA</div>
-        <button class="buy-button" onclick="investProduct(2, 15000)">Investir maintenant</button>
+        <button
+          class="buy-button"
+          onclick="investProduct(2, 15000)"
+          id="btn-2"
+        >
+          Investir maintenant
+        </button>
+      </div>
+      <div class="footer">
+        <span>Limite d'achat: 2 par personne</span>
+      </div>
     </div>
-    <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
-</div><div class="card" data-house-id="3">
-    <div class="status-badge">LTE</div>
-    <img src="https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg" alt="Maison 3">
-    <div class="card-content">
+
+    <div class="card" data-house-id="3">
+      <div class="status-badge">LTE</div>
+      <img
+        src="https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg"
+        alt="Maison 3"
+      />
+      <div class="card-content">
         <h2 class="title">LTE</h2>
         <div class="price-row"><span>Tarif: 25 000 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 2 450 FCFA</span></div>
         <div class="duration">Durée du travail: 29 jours</div>
         <div class="total-revenue">Revenus total: 71 050 FCFA</div>
-        <button class="buy-button" onclick="investProduct(3, 25000)">Investir maintenant</button>
+        <button
+          class="buy-button"
+          onclick="investProduct(3, 25000)"
+          id="btn-3"
+        >
+          Investir maintenant
+        </button>
+      </div>
+      <div class="footer">
+        <span>Limite d'achat: 2 par personne</span>
+      </div>
     </div>
-    <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
-</div><div class="card" data-house-id="4">
-    <div class="status-badge">4G LTE</div>
-    <img src="https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png" alt="Maison 4">
-    <div class="card-content">
-        <h2 class="title">4G LTE</h2>
+
+    <div class="card" data-house-id="4">
+      <div class="status-badge">4G LTE Pro</div>
+      <img
+        src="https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png"
+        alt="Maison 4"
+      />
+      <div class="card-content">
+        <h2 class="title">4G LTE Pro</h2>
         <div class="price-row"><span>Tarif: 55 000 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 5 359 FCFA</span></div>
         <div class="duration">Durée du travail: 28 jours</div>
         <div class="total-revenue">Revenus total: 150 052 FCFA</div>
-        <button class="buy-button" onclick="investProduct(4, 55000)">Investir maintenant</button>
+        <button
+          class="buy-button"
+          onclick="investProduct(4, 55000)"
+          id="btn-4"
+        >
+          Investir maintenant
+        </button>
+      </div>
+      <div class="footer">
+        <span>Limite d'achat: 2 par personne</span>
+      </div>
     </div>
-    <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
-</div><div class="card" data-house-id="5">
-    <div class="status-badge">LTE ADVANCED Pro</div>
-    <img src="https://image.noelshack.com/fichiers/2025/25/7/1750585373-lte-advanced-pro-logo.jpg" alt="Maison 5">
-    <div class="card-content">
+
+    <div class="card" data-house-id="5">
+      <div class="status-badge">LTE ADVANCED Pro</div>
+      <img
+        src="https://image.noelshack.com/fichiers/2025/25/7/1750585373-lte-advanced-pro-logo.jpg"
+        alt="Maison 5"
+      />
+      <div class="card-content">
         <h2 class="title">LTE ADVANCED Pro</h2>
         <div class="price-row"><span>Tarif: 100 000 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 14 000 FCFA</span></div>
         <div class="duration">Durée du travail: 27 jours</div>
         <div class="total-revenue">Revenus total: 378 000 FCFA</div>
-        <button class="buy-button" onclick="investProduct(5, 100000)">Investir maintenant</button>
+        <button
+          class="buy-button"
+          onclick="investProduct(5, 100000)"
+          id="btn-5"
+        >
+          Investir maintenant
+        </button>
+      </div>
+      <div class="footer">
+        <span>Limite d'achat: 2 par personne</span>
+      </div>
     </div>
-    <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
-</div><div class="card" data-house-id="6">
-    <div class="status-badge">LTE TM</div>
-    <img src="https://image.noelshack.com/fichiers/2025/25/7/1750585550-lte-logo.png" alt="Maison 6">
-    <div class="card-content">
+
+    <div class="card" data-house-id="6">
+      <div class="status-badge">LTE TM</div>
+      <img
+        src="https://image.noelshack.com/fichiers/2025/25/7/1750585550-lte-logo.png"
+        alt="Maison 6"
+      />
+      <div class="card-content">
         <h2 class="title">LTE TM</h2>
         <div class="price-row"><span>Tarif: 200 000 FCFA</span></div>
         <div class="info-item"><span>Versement par jour: 32 000 FCFA</span></div>
         <div class="duration">Durée du travail: 26 jours</div>
         <div class="total-revenue">Revenus total: 832 000 FCFA</div>
-        <button class="buy-button" onclick="investProduct(6, 200000)">Investir maintenant</button>
+        <button
+          class="buy-button"
+          onclick="investProduct(6, 200000)"
+          id="btn-6"
+        >
+          Investir maintenant
+        </button>
+      </div>
+      <div class="footer">
+        <span>Limite d'achat: 4 par personne</span>
+      </div>
     </div>
-    <div class="footer"><span>Limite d'achat: 4 par personne</span></div>
-</div>
+  </div>
 
+  <!-- Navigation -->
+  <div class="nav">
+    <a href="accueil.html" class="nav-item nav-active">
+      <i class="fas fa-home"></i>
+      <span>Accueil</span>
+    </a>
+    <a href="investi.html" class="nav-item">
+      <i class="fas fa-gem"></i>
+      <span>4G LTE</span>
+    </a>
+    <a href="machine.html" class="nav-item">
+      <i class="fas fa-chart-bar"></i>
+      <span>Laboratoire</span>
+    </a>
+    <a href="equipe.html" class="nav-item">
+      <i class="fas fa-users"></i>
+      <span>Équipe</span>
+    </a>
+    <a href="solde.html" class="nav-item">
+      <i class="fas fa-user-circle"></i>
+      <span>Profil</span>
+    </a>
+  </div>
 
-   
- <!-- Navigation avec icônes Font Awesome -->
-<div class="nav">
-        <a href="accueil.html" class="nav-item nav-active">
-            <i class="fas fa-home"></i>
-            <span>Accueil</span>
-        </a>
-        <a href="investi.html" class="nav-item">
-            <i class="fas fa-gem"></i>
-            <span>4G LTE</span>
-        </a>
-        <a href="machine.html" class="nav-item">
-            <i class="fas fa-chart-bar"></i>
-            <span>Laboratoire</span>
-        </a>
-        <a href="equipe.html" class="nav-item">
-            <i class="fas fa-users"></i>
-            <span>Équipe</span>
-        </a>
-        <a href="solde.html" class="nav-item">
-            <i class="fas fa-user-circle"></i>
-            <span>Profil</span>
-        </a>
-    </div>
-   
 <script type="module">
 // Import des modules Firebase nécessaires
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
@@ -1076,7 +874,6 @@ window.handleLogout = async function() {
         showNotification('Erreur lors de la déconnexion', 'error');
     }
 };
-</script>
-
+</script> 
 </body>
 </html>
