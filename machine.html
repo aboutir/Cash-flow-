@@ -12,33 +12,29 @@
             box-sizing: border-box;
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
         }
-
         body {
-            background: #f9f9f9; /* Fond clair */
+            background: #f9f9f9;
             padding: 12px;
             max-width: 480px;
             margin: 0 auto;
         }
-
         .header {
             font-size: 24px;
             font-weight: 700;
-            color: #222222; /* Gris très foncé */
+            color: #222222;
             margin-bottom: 20px;
             padding: 16px;
-            background: #ffffff; /* Blanc pur */
+            background: #ffffff;
             border-radius: 14px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-
         .stats-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
             margin-bottom: 24px;
         }
-
         .stat-card {
             background: #ffffff;
             padding: 20px;
@@ -47,21 +43,17 @@
             border: none;
             text-align: center;
         }
-
         .stat-value {
             font-size: 22px;
             font-weight: 700;
-            color: #2c3e50; /* Bleu gris foncé */
+            color: #2c3e50;
             margin-top: 6px;
         }
-
         .stat-label {
             font-size: 14px;
-            color: #7f8c8d; /* Gris doux */
+            color: #7f8c8d;
             margin-top: 4px;
         }
-
-        /* VIP cards */
         .vip-card {
             background: #ffffff;
             border-radius: 16px;
@@ -70,15 +62,13 @@
             border: none;
             overflow: hidden;
         }
-
         .vip-header {
             display: flex;
             align-items: center;
             gap: 16px;
             padding: 16px 20px;
-            background: #e8f0fe; /* Bleu clair très doux */
+            background: #e8f0fe;
         }
-
         .vip-logo {
             width: 60px;
             height: 60px;
@@ -88,19 +78,16 @@
             flex-shrink: 0;
             color: transparent;
         }
-
         .vip-title {
             font-weight: 700;
             font-size: 18px;
-            color: #34495e; /* Gris-bleu foncé */
+            color: #34495e;
         }
-
         .vip-subtitle {
             font-size: 14px;
-            color: #95a5a6; /* Gris clair */
+            color: #95a5a6;
             margin-top: 4px;
         }
-
         .vip-details {
             padding: 14px 20px;
             background: #fafafa;
@@ -110,11 +97,9 @@
             justify-content: space-between;
             border-bottom: 1px solid #ecf0f1;
         }
-
         .progress-container {
             padding: 16px 20px 20px;
         }
-
         .progress-header {
             display: flex;
             justify-content: space-between;
@@ -122,20 +107,17 @@
             font-size: 14px;
             color: #7f8c8d;
         }
-
         .progress-bar {
             height: 8px;
             background: #dbe6fd;
             border-radius: 6px;
         }
-
         .progress-fill {
             height: 100%;
             background: #4a90e2;
             border-radius: 6px;
             transition: width 0.3s ease;
         }
-
         .collect-btn {
             display: block;
             width: calc(100% - 40px);
@@ -151,17 +133,13 @@
             box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
             transition: background-color 0.3s ease;
         }
-
         .collect-btn:hover:not(:disabled) {
             background-color: #357abd;
         }
-
         .collect-btn:disabled {
             background-color: #b0c4de;
             cursor: not-allowed;
         }
-
-        /* Notification */
         .notification {
             position: fixed;
             top: 20px;
@@ -175,16 +153,12 @@
             z-index: 1000;
             font-size: 15px;
         }
-
         .notification.success {
             background: #2ecc71;
         }
-
         .notification.error {
             background: #e74c3c;
         }
-
-        /* Navigation */
         .nav {
             position: fixed;
             bottom: 0;
@@ -203,7 +177,6 @@
             margin: 0 auto;
             border-top: 1px solid #dcdcdc;
         }
-
         .nav-item {
             display: flex;
             flex-direction: column;
@@ -216,18 +189,15 @@
             position: relative;
             transition: all 0.3s ease;
         }
-
         .nav-item i {
             font-size: 22px;
             margin-bottom: 4px;
         }
-
         .nav-active {
             color: #4a90e2;
             transform: translateY(-4px);
             font-weight: 700;
         }
-
         .nav-active::before {
             content: '';
             position: absolute;
@@ -239,14 +209,11 @@
             background: #4a90e2;
             border-radius: 0 0 12px 12px;
         }
-
         .nav-active i {
             background-color: rgba(74, 144, 226, 0.15);
             padding: 8px;
             border-radius: 50%;
         }
-
-        /* Couleurs icônes optionnelles */
         .blue-icon {
             color: #4a90e2;
         }
@@ -272,7 +239,6 @@
 
     <div class="notification"></div>
 
-    <!-- Navigation avec icônes Font Awesome -->
     <div class="nav">
         <a href="accueil.html" class="nav-item nav-active">
             <i class="fas fa-home"></i>
@@ -297,15 +263,11 @@
     </div>
 
     <script type="module">
-        // Import des modules Firebase nécessaires
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
         import { getDatabase, ref, get, set, onValue, update } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
         import { getStorage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-storage.js";
 
-        /**
-         * Configuration des VIPs
-         */
         const VIP_CONFIG = {
             1: {
                 id: 1,
@@ -381,9 +343,6 @@
             }
         };
 
-        /**
-         * Configuration Firebase
-         */
         const firebaseConfig = {
             apiKey: "AIzaSyDRrkHLMeb6dwgT9OnLRDnTbsAkSxO3qoQ",
             authDomain: "maison-c53c7.firebaseapp.com",
@@ -394,19 +353,12 @@
             appId: "1:720174612151:web:d7af687cce1cf33dde1732"
         };
 
-        // Initialisation Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Variables globales
         let currentUser = null;
 
-        /**
-         * Affiche une notification à l'utilisateur
-         * @param {string} message - Message à afficher
-         * @param {string} type - Type de notification (success, error, etc.)
-         */
         function showNotification(message, type) {
             const notification = document.querySelector('.notification');
             notification.textContent = message;
@@ -415,11 +367,6 @@
             setTimeout(() => notification.style.display = 'none', 3000);
         }
 
-        /**
-         * Calcule la progression du cycle d'un investissement
-         * @param {Object} investment - Données de l'investissement
-         * @returns {Object} - Informations sur la progression
-         */
         function calculateCycleProgress(investment) {
             const config = VIP_CONFIG[investment.productId];
             if (!config) return { isComplete: true, progress: 100, remainingDays: 0 };
@@ -436,11 +383,6 @@
             };
         }
 
-        /**
-         * Vérifie si l'utilisateur peut collecter ses revenus aujourd'hui
-         * @param {Object} investment - Données de l'investissement
-         * @returns {boolean} - True si la collecte est possible
-         */
         function isReadyToCollect(investment) {
             const lastCollection = investment.lastCollection || 0;
             const now = new Date();
@@ -451,10 +393,6 @@
                 lastCollectionDate.getFullYear() !== now.getFullYear();
         }
 
-        /**
-         * Met à jour les statistiques affichées
-         * @param {Array} investments - Liste des investissements
-         */
         function updateStats(investments) {
             const totalVips = investments.filter(inv => inv.status === 'active').length;
             const totalRevenue = investments.reduce((sum, inv) =>
@@ -465,9 +403,6 @@
                 totalRevenue.toLocaleString() + ' XOF';
         }
 
-        /**
-         * Charge les VIPs de l'utilisateur depuis Firebase
-         */
         async function loadVIPs() {
             if (!currentUser) return;
 
@@ -492,6 +427,9 @@
                     if (investment.status === 'active') investments.push(investment);
                 });
 
+                // Tri des investissements par date décroissante (plus récent en premier)
+                investments.sort((a, b) => b.timestamp - a.timestamp);
+
                 updateStats(investments);
                 renderVIPs(investments);
             } catch (error) {
@@ -500,10 +438,6 @@
             }
         }
 
-        /**
-         * Génère le HTML pour afficher les VIPs
-         * @param {Array} investments - Liste des investissements
-         */
         function renderVIPs(investments) {
             const container = document.getElementById('vips-container');
 
@@ -554,10 +488,6 @@
             }).join('');
         }
 
-        /**
-         * Fonction pour collecter les revenus d'un VIP
-         * @param {string} investmentId - ID de l'investissement
-         */
         window.collectRevenue = async function(investmentId) {
             if (!currentUser) return;
 
@@ -596,7 +526,6 @@
                 await update(ref(db), updates);
                 showNotification(`Vous avez collecté ${config.dailyRevenue.toLocaleString()} XOF !`, "success");
 
-                // Recharger les VIPs après la collecte
                 loadVIPs();
             } catch (error) {
                 console.error("Erreur lors de la collecte:", error);
@@ -604,15 +533,11 @@
             }
         };
 
-        /**
-         * Initialisation et écouteurs d'événements
-         */
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
                 loadVIPs();
 
-                // Mise à jour en temps réel des VIPs
                 const investmentsRef = ref(db, `investments/${user.uid}`);
                 onValue(investmentsRef, () => {
                     loadVIPs();
@@ -622,7 +547,6 @@
             }
         });
 
-        // Gestion des erreurs globales
         window.addEventListener('error', (error) => {
             console.error('Une erreur est survenue:', error);
             showNotification('Une erreur inattendue est survenue', 'error');
