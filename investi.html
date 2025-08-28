@@ -579,10 +579,10 @@ body {
             <span>Prix : 5 700 FCFA</span>
         </div>
         <div class="info-item">
-            <span>Versement par jour: 456 FCFA</span>
+            <span>Versement par jour: 870 FCFA</span>
         </div>
         <div class="duration">Durée du travail: 31 jours</div>
-        <div class="total-revenue">Revenus total: 14 136 FCFA</div>
+        <div class="total-revenue">Revenus total: 26 970 FCFA</div>
         <button class="buy-button" onclick="investProduct(1, 5700)">Investir maintenant</button>
     </div>
     <div class="footer">
@@ -593,11 +593,11 @@ body {
     <img src="https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png" alt="Maison 2">
     <div class="card-content">
         <h2 class="title">4G LTE</h2>
-        <div class="price-row"><span>Tarif : 11 400 FCFA</span></div>
-        <div class="info-item"><span>Versement par jour: 1 026 FCFA</span></div>
+        <div class="price-row"><span>Tarif : 15 000 FCFA</span></div>
+        <div class="info-item"><span>Versement par jour: 1 335 FCFA</span></div>
         <div class="duration">Durée du travail: 30 jours</div>
-        <div class="total-revenue">Revenus total: 30 780 FCFA</div>
-        <button class="buy-button" onclick="investProduct(2, 11400)">Investir maintenant</button>
+        <div class="total-revenue">Revenus total: 40 050 FCFA</div>
+        <button class="buy-button" onclick="investProduct(2, 15000)">Investir maintenant</button>
     </div>
     <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
 </div><div class="card" data-house-id="3">
@@ -605,11 +605,11 @@ body {
     <img src="https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg" alt="Maison 3">
     <div class="card-content">
         <h2 class="title">LTE</h2>
-        <div class="price-row"><span>Tarif: 22 800 FCFA</span></div>
-        <div class="info-item"><span>Versement par jour: 2 280 FCFA</span></div>
+        <div class="price-row"><span>Tarif: 25 000 FCFA</span></div>
+        <div class="info-item"><span>Versement par jour: 2 450 FCFA</span></div>
         <div class="duration">Durée du travail: 29 jours</div>
-        <div class="total-revenue">Revenus total: 66 120 FCFA</div>
-        <button class="buy-button" onclick="investProduct(3, 22800)">Investir maintenant</button>
+        <div class="total-revenue">Revenus total: 71 050 FCFA</div>
+        <button class="buy-button" onclick="investProduct(3, 25000)">Investir maintenant</button>
     </div>
     <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
 </div><div class="card" data-house-id="4">
@@ -617,11 +617,11 @@ body {
     <img src="https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png" alt="Maison 4">
     <div class="card-content">
         <h2 class="title">4G LTE</h2>
-        <div class="price-row"><span>Tarif: 45 600 FCFA</span></div>
-        <div class="info-item"><span>Versement par jour: 5 472 FCFA</span></div>
+        <div class="price-row"><span>Tarif: 55 000 FCFA</span></div>
+        <div class="info-item"><span>Versement par jour: 5 359 FCFA</span></div>
         <div class="duration">Durée du travail: 28 jours</div>
-        <div class="total-revenue">Revenus total: 153 216 FCFA</div>
-        <button class="buy-button" onclick="investProduct(4, 45600)">Investir maintenant</button>
+        <div class="total-revenue">Revenus total: 150 052 FCFA</div>
+        <button class="buy-button" onclick="investProduct(4, 55000)">Investir maintenant</button>
     </div>
     <div class="footer"><span>Limite d'achat: 2 par personne</span></div>
 </div><div class="card" data-house-id="5">
@@ -676,19 +676,19 @@ body {
         </a>
     </div>
    
- <script type="module">
+<script type="module">
 // Import des modules Firebase nécessaires
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-import { 
-    getDatabase, 
-    ref, 
-    get, 
-    set, 
-    onValue, 
-    update, 
-    push, 
-    serverTimestamp 
+import {
+    getDatabase,
+    ref,
+    get,
+    set,
+    onValue,
+    update,
+    push,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-database.js";
 import { getStorage } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-storage.js";
 
@@ -701,7 +701,7 @@ const firebaseConfig = {
     storageBucket: "maison-c53c7.firebaseapp.com",
     messagingSenderId: "720174612151",
     appId: "1:720174612151:web:d7af687cce1cf33dde1732"
-};   
+};
 
 // Initialisation Firebase
 const app = initializeApp(firebaseConfig);
@@ -715,17 +715,85 @@ let currentSlide = 0;
 
 // Configuration des produits
 const PRODUCT_CONFIG = {
-  1: { id: 1, name: "4G +", badge: "4G PLUS", price: 5700, dailyRevenue: 456, cycleDuration: 31, totalRevenue: 14136, purchaseLimit: 1, image: "https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg", category: "Débutant" }, 2: { id: 2, name: "4G LTE", badge: "4G LTE", price: 11400, dailyRevenue: 1026, cycleDuration: 30, totalRevenue: 30780, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png", category: "Intermédiaire" }, 3: { id: 3, name: "LTE", badge: "LTE", price: 22800, dailyRevenue: 2280, cycleDuration: 29, totalRevenue: 66129, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg", category: "Avancé" }, 4: { id: 4, name: "4G LTE Pro", badge: "4G LTE", price: 45600, dailyRevenue: 5472, cycleDuration: 28, totalRevenue: 153216, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png", category: "Professionnel" }, 5: { id: 5, name: "LTE ADVANCED Pro", badge: "LTE ADVANCED Pro", price: 100000, dailyRevenue: 14000, cycleDuration: 27, totalRevenue: 378000, purchaseLimit: 2, image: "https://image.noelshack.com/fichiers/2025/25/7/1750585373-lte-advanced-pro-logo.jpg", category: "Premium" }, 6: { id: 6, name: "LTE TM", badge: "LTE TM", price: 200000, dailyRevenue: 32000, cycleDuration: 26, totalRevenue: 832000, purchaseLimit: 4, image: "https://image.noelshack.com/fichiers/2025/25/7/1750585550-lte-logo.png", category: "Elite" }
-
-
-        };
-
+  1: {
+    id: 1,
+    name: "4G +",
+    badge: "4G PLUS",
+    price: 5700,
+    dailyRevenue: 870,
+    cycleDuration: 31,
+    totalRevenue: 26970,
+    purchaseLimit: 1,
+    image: "https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg",
+    category: "Débutant"
+  },
+  2: {
+    id: 2,
+    name: "4G LTE",
+    badge: "4G LTE",
+    price: 15000,
+    dailyRevenue: 1335,
+    cycleDuration: 30,
+    totalRevenue: 40050,
+    purchaseLimit: 2,
+    image: "https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png",
+    category: "Intermédiaire"
+  },
+  3: {
+    id: 3,
+    name: "LTE",
+    badge: "LTE",
+    price: 25000,
+    dailyRevenue: 2450,
+    cycleDuration: 29,
+    totalRevenue: 71050,
+    purchaseLimit: 2,
+    image: "https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg",
+    category: "Avancé"
+  },
+  4: {
+    id: 4,
+    name: "4G LTE Pro",
+    badge: "4G LTE Pro",
+    price: 55000,
+    dailyRevenue: 5359,
+    cycleDuration: 28,
+    totalRevenue: 150052,
+    purchaseLimit: 2,
+    image: "https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png",
+    category: "Professionnel"
+  },
+  5: {
+    id: 5,
+    name: "LTE ADVANCED Pro",
+    badge: "LTE ADVANCED Pro",
+    price: 100000,
+    dailyRevenue: 14000,
+    cycleDuration: 27,
+    totalRevenue: 378000,
+    purchaseLimit: 2,
+    image: "https://image.noelshack.com/fichiers/2025/25/7/1750585373-lte-advanced-pro-logo.jpg",
+    category: "Premium"
+  },
+  6: {
+    id: 6,
+    name: "LTE TM",
+    badge: "LTE TM",
+    price: 200000,
+    dailyRevenue: 32000,
+    cycleDuration: 26,
+    totalRevenue: 832000,
+    purchaseLimit: 4,
+    image: "https://image.noelshack.com/fichiers/2025/25/7/1750585550-lte-logo.png",
+    category: "Elite"
+  }
+};
 
 // Gestion du slider
 function goToSlide(slideIndex) {
     const slides = document.querySelectorAll('.slide');
     if (!slides.length) return;
-    
+
     currentSlide = slideIndex;
     slides.forEach((slide, index) => {
         slide.style.display = index === slideIndex ? 'block' : 'none';
@@ -745,7 +813,7 @@ setInterval(nextSlide, 5000);
 function showNotification(message, type) {
     const notification = document.querySelector('.notification');
     if (!notification) return;
-    
+
     notification.textContent = message;
     notification.style.display = 'block';
     notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
@@ -769,7 +837,7 @@ async function processReferralBonus(amount, userId) {
 
         const referrerRef = ref(db, `users/${referrerUid}`);
         const referrerSnapshot = await get(referrerRef);
-        
+
         if (referrerSnapshot.exists()) {
             const referrerData = referrerSnapshot.val();
             const updates = {};
@@ -811,18 +879,18 @@ async function checkActiveInvestments(userId, productId) {
     try {
         const investmentsRef = ref(db, `investments/${userId}`);
         const snapshot = await get(investmentsRef);
-        
+
         if (!snapshot.exists()) return 0;
-        
+
         let activeCount = 0;
         Object.values(snapshot.val()).forEach(investment => {
-            if (investment.productId === productId && 
-                investment.status === 'active' && 
+            if (investment.productId === productId &&
+                investment.status === 'active' &&
                 investment.remainingDays > 0) {
                 activeCount++;
             }
         });
-        
+
         return activeCount;
     } catch (error) {
         console.error('Erreur lors de la vérification des investissements:', error);
@@ -835,9 +903,9 @@ async function updateInvestmentLimits(userId) {
     try {
         for (const productId in PRODUCT_CONFIG) {
             const activeInvestments = await checkActiveInvestments(userId, Number(productId));
-            const remainingPurchases = PRODUCT_CONFIG[productId].limit - activeInvestments;
+            const remainingPurchases = PRODUCT_CONFIG[productId].purchaseLimit - activeInvestments;
             const limitSpan = document.getElementById(`purchaseLimit${productId}`);
-            
+
             if (limitSpan) {
                 limitSpan.textContent = `${remainingPurchases} achat${remainingPurchases > 1 ? 's' : ''} restant${remainingPurchases > 1 ? 's' : ''}`;
             }
@@ -866,8 +934,8 @@ window.investProduct = async function(productId, amount) {
     try {
         const productConfig = PRODUCT_CONFIG[productId];
         const activeInvestments = await checkActiveInvestments(currentUser.uid, productId);
-        
-        if (activeInvestments >= productConfig.limit) {
+
+        if (activeInvestments >= productConfig.purchaseLimit) {
             showNotification("Vous avez atteint la limite d'achat pour ce produit", "error");
             return;
         }
@@ -940,13 +1008,13 @@ async function processInvestmentRevenues() {
             if (daysSinceLastCollection > 0) {
                 const daysToProcess = Math.min(daysSinceLastCollection, investment.remainingDays);
                 const newRevenue = daysToProcess * investment.dailyRevenue;
-                
+
                 totalRevenue += newRevenue;
                 const newRemainingDays = investment.remainingDays - daysToProcess;
 
                 updates[`investments/${currentUser.uid}/${investmentId}/remainingDays`] = newRemainingDays;
                 updates[`investments/${currentUser.uid}/${investmentId}/lastCollection`] = currentDate.toISOString();
-                updates[`investments/${currentUser.uid}/${investmentId}/collectedRevenue`] = 
+                updates[`investments/${currentUser.uid}/${investmentId}/collectedRevenue`] =
                     (investment.collectedRevenue || 0) + newRevenue;
 
                 if (newRemainingDays <= 0) {
@@ -959,7 +1027,7 @@ async function processInvestmentRevenues() {
             const userSnapshot = await get(userRef);
             const currentBalance = userSnapshot.val().balance || 0;
             updates[`users/${currentUser.uid}/balance`] = currentBalance + totalRevenue;
-            
+
             await update(ref(db), updates);
             userBalance = currentBalance + totalRevenue;
         }
@@ -975,7 +1043,7 @@ onAuthStateChanged(auth, async (user) => {
         try {
             const userRef = ref(db, `users/${user.uid}`);
             const snapshot = await get(userRef);
-            
+
             if (snapshot.exists()) {
                 userBalance = snapshot.val().balance || 0;
                 await updateInvestmentLimits(user.uid);
@@ -1009,5 +1077,6 @@ window.handleLogout = async function() {
     }
 };
 </script>
+
 </body>
 </html>
