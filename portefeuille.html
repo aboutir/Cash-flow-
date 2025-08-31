@@ -684,7 +684,7 @@
                         Enregistrement en cours...
                     `;
 
-                    await set(ref(db, \`users/\${user.uid}/withdrawalConfig\`), {
+                    await set(ref(db, `users/${user.uid}/withdrawalConfig`), {
                         ownerName,
                         phone,
                         operator,
@@ -700,7 +700,7 @@
                     }, 2000);
                 } catch (error) {
                     console.error("Erreur lors de l'enregistrement:", error);
-                    showMessage(\`Erreur: \${error.message}\`, "error");
+                    showMessage(`Erreur: ${error.message}`, "error");
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = `
                         <svg class="btn-icon" viewBox="0 0 24 24">
@@ -715,7 +715,7 @@
                 const user = auth.currentUser;
                 if (!user) return;
 
-                const configRef = ref(db, \`users/\${user.uid}/withdrawalConfig\`);
+                const configRef = ref(db, `users/${user.uid}/withdrawalConfig`);
                 onValue(configRef, (snapshot) => {
                     const data = snapshot.val();
                     if (data) {
@@ -727,7 +727,7 @@
                         operatorInput.value = currentSelection;
 
                         const operatorDisplay = document.querySelector(".operator-display .operator-logo");
-                        operatorDisplay.className = \`operator-logo \${currentSelection.toLowerCase()}-logo\`;
+                        operatorDisplay.className = `operator-logo ${currentSelection.toLowerCase()}-logo`;
                         operatorDisplay.textContent =
                             currentSelection === "Orange"
                                 ? "OM"
@@ -759,6 +759,7 @@
             document.querySelectorAll(".field-input").forEach((input) => {
                 input.addEventListener("keypress", (e) => {
                     if (e.key === "Enter") {
+                        e.preventDefault();
                         setupWithdrawal();
                     }
                 });
