@@ -93,7 +93,7 @@
         <div class="info-title">Informations personnelles</div>
         <div class="info-item"><i class="fas fa-coins"></i> Minimum de retrait: 456 FCFA Frais de retrait 1% </div>
         <div class="info-item"><i class="fas fa-clock"></i> Heures de retrait: 8h à 18h</div>
-        <div class="info-item"><i class="fas fa-calendar-alt"></i> Les retraits se font du lundi au samedi</div>
+        <div class="info-item"><i class="fas fa-calendar-alt"></i> Les retraits se font tous les jours</div>
     </div>
 </div>
 
@@ -125,14 +125,11 @@ let currentBalance = 0;
 let currentUser = null;
 let userWithdrawalConfig = null;
 
-// Validation heures et jours
+// Validation heures (tous les jours de 8h à 18h)
 function isValidWithdrawalTime() {
     const now = new Date();
     const currentHour = now.getHours();
-    const currentDay = now.getDay();
-    const isWithinHours = currentHour >= 8 && currentHour < 18;
-    const isValidDay = currentDay >= 1 && currentDay <= 6;
-    return isWithinHours && isValidDay;
+    return currentHour >= 8 && currentHour < 18;
 }
 
 // Charger utilisateur
@@ -174,7 +171,7 @@ function showMessage(message, isError = true) {
 
 // Retrait
 async function processWithdrawal() {
-    if (!isValidWithdrawalTime()) { showMessage("Les retraits ne sont autorisés que du lundi au samedi de 8h à 18h", true); return; }
+    if (!isValidWithdrawalTime()) { showMessage("Les retraits ne sont autorisés que de 8h à 18h", true); return; }
     if (!currentUser) { showMessage("Veuillez vous connecter", true); return; }
 
     const amount = parseFloat(document.getElementById('amount').value);
@@ -232,7 +229,7 @@ function updateWithdrawalSummary() {
     const isCodeProvided = withdrawalCode.length === 6;
 
     if (withdrawalButton) withdrawalButton.disabled = !(isTimeValid && isAmountValid && isBalanceSufficient && isCodeProvided);
-    if (!isTimeValid) showMessage("Les retraits ne sont autorisés que du lundi au samedi de 8h à 18h", true);
+    if (!isTimeValid) showMessage("Les retraits ne sont autorisés que de 8h à 18h", true);
 
     if (amount > 0 && withdrawalSummary) {
         const fees = Math.round(amount * (WITHDRAWAL_FEE_PERCENT / 100));
@@ -264,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (withdrawalButton) withdrawalButton.addEventListener('click', processWithdrawal);
 
     if (!isValidWithdrawalTime()) {
-        showMessage("Les retraits ne sont autorisés que du lundi au samedi de 8h à 18h", true);
+        showMessage("Les retraits ne sont autorisés que de 8h à 18h", true);
     }
 });
 </script>
