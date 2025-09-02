@@ -296,24 +296,24 @@
 
   <div class="grid">
     <div class="card" data-house-id="1">
-      <div class="status-badge">4G PLUS</div>
+      <div class="status-badge">BÉNÉFICE 80 000 FCFA ESTIMÉ</div>
       <img
-        src="https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg"
+        src="https://image.noelshack.com/fichiers/2025/36/2/1756834913-66988064-inscription-bonus-in-cartoon-style.jpg"
         alt="Maison 1"
       />
       <div class="card-content">
-        <h2 class="title">4G-PLUS</h2>
+        <h2 class="title">BONUS 4G PLUS DE 105 000 FCFA</h2>
         <div class="price-row">
-          <span>Prix : 5 500 FCFA</span>
+          <span>Prix : 25 000 FCFA</span>
         </div>
         <div class="info-item">
-          <span>Versement par jour: 1 000 FCFA</span>
+          <span>BONUS 4G ESTIMÉ : 105 000 FCFA</span>
         </div>
-        <div class="duration">Durée du travail: 31 jours</div>
-        <div class="total-revenue">Revenus total: 31 000 FCFA</div>
+        <div class="duration">veuillez cliquez sur le bouton investir ci vous avez un solde suffisant pour obtenir le bonus 4G PLUS de 100 000 FCFA retirable</div>
+        <div class="total-revenue">Reversement immédiatement :105 000 FCFA </div>
         <button
           class="buy-button"
-          onclick="investProduct(1, 5500)"
+          onclick="investProduct(1, 25000)"
           id="btn-1"
         >
           Investir maintenant
@@ -332,13 +332,13 @@
       />
       <div class="card-content">
         <h2 class="title">4G LTE</h2>
-        <div class="price-row"><span>Tarif : 15 000 FCFA</span></div>
-        <div class="info-item"><span>Versement par jour: 1 500 FCFA</span></div>
+        <div class="price-row"><span>Tarif : 5 700 FCFA</span></div>
+        <div class="info-item"><span>Versement par jour: 1 000 FCFA</span></div>
         <div class="duration">Durée du travail: 30 jours</div>
-        <div class="total-revenue">Revenus total: 45 000 FCFA</div>
+        <div class="total-revenue">Revenus total: 30 000 FCFA</div>
         <button
           class="buy-button"
-          onclick="investProduct(2, 15000)"
+          onclick="investProduct(2, 5500)"
           id="btn-2"
         >
           Investir maintenant
@@ -357,13 +357,13 @@
       />
       <div class="card-content">
         <h2 class="title">LTE</h2>
-        <div class="price-row"><span>Tarif: 25 000 FCFA</span></div>
-        <div class="info-item"><span>Versement par jour: 2 500 FCFA</span></div>
+        <div class="price-row"><span>Tarif: 15 000 FCFA</span></div>
+        <div class="info-item"><span>Versement par jour: 2 000 FCFA</span></div>
         <div class="duration">Durée du travail: 29 jours</div>
-        <div class="total-revenue">Revenus total: 72 500 FCFA</div>
+        <div class="total-revenue">Revenus total: 58 000 FCFA</div>
         <button
           class="buy-button"
-          onclick="investProduct(3, 25000)"
+          onclick="investProduct(3, 15000)"
           id="btn-3"
         >
           Investir maintenant
@@ -382,13 +382,13 @@
       />
       <div class="card-content">
         <h2 class="title">4G LTE Pro</h2>
-        <div class="price-row"><span>Tarif: 55 000 FCFA</span></div>
-        <div class="info-item"><span>Versement par jour: 5 500 FCFA</span></div>
+        <div class="price-row"><span>Tarif: 30 000 FCFA</span></div>
+        <div class="info-item"><span>Versement par jour: 3 500 FCFA</span></div>
         <div class="duration">Durée du travail: 28 jours</div>
-        <div class="total-revenue">Revenus total: 154 000 FCFA</div>
+        <div class="total-revenue">Revenus total: 98 000 FCFA</div>
         <button
           class="buy-button"
-          onclick="investProduct(4, 55000)"
+          onclick="investProduct(4, 30000)"
           id="btn-4"
         >
           Investir maintenant
@@ -517,10 +517,10 @@ const PRODUCT_CONFIG = {
     id: 1,
     name: "4G +",
     badge: "4G PLUS",
-    price: 5500,
-    dailyRevenue: 1000,
-    cycleDuration: 31,
-    totalRevenue: 31000,
+    price: 25000,
+    dailyRevenue: 500000,
+    cycleDuration: 1,
+    totalRevenue: 500000,
     purchaseLimit: 1,
     image: "https://image.noelshack.com/fichiers/2025/25/7/1750583400-images-1.jpeg",
     category: "Débutant"
@@ -529,10 +529,10 @@ const PRODUCT_CONFIG = {
     id: 2,
     name: "4G LTE",
     badge: "4G LTE",
-    price: 15000,
-    dailyRevenue: 1500,
+    price: 5500,
+    dailyRevenue: 1000,
     cycleDuration: 30,
-    totalRevenue: 45000,
+    totalRevenue: 30000,
     purchaseLimit: 2,
     image: "https://image.noelshack.com/fichiers/2025/25/7/1750584178-b731d66f4354f1c8a0797681872d0061-1.png",
     category: "Intermédiaire"
@@ -541,10 +541,10 @@ const PRODUCT_CONFIG = {
     id: 3,
     name: "LTE",
     badge: "LTE",
-    price: 25000,
-    dailyRevenue: 2500,
+    price: 15000,
+    dailyRevenue: 2000,
     cycleDuration: 29,
-    totalRevenue: 72500,
+    totalRevenue: 58000,
     purchaseLimit: 2,
     image: "https://image.noelshack.com/fichiers/2025/25/7/1750584465-gettyimages-530488811-cropped.jpg",
     category: "Avancé"
@@ -553,10 +553,10 @@ const PRODUCT_CONFIG = {
     id: 4,
     name: "4G LTE Pro",
     badge: "4G LTE Pro",
-    price: 55000,
-    dailyRevenue: 5500,
+    price: 30000,
+    dailyRevenue: 3500,
     cycleDuration: 28,
-    totalRevenue: 154000,
+    totalRevenue: 98000,
     purchaseLimit: 2,
     image: "https://image.noelshack.com/fichiers/2025/25/7/1750585088-t-l-chargement.png",
     category: "Professionnel"
@@ -876,4 +876,4 @@ window.handleLogout = async function() {
 };
 </script> 
 </body>
-</html>.
+</html>
