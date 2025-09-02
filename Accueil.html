@@ -103,6 +103,37 @@
       }
     }
 
+    /* Bouton informations bonus comme lien */
+    .bonus-info-button {
+      display: inline-block;
+      max-width: 28rem;
+      margin: 1rem auto;
+      padding: 0.75rem 1.5rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      background: linear-gradient(135deg, #00b4d8, #00d4aa);
+      border-radius: 1rem;
+      box-shadow: 0 8px 20px rgba(0, 180, 216, 0.6);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+    }
+
+    .bonus-info-button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 40px rgba(0, 180, 216, 0.8);
+      text-decoration: none;
+      color: white;
+    }
+
+    .bonus-info-button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0, 180, 216, 0.6);
+    }
+
     /* Bannière loterie */
     .lottery-banner {
       margin: 1rem auto;
@@ -390,6 +421,11 @@
     <div class="lottery-banner-circle" aria-hidden="true">
       <i class="fas fa-gift"></i>
     </div>
+  </a>
+
+  <!-- Bouton lien Informations de bonus 4G plus -->
+  <a href="page.html" class="bonus-info-button" role="button" tabindex="0" aria-label="Informations de bonus 4G plus">
+    Informations de bonus 4G plus
   </a>
 
   <!-- Tableau revenus carré -->
