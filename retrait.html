@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Demande Retrait</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { min-height: 100vh; background: linear-gradient(135deg, #87CEEB, #B0E0E6); display: flex; justify-content: center; align-items: center; padding: 15px; }
@@ -55,14 +55,14 @@
             <label for="amount">Montant</label>
             <div class="input-wrapper">
                 <i class="fas fa-money-bill"></i>
-                <input type="number" id="amount" placeholder="0 FCFA" min="456" required>
+                <input type="number" id="amount" placeholder="0 FCFA" min="1000" required />
             </div>
         </div>
         <div class="form-group">
             <label for="withdrawalCode">Code secret</label>
             <div class="input-wrapper">
                 <i class="fas fa-lock"></i>
-                <input type="password" id="withdrawalCode" placeholder="• • • • • •" maxlength="6" pattern="[0-9]*" required>
+                <input type="password" id="withdrawalCode" placeholder="• • • • • •" maxlength="6" pattern="[0-9]*" required />
             </div>
         </div>
 
@@ -81,7 +81,7 @@
             </div>
         </div>
 
-        <button id="withdrawal-button" type="button">
+        <button id="withdrawal-button" type="button" disabled>
             <i class="fas fa-check-circle"></i> Valider le retrait
         </button>
     </form>
@@ -91,8 +91,8 @@
 
     <div class="info-section">
         <div class="info-title">Informations personnelles</div>
-        <div class="info-item"><i class="fas fa-coins"></i> Minimum de retrait: 1 000 FCFA Frais de retrait 1% </div>
-        <div class="info-item"><i class="fas fa-clock"></i> Heures de retrait: 8h à 18h</div>
+        <div class="info-item"><i class="fas fa-coins"></i> Minimum de retrait: 1 000 FCFA Frais de retrait 1%</div>
+        <div class="info-item"><i class="fas fa-clock"></i> Heures de retrait: 9h à 22h</div>
         <div class="info-item"><i class="fas fa-calendar-alt"></i> Les retraits se font tous les jours</div>
     </div>
 </div>
@@ -125,11 +125,11 @@ let currentBalance = 0;
 let currentUser = null;
 let userWithdrawalConfig = null;
 
-// Validation heures (tous les jours de 8h à 18h)
+// Validation heures (tous les jours de 9h à 22h)
 function isValidWithdrawalTime() {
     const now = new Date();
     const currentHour = now.getHours();
-    return currentHour >= 8 && currentHour < 18;
+    return currentHour >= 9 && currentHour < 22;
 }
 
 // Charger utilisateur
@@ -147,7 +147,10 @@ async function loadUserData(userId) {
             const balanceElement = document.getElementById('current-balance');
             if (balanceElement) balanceElement.textContent = formatAmount(currentBalance);
         }
-    } catch (error) { console.error(error); showMessage("Erreur lors du chargement des données", true); }
+    } catch (error) {
+        console.error(error);
+        showMessage("Erreur lors du chargement des données", true);
+    }
 }
 
 // Vérifier code
@@ -157,7 +160,9 @@ function validateWithdrawalCode(inputCode) {
 }
 
 // Formater montant
-function formatAmount(amount) { return amount.toLocaleString('fr-FR') + ' FCFA'; }
+function formatAmount(amount) {
+    return amount.toLocaleString('fr-FR') + ' FCFA';
+}
 
 // Afficher message
 function showMessage(message, isError = true) {
@@ -171,15 +176,30 @@ function showMessage(message, isError = true) {
 
 // Retrait
 async function processWithdrawal() {
-    if (!isValidWithdrawalTime()) { showMessage("Les retraits ne sont autorisés que de 8h à 18h", true); return; }
-    if (!currentUser) { showMessage("Veuillez vous connecter", true); return; }
+    if (!isValidWithdrawalTime()) {
+        showMessage("Les retraits ne sont autorisés que de 9h à 22h", true);
+        return;
+    }
+    if (!currentUser) {
+        showMessage("Veuillez vous connecter", true);
+        return;
+    }
 
     const amount = parseFloat(document.getElementById('amount').value);
     const withdrawalCode = document.getElementById('withdrawalCode').value;
 
-    if (!validateWithdrawalCode(withdrawalCode)) { showMessage("Code de retrait incorrect", true); return; }
-    if (amount < MIN_WITHDRAWAL || amount > MAX_WITHDRAWAL) { showMessage("Montant invalide", true); return; }
-    if (amount > currentBalance) { showMessage("Solde insuffisant", true); return; }
+    if (!validateWithdrawalCode(withdrawalCode)) {
+        showMessage("Code de retrait incorrect", true);
+        return;
+    }
+    if (amount < MIN_WITHDRAWAL || amount > MAX_WITHDRAWAL) {
+        showMessage("Montant invalide", true);
+        return;
+    }
+    if (amount > currentBalance) {
+        showMessage("Solde insuffisant", true);
+        return;
+    }
 
     const fees = Math.round(amount * (WITHDRAWAL_FEE_PERCENT / 100));
     const totalAmount = amount - fees;
@@ -229,7 +249,7 @@ function updateWithdrawalSummary() {
     const isCodeProvided = withdrawalCode.length === 6;
 
     if (withdrawalButton) withdrawalButton.disabled = !(isTimeValid && isAmountValid && isBalanceSufficient && isCodeProvided);
-    if (!isTimeValid) showMessage("Les retraits ne sont autorisés que de 8h à 18h", true);
+    if (!isTimeValid) showMessage("Les retraits ne sont autorisés que de 9h à 22h", true);
 
     if (amount > 0 && withdrawalSummary) {
         const fees = Math.round(amount * (WITHDRAWAL_FEE_PERCENT / 100));
@@ -247,7 +267,9 @@ function updateWithdrawalSummary() {
 onAuthStateChanged(auth, (user) => {
     currentUser = user;
     if (user) loadUserData(user.uid);
-    else { document.getElementById('current-balance').textContent = "Non connecté"; showMessage("Veuillez vous connecter pour effectuer un retrait", true);
+    else {
+        document.getElementById('current-balance').textContent = "Non connecté";
+        showMessage("Veuillez vous connecter pour effectuer un retrait", true);
     }
 });
 
@@ -261,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (withdrawalButton) withdrawalButton.addEventListener('click', processWithdrawal);
 
     if (!isValidWithdrawalTime()) {
-        showMessage("Les retraits ne sont autorisés que de 8h à 18h", true);
+        showMessage("Les retraits ne sont autorisés que de 9h à 22h", true);
     }
 });
 </script>
