@@ -1,122 +1,159 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bonus 4G PLUS</title>
-<style>
-  body {
-    background: url('https://image.noelshack.com/fichiers/2025/36/2/1756845024-screenshot-20250902-202845.jpg') no-repeat center center fixed;
-    background-size: cover;
-    font-family: 'Arial', sans-serif;
-    color: #004080;
-    padding: 15px;
-    margin: 0;
-  }
-  .container {
-    max-width: 700px;
-    margin: 20px auto;
-    background-color: rgba(255,255,255,0.85);
-    border-radius: 14px;
-    padding: 20px 25px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    text-align: center;
-  }
-  h1 {
-    color: #ff6600;
-    text-shadow: 1px 1px 2px #000;
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  p {
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #003366;
-    margin: 0.75rem 0;
-    text-align: justify;
-  }
-  .highlight {
-    color: #009933;
-    font-weight: 700;
-  }
-  table {
-    margin: 30px auto 10px;
-    border-collapse: collapse;
-    background-color: rgba(255, 255, 255, 0.95);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  td {
-    padding: 12px;
-    border: 3px solid #004080;
-    border-radius: 10px;
-  }
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    border: 4px solid #004080;
-    box-shadow: 0 0 10px #004080;
-  }
-  .thank-you {
-    margin-top: 20px;
-    font-size: 1.15rem;
-    color: #cc0000;
-    font-weight: 700;
-    text-shadow: 1px 1px 1px #fff;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guide Cash Flow</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://image.noelshack.com/fichiers/2025/37/1/1757356017-cash-flow-1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      line-height: 1.6;
+    }
 
-  @media (max-width: 480px) {
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.4); /* léger overlay pour lisibilité */
+      min-height: 100vh;
+      padding: 40px 0;
+      box-sizing: border-box;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 0 20px;
+    }
+
+    header h1 {
+      font-size: 36px;
+      color: #ffeb3b;
+      text-shadow: 3px 3px 10px #000;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 18px;
+      color: #fff;
+      text-shadow: 2px 2px 8px #000;
+    }
+
     .container {
+      max-width: 100%; /* pour toucher les bords */
+      margin: auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      color: #00e5ff;
+      text-shadow: 2px 2px 8px #000;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    h3 {
+      color: #ffeb3b;
+      text-shadow: 2px 2px 8px #000;
+      margin-top: 30px;
+      font-size: 22px;
+    }
+
+    p, li {
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 6px #000; /* bien ressortir sur fond */
+    }
+
+    ol, ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 12px;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #ff6f00;
+      text-shadow: 2px 2px 6px #000;
+    }
+
+    footer {
+      text-align: center;
       padding: 15px 10px;
-      max-width: 95%;
+      background-color: rgba(0,0,0,0.5);
+      margin-top: 30px;
+      font-size: 14px;
+      color: #fff;
+      text-shadow: 2px 2px 6px #000;
     }
-    h1 {
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
+
+    /* Enlever les encadrés transparents */
+    .info-box {
+      background: none;
+      border: none;
+      padding: 0;
+      margin-bottom: 25px;
     }
-    p {
-      font-size: 0.9rem;
-    }
-  }
-</style>
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Comment fonctionne le bonus 4G PLUS</h1>
+  <div class="overlay">
+    <header>
+      <h1>Guide d'utilisation de Cash Flow</h1>
+      <p>Apprenez à faire travailler votre argent et comprendre le cash flow</p>
+    </header>
 
-  <p>
-    Le <span class="highlight">bonus</span> fonctionne ainsi : chaque utilisateur a droit au bonus, mais <span class="highlight">une seule fois</span>.
-    Il faut se <span class="highlight">recharger 25 000 FCFA</span> pour débloquer le bonus. Une fois cette recharge effectuée, les 25 000 FCFA entrent dans la page d'investissement.
-    Cliquez ensuite sur ce produit pour obtenir immédiatement <span class="highlight">105 000 FCFA</span>, que vous pouvez retirer tout de suite.
-  </p>
+    <div class="container">
+      <div class="info-box">
+        <h3>Qu'est-ce que le Cash Flow ?</h3>
+        <p>Le cash flow (ou flux de trésorerie) est l'argent réel qu'une entreprise génère ou dépense au cours d'une période donnée, représentant les entrées (cash in) et les sorties (cash out) de liquidités. Un cash flow positif signifie que l'entreprise gagne plus d'argent qu'elle n'en dépense, tandis qu'un cash flow négatif indique le contraire et peut mener à des problèmes financiers à long terme. C'est un indicateur clé de la santé financière et de la solvabilité d'une entreprise.</p>
+      </div>
 
-  <p>
-    Ce <span class="highlight">bonus</span> est réservé à <span class="highlight">chaque nouvel utilisateur</span> uniquement.
-  </p>
+      <div class="info-box">
+        <h3>À quoi sert le Cash Flow ?</h3>
+        <ul>
+          <li><span class="highlight">Indicateur de santé financière :</span> Montre la capacité d'une entreprise à générer des liquidités et couvrir ses dépenses.</li>
+          <li><span class="highlight">Gestion de trésorerie :</span> Permet de prévoir et gérer les flux d'argent pour éviter les problèmes financiers.</li>
+          <li><span class="highlight">Capacité d'investissement :</span> Un bon cash flow permet d'investir dans la croissance sans financement externe.</li>
+          <li><span class="highlight">Confiance des partenaires :</span> Un cash flow positif attire investisseurs et banques, montrant la solidité de l'entreprise.</li>
+        </ul>
+      </div>
 
-  <p>
-    Attention : toute personne qui tente de créer un <span class="highlight">deuxième compte</span> pour bénéficier à nouveau du bonus sera détectée automatiquement via l'IP de son téléphone.
-    Dans ce cas, le compte 4G PLUS sera <span class="highlight">bloqué automatiquement</span>.
-  </p>
+      <div class="info-box">
+        <h3>Cash Flow positif vs négatif</h3>
+        <ul>
+          <li><span class="highlight">Cash flow positif :</span> Entrées d'argent supérieures aux sorties. L'entreprise peut payer ses obligations et investir.</li>
+          <li><span class="highlight">Cash flow négatif :</span> Sorties d'argent supérieures aux entrées. L'entreprise risque de ne pas pouvoir rembourser ses dettes.</li>
+        </ul>
+      </div>
 
-  <p>
-    Le calcul est simple :  
-    105 000 FCFA - 25 000 FCFA = <span class="highlight">80 000 FCFA de bénéfice estimé</span>. N'est-ce pas génial ?
-    Remercions l'entreprise <span class="highlight">4G PLUS</span>, qui offre le meilleur service !
-  </p>
+      <div class="info-box">
+        <h3>Comment le Cash Flow est-il mesuré ?</h3>
+        <p>Le cash flow est mesuré en tenant compte des transferts d'argent réels, contrairement au compte de résultat qui inclut des éléments comptables non monétaires comme les amortissements. Il existe des méthodes de calcul direct (basées sur les encaissements et décaissements réels) et d'autres qui complètent la capacité d'autofinancement (CAF) en intégrant les délais de paiement entre clients et fournisseurs.</p>
+      </div>
 
-  <table>
-    <tr>
-      <td>
-        <img src="https://image.noelshack.com/fichiers/2025/36/2/1756845024-screenshot-20250902-202845.jpg" alt="Image bonus 4G PLUS" />
-      </td>
-    </tr>
-  </table>
+      <h2>Étapes pour utiliser l'application Cash Flow :</h2>
+      <ol>
+        <li><span class="highlight">Lier votre compte de retrait :</span> Connectez votre compte bancaire ou portefeuille mobile pour retirer vos gains.</li>
+        <li><span class="highlight">Recharger votre compte :</span> Ajoutez de l'argent sur votre compte Cash Flow pour commencer à investir.</li>
+        <li><span class="highlight">Investir dans les courts cycles :</span> Choisissez un cycle d'investissement court pour générer rapidement des revenus.</li>
+        <li><span class="highlight">Suivre vos gains :</span> Surveillez vos revenus quotidiens et retirez-les via votre compte lié.</li>
+        <li><span class="highlight">Recommencer :</span> Répétez le processus pour faire croître votre argent avec les cycles successifs.</li>
+      </ol>
 
-  <div class="thank-you">Merci à 4G PLUS, le meilleur opérateur !</div>
-</div>
+      <p>💡 <span class="highlight">Astuce :</span> Commencez petit, observez vos résultats, puis augmentez progressivement votre investissement pour sécuriser vos gains.</p>
+
+    </div>
+
+    <footer>
+      © 2025 Cash Flow - Tous droits réservés
+    </footer>
+  </div>
 
 </body>
 </html>
