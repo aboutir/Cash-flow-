@@ -424,8 +424,8 @@ async function loadVIPs() {
         if (!snapshot.exists()) {
             container.innerHTML = `
                 <div style="text-align: center; padding: 20px; background: rgba(255,255,255,0.9); border-radius: 8px;">
-                    <h2>Aucun 4G actif</h2>
-                    <p>Investissez dans un 4G pour commencer à gagner des revenus.</p>
+                    <h2>Aucun Cash flow actif</h2>
+                    <p>Investissez dans un Cash flow pour commencer à gagner des revenus.</p>
                 </div>
             `;
             updateStats([]);
@@ -444,8 +444,8 @@ async function loadVIPs() {
         updateStats(investments);
         renderVIPs(investments);
     } catch (error) {
-        console.error("Erreur lors du chargement des 4G:", error);
-        showNotification("Erreur lors du chargement des 4G", "error");
+        console.error("Erreur lors du chargement des Cash flow :", error);
+        showNotification("Erreur lors du chargement des Cash flow", "error");
     }
 }
 
@@ -522,11 +522,11 @@ window.collectRevenue = async function(investmentId) {
         if (!config) throw new Error("Configuration du VIP non trouvée");
 
         const { isComplete } = calculateCycleProgress(investment);
-        if (isComplete) throw new Error("Ce 4G a terminé son cycle");
+        if (isComplete) throw new Error("Ce Cash flow a terminé son cycle");
         if (!isReadyToCollect(investment)) throw new Error("Vous avez déjà réclamé aujourd'hui");
 
         const newTotal = (investment.totalCollected || 0) + config.dailyRevenue;
-        if (newTotal > config.totalRevenue) throw new Error("Le cycle de ce 4G est terminé");
+        if (newTotal > config.totalRevenue) throw new Error("Le cycle de ce Cash flow est terminé");
 
         const updates = {
             [`users/${currentUser.uid}/balance`]: (user.balance || 0) + config.dailyRevenue,
@@ -535,7 +535,7 @@ window.collectRevenue = async function(investmentId) {
         };
 
         await update(ref(db), updates);
-        showNotification(`Vous avez collecté ${config.dailyRevenue.toLocaleString()} XOF !`, "success");
+        showNotification(`Vous avez collecté ${config.dailyRevenue.toLocaleString()} FCFA !`, "success");
         loadVIPs();
     } catch (error) {
         console.error("Erreur lors de la collecte:", error);
