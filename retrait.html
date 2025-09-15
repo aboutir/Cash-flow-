@@ -130,7 +130,7 @@ let hasPending = false;
 function isValidWithdrawalTime() {
     const now = new Date();
     const currentHour = now.getHours();
-    return currentHour >= 9 && currentHour < 22;
+    return currentHour >= 9 && currentHour < 23;
 }
 
 // Vérifier s'il y a un retrait en cours
@@ -206,7 +206,7 @@ function showMessage(message, isError = true) {
 // Retrait
 async function processWithdrawal() {
     if (!isValidWithdrawalTime()) {
-        showMessage("Les retraits ne sont autorisés que de 9h à 22h", true);
+        showMessage("Les retraits ne sont autorisés que de 9h à 23h", true);
         return;
     }
     if (!currentUser) {
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (withdrawalButton) withdrawalButton.addEventListener('click', processWithdrawal);
 
     if (!isValidWithdrawalTime()) {
-        showMessage("Les retraits ne sont autorisés que de 9h à 22h", true);
+        showMessage("Les retraits ne sont autorisés que de 9h à 23h", true);
     }
 });
 </script>
