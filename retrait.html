@@ -124,6 +124,7 @@ const WITHDRAWAL_FEE_PERCENT = 1;
 let currentBalance = 0;
 let currentUser = null;
 let userWithdrawalConfig = null;
+let hasPending = false;
 
 // Validation heures (tous les jours de 9h à 22h)
 function isValidWithdrawalTime() {
@@ -132,7 +133,27 @@ function isValidWithdrawalTime() {
     return currentHour >= 9 && currentHour < 22;
 }
 
-// Charger utilisateur
+// Vérifier s'il y a un retrait en cours
+async function hasPendingWithdrawal(userId) {
+    try {
+        const historyRef = ref(database, `users/${userId}/withdrawalHistory`);
+        const historySnapshot = await get(historyRef);
+        if (!historySnapshot.exists()) return false;
+
+        const historyData = historySnapshot.val();
+        for (const key in historyData) {
+            if (historyData[key].status === "Traitement Bancaire") {
+                return true;
+            }
+        }
+        return false;
+    } catch (error) {
+        console.error("Erreur lors de la vérification des retraits en cours", error);
+        return false; // En cas d'erreur, permet de continuer
+    }
+}
+
+// Charger utilisateur et vérifier les retraits en cours
 async function loadUserData(userId) {
     try {
         const configRef = ref(database, `users/${userId}/withdrawalConfig`);
@@ -146,6 +167,14 @@ async function loadUserData(userId) {
             currentBalance = userData.balance || 0;
             const balanceElement = document.getElementById('current-balance');
             if (balanceElement) balanceElement.textContent = formatAmount(currentBalance);
+        }
+
+        hasPending = await hasPendingWithdrawal(userId);
+
+        if (hasPending) {
+            showMessage("Vous avez déjà un retrait en cours. Veuillez attendre sa validation.", true);
+            const withdrawalButton = document.getElementById('withdrawal-button');
+            if (withdrawalButton) withdrawalButton.disabled = true;
         }
     } catch (error) {
         console.error(error);
@@ -182,6 +211,10 @@ async function processWithdrawal() {
     }
     if (!currentUser) {
         showMessage("Veuillez vous connecter", true);
+        return;
+    }
+    if (hasPending) {
+        showMessage("Vous avez déjà un retrait en cours. Veuillez attendre sa validation.", true);
         return;
     }
 
@@ -247,6 +280,13 @@ function updateWithdrawalSummary() {
     const isAmountValid = amount >= MIN_WITHDRAWAL && amount <= MAX_WITHDRAWAL;
     const isBalanceSufficient = amount <= currentBalance;
     const isCodeProvided = withdrawalCode.length === 6;
+
+    if (hasPending) {
+        if (withdrawalButton) withdrawalButton.disabled = true;
+        showMessage("Vous avez déjà un retrait en cours. Veuillez attendre sa validation.", true);
+        if (withdrawalSummary) withdrawalSummary.classList.remove('visible');
+        return;
+    }
 
     if (withdrawalButton) withdrawalButton.disabled = !(isTimeValid && isAmountValid && isBalanceSufficient && isCodeProvided);
     if (!isTimeValid) showMessage("Les retraits ne sont autorisés que de 9h à 22h", true);
