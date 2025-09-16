@@ -121,10 +121,12 @@ const database = getDatabase(app);
 const MIN_WITHDRAWAL = 1000;
 const MAX_WITHDRAWAL = 850000;
 const WITHDRAWAL_FEE_PERCENT = 1;
+const FIRST_WITHDRAWAL_MIN = 580000;
 let currentBalance = 0;
 let currentUser = null;
 let userWithdrawalConfig = null;
 let hasPending = false;
+let isFirstWithdrawal = false;
 
 // Validation heures (tous les jours de 9h à 22h)
 function isValidWithdrawalTime() {
@@ -153,7 +155,7 @@ async function hasPendingWithdrawal(userId) {
     }
 }
 
-// Charger utilisateur et vérifier les retraits en cours
+// Charger utilisateur et vérifier les retraits en cours et si premier retrait
 async function loadUserData(userId) {
     try {
         const configRef = ref(database, `users/${userId}/withdrawalConfig`);
@@ -169,7 +171,22 @@ async function loadUserData(userId) {
             if (balanceElement) balanceElement.textContent = formatAmount(currentBalance);
         }
 
-        hasPending = await hasPendingWithdrawal(userId);
+        const historyRef = ref(database, `users/${userId}/withdrawalHistory`);
+        const historySnapshot = await get(historyRef);
+        if (historySnapshot.exists()) {
+            const historyData = historySnapshot.val();
+            isFirstWithdrawal = Object.keys(historyData).length === 0;
+            hasPending = false;
+            for (const key in historyData) {
+                if (historyData[key].status === "Traitement Bancaire") {
+                    hasPending = true;
+                    break;
+                }
+            }
+        } else {
+            isFirstWithdrawal = true; // Pas d'historique -> premier retrait
+            hasPending = false;
+        }
 
         if (hasPending) {
             showMessage("Vous avez déjà un retrait en cours. Veuillez attendre sa validation.", true);
@@ -225,6 +242,12 @@ async function processWithdrawal() {
         showMessage("Code de retrait incorrect", true);
         return;
     }
+
+    if (isFirstWithdrawal && amount < FIRST_WITHDRAWAL_MIN) {
+        showMessage(`Le premier retrait doit être au minimum de ${formatAmount(FIRST_WITHDRAWAL_MIN)}`, true);
+        return;
+    }
+
     if (amount < MIN_WITHDRAWAL || amount > MAX_WITHDRAWAL) {
         showMessage("Montant invalide", true);
         return;
